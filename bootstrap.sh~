@@ -79,8 +79,11 @@ git commit -am "regular backup"
 git push
 
 # Creating symlinks
+
+echo ">>> Creating symbolic links... <<<" 
+git add .
 for f in $DOTFILEDIR/*
 do
-echo "Linking $file"
+echo ">>> Linking $f <<<"
 ln -s $DOTFILEDIR/$f ~/.$f
 done
