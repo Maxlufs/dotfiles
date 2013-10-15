@@ -10,8 +10,11 @@
 
 
 # ###################################################################
-# TODO!!
-# copy vim :helptags locations
+# TODO
+# M: duplicate git clone prob. double run the script w/o error
+# M: symlink prob 
+# S: git push backup
+# C: copy vim :helptags locations
 
 # directory variables
 DOTFILEDIR=~/dotfiles                     # dotfiles dir
@@ -68,6 +71,9 @@ cd $BUNDLEDIR
 for i in "${!repo[@]}" # add quotes for repo names w/ space in it.
 do
     echo ">>> Installing $i... <<<" 
+    # if [ -d $BUNDLEDIR/$i ]
+    #     update git (git pull)
+    #     echo ">>> $i is up-to-date <<<"
     git clone ${repo[$i]}
 done
 
