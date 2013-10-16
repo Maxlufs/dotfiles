@@ -58,13 +58,13 @@ repo["powerline"]="https://github.com/Lokaltog/powerline.git"
 # vim pathogen
 mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
-echo ">>> Installing Pathogen for Vim... <<<" 
+echo ">>> Installing [Pathogen] for Vim... <<<" 
 if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
 	curl -Sso ~/.dotfiles/vim/autoload/pathogen.vim $PATHOGENREPO
-	echo ">>> Pathogen installation completed. <<<"
+	echo ">>> [Pathogen] installation completed. <<<"
 else
-	echo ">>> Pathogen already installed. <<<"
+	echo ">>> [Pathogen] already installed. <<<"
 fi
 
 # git clone repos
@@ -72,14 +72,15 @@ cd $BUNDLEDIR
 
 for i in "${!repo[@]}" # add quotes for repo names w/ space in it.
 do
-    echo ">>> Installing $i... <<<" 
+    echo ">>> Installing [$i]... <<<" 
     if [ -d $BUNDLEDIR/$i ]
     then
         cd $BUNDLEDIR/$i 
         git pull
-        echo ">>> $i is up-to-date <<<"
+        echo ">>> [$i] already up-to-date <<<"
     else
         git clone ${repo[$i]} $i
+        echo ">>> [$i] installation done <<<"
     fi
 done
     
@@ -94,9 +95,8 @@ echo ">>> Backing up dotfiles.git... <<<"
 # Creating symlinks
 
 echo ">>> Creating symbolic links... <<<" 
-git add .
 for f in $DOTFILEDIR/*
 do
-echo ">>> Linking $f <<<"
-ln -s $DOTFILEDIR/$f ~/.$f
+    echo ">>> Linking file [$(basename "$f")] <<<"
+    ln -s $DOTFILEDIR/$f ~/.$f
 done
