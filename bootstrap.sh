@@ -22,6 +22,7 @@ OLDDIR=~/dotfiles_old              # dotfiles backup dir
 VIMDIR=~/dotfiles/vim              # vim dir
 BUNDLEDIR=~/dotfiles/vim/bundle    # vim plugin dir
 
+mkdir -p $DOTFILEDIR
 # Cleaning broken links
 shopt -s dotglob # list hidden files
 for f in ~/*
@@ -68,14 +69,20 @@ fi
 
 # git clone repos
 cd $BUNDLEDIR
+
 for i in "${!repo[@]}" # add quotes for repo names w/ space in it.
 do
     echo ">>> Installing $i... <<<" 
-    # if [ -d $BUNDLEDIR/$i ]
-    #     update git (git pull)
-    #     echo ">>> $i is up-to-date <<<"
-    git clone ${repo[$i]}
+    if [ -d $BUNDLEDIR/$i ]
+    then
+        cd $BUNDLEDIR/$i 
+        git pull
+        echo ">>> $i is up-to-date <<<"
+    else
+        git clone ${repo[$i]} $i
+    fi
 done
+    
 
 # git push dotfiles.git for backup
 cd $DOTFILEDIR
