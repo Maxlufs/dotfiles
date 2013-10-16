@@ -98,5 +98,5 @@ echo ">>> Creating symbolic links... <<<"
 for f in $DOTFILEDIR/*
 do
     echo ">>> Linking file [$(basename "$f")] <<<"
-    ln -s $DOTFILEDIR/$f ~/.$f
+    ln -s $f ~/.$(basename "$f")
 done
