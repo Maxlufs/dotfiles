@@ -22,16 +22,16 @@ OLDDIR=~/dotfiles_old              # dotfiles backup dir
 VIMDIR=~/dotfiles/vim              # vim dir
 BUNDLEDIR=~/dotfiles/vim/bundle    # vim plugin dir
 
-mkdir -p $DOTFILEDIR
 # Cleaning broken links
 # shopt -s dotglob # list hidden files
-for f in ~/*
+for f in $DOTFILEDIR/*
 do
-    if [ \( -L $f \) -a \( ! -e $f \) ] # if file is a symlink and its broken
+    # if [ \( -L $f \) -a \( ! -e $f \) ] # if file is a symlink and its broken
+    if [ -e ~/.$(basename "$f") ]
     then
-        if [ ! -d $OLDIR ]; then mkdir -p $OLDDIR; fi
-        echo ">>> Backing up $f to $OLDDIR... <<<"
-        mv $f $OLDDIR
+        if [ ! -d $OLDDIR ]; then mkdir -p $OLDDIR; fi
+        echo ">>> Backing up old $(basename "$f") to dotfiles_old/... <<<"
+        mv ~/.$f $OLDDIR
         echo ">>> ...done <<<"
     fi
 done
@@ -61,7 +61,7 @@ mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 echo ">>> Installing [Pathogen] for Vim... <<<" 
 if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
-	curl -Sso ~/.dotfiles/vim/autoload/pathogen.vim $PATHOGENREPO
+	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
 	echo ">>> [Pathogen] installation completed. <<<"
 else
 	echo ">>> [Pathogen] already installed. <<<"
