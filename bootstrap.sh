@@ -24,15 +24,15 @@ BUNDLEDIR=~/dotfiles/vim/bundle    # vim plugin dir
 
 mkdir -p $DOTFILEDIR
 # Cleaning broken links
-shopt -s dotglob # list hidden files
+# shopt -s dotglob # list hidden files
 for f in ~/*
 do
     if [ \( -L $f \) -a \( ! -e $f \) ] # if file is a symlink and its broken
     then
         if [ ! -d $OLDIR ]; then mkdir -p $OLDDIR; fi
-        echo "Backing up $f to $OLDDIR..."
+        echo ">>> Backing up $f to $OLDDIR... <<<"
         mv $f $OLDDIR
-        echo "...done"
+        echo ">>> ...done <<<"
     fi
 done
 
@@ -76,10 +76,10 @@ do
     if [ -d $BUNDLEDIR/$i ]
     then
         cd $BUNDLEDIR/$i 
-        git pull
+        git pull -q # quite mode
         echo ">>> [$i] already up-to-date <<<"
     else
-        git clone ${repo[$i]} $i
+        git clone -q ${repo[$i]} $i # quite mode
         echo ">>> [$i] installation done <<<"
     fi
 done
