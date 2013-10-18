@@ -178,3 +178,4 @@ set grepprg=grep\ -nH\ $*
 
 " OPTIONAL
 let g:tex_flavor='latex'
+hi Normal ctermbg=NONE

@@ -30,12 +30,15 @@ do
     if [ -e ~/.$(basename "$f") ]
     then
         if [ ! -d $OLDDIR ]; then mkdir -p $OLDDIR; fi
-        echo ">>> Backing up old $(basename "$f") to dotfiles_old/... <<<"
-        mv ~/.$f $OLDDIR
-        echo ">>> ...done <<<"
+        echo ">>> Backing up old [$(basename "$f")] to dotfiles_old/... <<<"
+        mv ~/.$(basename "$f") $OLDDIR
+        echo ">>> Backup completed <<<"
     fi
 done
 
+# some newlines
+echo
+echo
 
 # #################################################################
 # vim colorschemes
@@ -89,7 +92,7 @@ done
 cd $DOTFILEDIR
 echo ">>> Backing up dotfiles.git... <<<" 
 # git add .
-# git commit -am "regular backup"
+# git commit -am "regular automatic backup"
 # git push
 
 # Creating symlinks
