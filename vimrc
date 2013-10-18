@@ -178,4 +178,6 @@ set grepprg=grep\ -nH\ $*
 
 " OPTIONAL
 let g:tex_flavor='latex'
+
+" transparent background for vim
 hi Normal ctermbg=NONE
