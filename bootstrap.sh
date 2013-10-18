@@ -58,6 +58,7 @@ PATHOGENREPO="https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
 repo["nerdtree"]="https://github.com/scrooloose/nerdtree.git"
 repo["powerline"]="https://github.com/Lokaltog/powerline.git"
+repo["airline"]="https://github.com/bling/vim-airline.git"
 # #################################################################
 
 
@@ -84,10 +85,10 @@ do
     if [ -d $BUNDLEDIR/$i ]
     then
         cd $BUNDLEDIR/$i 
-        git pull -q # quite mode
+        git pull # quite mode
         echo ">>> [$i] already up-to-date <<<"
     else
-        git clone -q ${repo[$i]} $i # quite mode
+        git clone ${repo[$i]} $i # quite mode
         echo ">>> [$i] installation done <<<"
     fi
 done
