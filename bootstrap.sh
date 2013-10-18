@@ -20,8 +20,12 @@ OLDDIR=~/dotfiles_old              # dotfiles backup dir
 VIMDIR=~/dotfiles/vim              # vim dir
 BUNDLEDIR=~/dotfiles/vim/bundle    # vim plugin dir
 
-# git push dotfiles.git for backup
 cd $DOTFILEDIR
+
+# Cleaning up
+find $DOTFILEDIR -name '*~' -delete
+
+# git push dotfiles.git for backup
 echo ">>> Backing up to dotfiles.git... <<<" 
 git add .
 git commit -am "regular automatic backup"
