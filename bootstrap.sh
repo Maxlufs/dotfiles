@@ -92,6 +92,7 @@ do
         cd $i 
         git pull # quite mode
         echo ">>> [$i] already up-to-date <<<"
+        cd ..
     else
         git clone ${repo[$i]} $i # quite mode
         echo ">>> [$i] installation done <<<"
