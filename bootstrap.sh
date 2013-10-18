@@ -133,4 +133,9 @@ do
     ln -s $f ~/.$(basename "$f")
 done
 
-echo ">>> Enjoy your new coding environ! <<<"
+# some newlines
+echo
+echo
+
+echo ">>> Enjoy your new coding environment! <<<"
+echo ">>>                          --Maxlufs <<<"
