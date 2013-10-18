@@ -32,7 +32,18 @@ git commit -am "regular automatic backup"
 git push
 
 # Cleaning broken links
-# shopt -s dotglob # list hidden files
+shopt -s dotglob # list hidden files
+for f in ~/*
+do
+    if [ ! -e "$f" ]
+    then
+        echo ">>> Cleaning up broken link [$(basename "$f")] to dotfiles_old/... <<<"
+        mv ~/.$(basename "$f") $OLDDIR
+        echo ">>> Cleanup completed <<<"
+    fi
+done
+
+# Backing up old dotfiles
 for f in $DOTFILEDIR/*
 do
     # if [ \( -L $f \) -a \( ! -e $f \) ] # if file is a symlink and its broken
