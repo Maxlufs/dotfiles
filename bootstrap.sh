@@ -11,8 +11,6 @@
 
 # ###################################################################
 # TODO
-# M: duplicate git clone prob. double run the script w/o error
-# M: symlink prob 
 # S: git push backup
 # C: copy vim :helptags locations
 
@@ -21,6 +19,13 @@ DOTFILEDIR=~/dotfiles                     # dotfiles dir
 OLDDIR=~/dotfiles_old              # dotfiles backup dir
 VIMDIR=~/dotfiles/vim              # vim dir
 BUNDLEDIR=~/dotfiles/vim/bundle    # vim plugin dir
+
+# git push dotfiles.git for backup
+cd $DOTFILEDIR
+echo ">>> Backing up to dotfiles.git... <<<" 
+git add .
+git commit -am "regular automatic backup"
+git push
 
 # Cleaning broken links
 # shopt -s dotglob # list hidden files
@@ -87,13 +92,6 @@ do
     fi
 done
     
-
-# git push dotfiles.git for backup
-cd $DOTFILEDIR
-echo ">>> Backing up dotfiles.git... <<<" 
-# git add .
-# git commit -am "regular automatic backup"
-# git push
 
 # Creating symlinks
 

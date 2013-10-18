@@ -57,10 +57,10 @@ set number " show line numbers
 " set cul " highlight current line
 set laststatus=2 " last window always has a statusline
 " set nohlsearch " Don't continue to highlight searched phrases.
-" set incsearch " But do highlight as you type your search.
-" set ignorecase " Make searches case-insensitive.
+set incsearch " But do highlight as you type your search.
+set ignorecase " Make searches case-insensitive.
 " set ruler " Always show info along bottom.
-" set showmatch
+set showmatch " Show matching parenthesis
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Formatting/Layout 							"
@@ -72,7 +72,7 @@ set shiftwidth=4 " indent/outdent by 4 columns
 set shiftround " always indent/outdent to the nearest tabstop
 set expandtab " use spaces instead of tabs
 set smarttab " use tabs at the start of a line, spaces elsewhere
-set nowrap " don't wrap text
+" set nowrap " don't wrap text
 "
 "
 "
@@ -90,10 +90,10 @@ if has("vms")
 else
   set backup		" keep a backup file
 endif
-set history=50		" keep 50 lines of command line history
+set history=500		" keep 50 lines of command line history
 set ruler		" show the cursor position all the time
 set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set noswapfile
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
