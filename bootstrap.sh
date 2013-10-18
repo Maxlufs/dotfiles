@@ -70,6 +70,7 @@ mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 echo ">>> Installing [Pathogen] for Vim... <<<" 
 if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
+    if [ ! $(which curl) ]; then sudo apt-get install -y curl; fi;
 	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
 	echo ">>> [Pathogen] installation completed. <<<"
 else
