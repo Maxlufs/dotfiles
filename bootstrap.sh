@@ -83,7 +83,9 @@ cd $BUNDLEDIR
 for i in "${!repo[@]}" # add quotes for repo names w/ space in it.
 do
     echo ">>> Installing [$i]... <<<" 
-    if [ $(ls -A "$BUNDLEDIR/$i") ] # check if there is something inside plugin dirs
+    if [ \( -d $BUNDLEDIR/$i \) -a \( $(ls -A "$BUNDLEDIR/$i") \) ] 
+    # check if plugin dir exists
+    # and there is something inside the plugin dir
     then
         cd $BUNDLEDIR/$i 
         git pull # quite mode
