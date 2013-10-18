@@ -83,11 +83,13 @@ cd $BUNDLEDIR
 for i in "${!repo[@]}" # add quotes for repo names w/ space in it.
 do
     echo ">>> Installing [$i]... <<<" 
-    if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
+    # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
     # check if plugin dir exists
     # and there is something inside the plugin dir
+    files=$(shopt -s nullglob dotglob; echo $i/*)
+    if (( ${#files} ))
     then
-        cd $BUNDLEDIR/$i 
+        cd $i 
         git pull # quite mode
         echo ">>> [$i] already up-to-date <<<"
     else
