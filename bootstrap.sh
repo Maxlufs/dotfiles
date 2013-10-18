@@ -31,6 +31,10 @@ git add .
 git commit -am "regular automatic backup"
 git push
 
+# some newlines
+echo
+echo
+
 # Cleaning broken links
 shopt -s dotglob # list hidden files
 for f in ~/*
@@ -38,7 +42,7 @@ do
     if [ ! -e "$f" ]
     then
         echo ">>> Cleaning up broken link [$(basename "$f")] to dotfiles_old/... <<<"
-        mv ~/.$(basename "$f") $OLDDIR
+        mv ~/$(basename "$f") $OLDDIR
         echo ">>> Cleanup completed <<<"
     fi
 done
@@ -55,6 +59,8 @@ do
         echo ">>> Backup completed <<<"
     fi
 done
+
+shopt -u dotglob # unlist hidden files
 
 # some newlines
 echo
@@ -114,6 +120,9 @@ do
     fi
 done
     
+# some newlines
+echo
+echo
 
 # Creating symlinks
 
@@ -123,3 +132,5 @@ do
     echo ">>> Linking file [$(basename "$f")] <<<"
     ln -s $f ~/.$(basename "$f")
 done
+
+echo ">>> Enjoy your new coding environ! <<<"
