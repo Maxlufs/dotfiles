@@ -87,7 +87,7 @@ do
     # check if plugin dir exists
     # and there is something inside the plugin dir
     then
-        if [ $(ls -A "$BUNDLEDIR/$i") ] 
+        if [ "$(ls -A $BUNDLEDIR/$i)" ] 
         then
             cd $BUNDLEDIR/$i 
             git pull # quite mode
