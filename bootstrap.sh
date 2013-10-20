@@ -11,8 +11,9 @@
 
 # ###################################################################
 # TODO
-# S: git push backup
-# C: copy vim :helptags locations
+# M: add bash 3.00 support
+# S: git push backup (based on if ssh keys are generated)
+# S: copy vim :helptags locations
 
 # directory variables
 DOTFILEDIR=~/dotfiles                     # dotfiles dir
