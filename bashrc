@@ -88,5 +88,3 @@ if [ -x /usr/lib/command-not-found ]; then
 		fi
 	}
 fi
-
-/usr/bin/mint-fortune
