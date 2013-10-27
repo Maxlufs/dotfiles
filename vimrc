@@ -1,26 +1,34 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-	" Filename: .vimrc						"
-	" Maintainer: Maximilian Q. Wang <maxlufs@gmail.com> 		"
-	" URL: https://github.com/Maxlufs/dotfiles 			"
-	" 								"
-	"								"
-	" Contents: 							"
-	" 01. General ................. General Vim behavior 		"
-	" 02. Events .................. General autocmd events		"
-	" 03. Theme/Colors ............ Colors, fonts, etc. 		"
-	" 04. Vim UI .................. User interface behavior 	"
-	" 05. Text Formatting/Layout .. Text, tab, indentation related 	"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " Filename: .vimrc						                            "
+    " Maintainer: Maximilian Q. Wang <maxlufs@gmail.com> 		        "
+    " URL: https://github.com/Maxlufs/dotfiles 			                "
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " Contents: 							                            "
+    " 00. Custom .................. Custom Vim settings 		        "
+    " 01. General ................. General Vim behavior 		        "
+    " 02. Events .................. General autocmd events		        "
+    " 03. Theme/Colors ............ Colors, fonts, etc. 		        "
+    " 04. Vim UI .................. User interface behavior 	        "
+    " 05. Text Formatting/Layout .. Text, tab, indentation related 	    "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 01. General 									"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Load custom settings
+source ~/.vim/custom/color.vim
+source ~/.vim/custom/font.vim
+"source ~/.vim/custom/functions.vim
+source ~/.vim/custom/mappings.vim
+source ~/.vim/custom/settings.vim
+source ~/.vim/custom/plugins.vim
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 01. General 									                            "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " get rid of Vi compatibility mode. SET FIRST!
 set nocompatible 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 02. Events 									"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 02. Events 									                            "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " filetype detection[ON] plugin[ON] indent[ON]
 filetype plugin indent on 
 
@@ -32,9 +40,9 @@ filetype plugin indent on
 " " Enable omnicompletion (to use, hold Ctrl+X then Ctrl+O while in Insert mode.
 " set ofu=syntaxcomplete#Complete
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 03. Theme/Colors 								"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 03. Theme/Colors 								                            "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " set t_Co=256 " enable 256-color mode.
 " syntax enable " enable syntax highlighting (previously syntax on).
 " colorscheme molokai " set colorscheme
@@ -50,9 +58,9 @@ filetype plugin indent on
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
 "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 04. Vim UI 									"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 04. Vim UI 									                            "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number " show line numbers
 " set cul " highlight current line
 set laststatus=2 " last window always has a statusline
@@ -61,10 +69,10 @@ set incsearch " But do highlight as you type your search.
 set ignorecase " Make searches case-insensitive.
 " set ruler " Always show info along bottom.
 set showmatch " Show matching parenthesis
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 05. Text Formatting/Layout 							"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 05. Text Formatting/Layout 							                    "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set autoindent " auto-indent
 set tabstop=4 " tab spacing
 set softtabstop=4 " unify
@@ -73,9 +81,7 @@ set shiftround " always indent/outdent to the nearest tabstop
 set expandtab " use spaces instead of tabs
 set smarttab " use tabs at the start of a line, spaces elsewhere
 " set nowrap " don't wrap text
-"
-"
-"
+
 " When started as "evim", evim.vim will already have done these settings.
 if v:progname =~? "evim"
   finish
@@ -154,17 +160,11 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Pathogen
 execute pathogen#infect()
 
-" Load custom settings
-source ~/.vim/custom/color.vim
-source ~/.vim/custom/font.vim
-"source ~/.vim/custom/functions.vim
-source ~/.vim/custom/mappings.vim
-source ~/.vim/custom/settings.vim
-source ~/.vim/custom/plugins.vim
 "
 "
 " IMPORTANT: win32 users will need to have 'shellslash' set so that latex
