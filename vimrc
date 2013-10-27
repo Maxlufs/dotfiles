@@ -12,13 +12,6 @@
     " 05. Text Formatting/Layout .. Text, tab, indentation related 	    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Load custom settings
-source ~/.vim/custom/color.vim
-source ~/.vim/custom/font.vim
-"source ~/.vim/custom/functions.vim
-source ~/.vim/custom/mappings.vim
-source ~/.vim/custom/settings.vim
-source ~/.vim/custom/plugins.vim
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 01. General 									                            "
@@ -166,6 +159,13 @@ endif
 execute pathogen#infect()
 
 "
+" Load custom settings
+source ~/.vim/custom/color.vim
+source ~/.vim/custom/font.vim
+"source ~/.vim/custom/functions.vim
+source ~/.vim/custom/mappings.vim
+source ~/.vim/custom/settings.vim
+source ~/.vim/custom/plugins.vim
 "
 " IMPORTANT: win32 users will need to have 'shellslash' set so that latex
 " can be called correctly.

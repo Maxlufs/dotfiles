@@ -1,7 +1,7 @@
 " Support 256 color
-if $COLORTERM == 'gnome-terminal'
+"if $COLORTERM == 'gnome-terminal'
   set t_Co=256
-endif
+"endif
 " colo molokai
 
 colo wombat256mod 
