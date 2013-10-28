@@ -1,0 +1,8 @@
+# Navigation
+alias ..="cd .."
+
+# Shortcuts
+#Dropbox="/home/Dropbox"
+
+alias rm="trash"
+
