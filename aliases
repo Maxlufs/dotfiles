@@ -8,3 +8,8 @@ if [ $(which trash) ]
 then alias rm="trash"
 fi
 
+# apt-get
+alias update="sudo apt-get update"
+alias upgrade="sudo apt-get dist-upgrade"
+#alias install="sudo apt-get install"
+alias autoremove="sudo apt-get autoremove"
