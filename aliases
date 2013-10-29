@@ -4,5 +4,7 @@ alias ..="cd .."
 # Shortcuts
 #Dropbox="/home/Dropbox"
 
-alias rm="trash"
+if [ $(which trash) ]
+then alias rm="trash"
+fi
 
