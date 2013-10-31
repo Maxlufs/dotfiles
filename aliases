@@ -1,3 +1,6 @@
+# ls
+alias ll="ls -lAhp"
+#
 # Navigation
 alias ..="cd .."
 
