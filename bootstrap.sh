@@ -21,6 +21,8 @@
 # M: add bash 3.00 support                                                  #
 # S: git push backup (based on if ssh keys are generated)                   #
 # S: copy vim :helptags locations                                           #
+# S: only link files w/o extensions                                         #
+# C: add a title of script output                                           #
 #===========================================================================#
 
 
@@ -84,6 +86,10 @@ echo
 #===========================================================================#
 shopt -s dotglob # list hidden files
 
+# if [ -L $OLDDIR ]; then rm $OLDDIR; fi 
+# There's the problem of .dotfiles_old become a link
+if [ ! -d $OLDDIR ]; then mkdir -p $OLDDIR; fi
+
 for f in ~/*
 do
     if [ ! -e "$f" ]
@@ -101,7 +107,6 @@ do
     # if [ \( -L $f \) -a \( ! -e $f \) ] # if file is a symlink and its broken
     if [ -e ~/.$(basename "$f") ]
     then
-        if [ ! -d $OLDDIR ]; then mkdir -p $OLDDIR; fi
         echo ">>> Backing up old [$(basename "$f")] to dotfiles_old/... <<<"
         mv ~/.$(basename "$f") $OLDDIR
         echo ">>> Backup completed <<<"
