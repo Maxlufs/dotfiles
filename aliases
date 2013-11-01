@@ -7,26 +7,59 @@ DISTRO=$(lsb_release -i | cut -f2)
 if [ $DISTRO == 'CentOS' ]; then PKG='rpm -q';fi
 if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
 
+# if user is not root, pass all command s via sudo #
+# if [ $UID -ne 0 ]; then
+# alias reboot='sudo reboot'
+# fi
+ 
 # ls
-alias ll="ls -lAhp"
+alias ls='ls --color=auto'
+alias ll='ls -lAhp'
+alias l.='ls -d .*'
+alias ll.='ls -ld .*'
+
+# grep
+# alias grep='grep --colour=auto'
+# alias egrep='egrep --colour=auto'
+# alias fgrep='fgrep --colour=auto'
+
 #
 # Navigation
-alias ..="cd .."
+alias ..='cd ..'
+
+alias mkdir='mkdir -pv'
+#might be too verbose
 
 # Shortcuts
-#Dropbox="/home/Dropbox"
+#Dropbox='/home/Dropbox'
 
-if [ $(which trash) ]
-then alias rm="trash"
+# colordiff
+if [ $(which colordiff) ]
+then alias diff='colordiff'
+fi
+
+# trash
+if [ $(which trash-put) ]
+then alias rm='trash-put'
 fi
 
 # apt-get
-alias update="sudo apt-get update"
-alias upgrade="sudo apt-get dist-upgrade"
-#alias install="sudo apt-get install"
-alias autoremove="sudo apt-get autoremove"
+alias apt-get='sudo apt-get'
+alias update='sudo apt-get update && sudo apt-get dist-upgrade'
+#alias update='sudo apt-get update'
+#alias upgrade='sudo apt-get dist-upgrade'
+#alias install='sudo apt-get install'
+alias autoremove='sudo apt-get autoremove'
 
 # open files
 # gnome-open
 # kde-open
 # xdg-open
+# mimeopen
+
+
+# calculator
+alias calc='bc -l'
+
+# path
+alias path='echo -e ${PATH//:/\\n}'
