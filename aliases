@@ -1,3 +1,12 @@
+# TODO
+# S: Test OS version, use dpkg or rpm
+#
+
+# PKG should not reuturn an '-a' list. Time effiency
+DISTRO=$(lsb_release -i | cut -f2)  
+if [ $DISTRO == 'CentOS' ]; then PKG='rpm -q';fi
+if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
+
 # ls
 alias ll="ls -lAhp"
 #
