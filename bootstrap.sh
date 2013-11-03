@@ -19,12 +19,13 @@
 #===========================================================================#
 # TODO                                                                      #
 # M: add bash 3.00 support                                                  #
-# S: add progress bar while git clone/pull/push                             #
+# M: prompt users and ask if they what to git push for backup               #
+# S: add report of system default env, eg. uname,bash,etc                   #
 # S: git push backup (based on if ssh keys are generated)                   #
 # S: copy vim :helptags locations                                           #
 # S: only link files w/o extensions                                         #
 # C: add a title of script output                                           #
-# C: add report of system default env, eg. uname,bash,etc                   #
+# C: add progress bar while git clone/pull/push                             #
 #===========================================================================#
 
 
