@@ -47,15 +47,15 @@ fi
 # apt-get
 alias apt-get='sudo apt-get'
 alias update='sudo apt-get update && sudo apt-get dist-upgrade'
-#alias update='sudo apt-get update'
-#alias upgrade='sudo apt-get dist-upgrade'
-#alias install='sudo apt-get install'
+# alias update='sudo apt-get update'
+# alias upgrade='sudo apt-get dist-upgrade'
+# alias install='sudo apt-get install'
 alias autoremove='sudo apt-get autoremove'
 
 # open files
 # gnome-open
 # kde-open
-# xdg-open
+alias ]="xdg-open"
 # mimeopen
 
 # calculator
@@ -63,3 +63,8 @@ alias calc='bc -l'
 
 # path
 alias path='echo -e ${PATH//:/\\n}'
+
+
+# tree
+alias tree='tree -C -h --du'
+# use system color, human readable, du all dirs
