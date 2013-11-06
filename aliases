@@ -67,6 +67,9 @@ alias calc='bc -l'
 alias path='echo -e ${PATH//:/\\n}'
 
 
-# tree
-alias tree='tree -C -h --du'
+# tree Version 1.6.0
+alias tree='tree -Ch --du'
+alias tree1='tree -Ch --du -L 1'
+alias tree2='tree -Ch --du -L 2'
+alias tree3='tree -Ch --du -L 3'
 # use system color, human readable, du all dirs
