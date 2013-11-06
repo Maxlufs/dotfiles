@@ -14,7 +14,8 @@ if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
  
 # ls
 alias ls='ls --color=auto'
-alias ll='ls -lAhp'
+alias ll='ls -lhp'
+alias la='ls -lAhp'
 alias l.='ls -d .*'
 alias ll.='ls -ld .*'
 
@@ -26,6 +27,7 @@ alias ll.='ls -ld .*'
 #
 # Navigation
 alias ..='cd ..'
+# alias -='cd -'
 # Shortcuts
 #Dropbox='/home/Dropbox'
 
