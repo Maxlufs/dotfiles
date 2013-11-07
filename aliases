@@ -13,11 +13,11 @@ if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
 # fi
  
 # ls
-alias ls='ls --color=auto'
-alias ll='ls -lhp'
-alias la='ls -lAhp'
-alias l.='ls -d .*'
-alias ll.='ls -ld .*'
+alias ls='ls --color=auto'      # normal files
+alias ll='ls -lhp'              # normal files long format
+alias la='ls -lAhp'             # All files long format
+alias l.='ls -d .*'             # hidden files
+alias ll.='ls -ld .*'           # hidden files long format
 
 # grep
 # alias grep='grep --colour=auto'
