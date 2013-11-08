@@ -20,9 +20,9 @@ alias l.='ls -d .*'             # hidden files
 alias ll.='ls -ld .*'           # hidden files long format
 
 # grep
-# alias grep='grep --colour=auto'
-# alias egrep='egrep --colour=auto'
-# alias fgrep='fgrep --colour=auto'
+alias grep='grep --colour=auto'
+alias egrep='egrep --colour=auto'
+alias fgrep='fgrep --colour=auto'
 
 #
 # Navigation
@@ -31,8 +31,7 @@ alias ..='cd ..'
 # Shortcuts
 #Dropbox='/home/Dropbox'
 
-# mkdir
-# might be too verbose
+# mkdir, might be too verbose
 alias mkdir='mkdir -pv'
 
 
@@ -57,7 +56,8 @@ alias autoremove='sudo apt-get autoremove'
 # open files
 # gnome-open
 # kde-open
-alias ]="xdg-open"
+# open -> openvt by default
+alias open="xdg-open"
 # mimeopen
 
 # calculator
