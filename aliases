@@ -52,6 +52,20 @@ alias update='sudo apt-get update && sudo apt-get dist-upgrade'
 # alias upgrade='sudo apt-get dist-upgrade'
 # alias install='sudo apt-get install'
 alias autoremove='sudo apt-get autoremove'
+alias purge='sudo apt-get purge'
+
+alias agu='sudo apt-get update'
+alias agi='sudo apt-get install'
+alias agd='sudo apt-get dist-upgrade'
+alias agr='sudo apt-get remove'
+alias aga='sudo apt-get autoremove'
+alias agc='sudo apt-get clean'
+
+alias ags='sudo aptitude search'
+alias agsh='sudo apt-cache show'
+alias afs='sudo apt-file search'
+alias afsh='sudo apt-file show'
+alias afu='sudo apt-file update'
 
 # open files
 # gnome-open
