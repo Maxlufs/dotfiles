@@ -26,6 +26,7 @@ alias ll.='ls -ld .*'
 #
 # Navigation
 alias ..='cd ..'
+alias cd..='cd ..'
 
 alias mkdir='mkdir -pv'
 #might be too verbose
