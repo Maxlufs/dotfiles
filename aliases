@@ -13,26 +13,29 @@ if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
 # fi
  
 # ls
-alias ls='ls --color=auto'
-alias ll='ls -lAhp'
-alias l.='ls -d .*'
-alias ll.='ls -ld .*'
+alias ls='ls --color=auto'      # normal files
+alias ll='ls -lhp'              # normal files long format
+alias la='ls -lAhp'             # All files long format
+alias l.='ls -d .*'             # hidden files
+alias ll.='ls -ld .*'           # hidden files long format
 
 # grep
-# alias grep='grep --colour=auto'
-# alias egrep='egrep --colour=auto'
-# alias fgrep='fgrep --colour=auto'
+alias grep='grep --colour=auto'
+alias egrep='egrep --colour=auto'
+alias fgrep='fgrep --colour=auto'
 
 #
 # Navigation
 alias ..='cd ..'
 alias cd..='cd ..'
-
-alias mkdir='mkdir -pv'
-#might be too verbose
-
+# alias -='cd -'
+#
 # Shortcuts
 #Dropbox='/home/Dropbox'
+
+# mkdir, might be too verbose
+alias mkdir='mkdir -pv'
+
 
 # colordiff
 if [ $(which colordiff) ]
@@ -55,9 +58,9 @@ alias autoremove='sudo apt-get autoremove'
 # open files
 # gnome-open
 # kde-open
-alias ]="xdg-open"
+# open -> openvt by default
+alias open="xdg-open"
 # mimeopen
-
 
 # calculator
 alias calc='bc -l'
@@ -66,6 +69,9 @@ alias calc='bc -l'
 alias path='echo -e ${PATH//:/\\n}'
 
 
-# tree
-alias tree='tree -C -h --du'
+# tree Version 1.6.0
+alias tree='tree -Ch --du'
+alias tree1='tree -Ch --du -L 1'
+alias tree2='tree -Ch --du -L 2'
+alias tree3='tree -Ch --du -L 3'
 # use system color, human readable, du all dirs
