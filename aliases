@@ -27,7 +27,9 @@ alias fgrep='fgrep --colour=auto'
 #
 # Navigation
 alias ..='cd ..'
+alias cd..='cd ..'
 # alias -='cd -'
+#
 # Shortcuts
 #Dropbox='/home/Dropbox'
 
