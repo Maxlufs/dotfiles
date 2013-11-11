@@ -84,8 +84,12 @@ alias path='echo -e ${PATH//:/\\n}'
 
 
 # tree Version 1.6.0
+alias t='tree -Ch --du'
 alias tree='tree -Ch --du'
+alias t1='tree -Ch --du -L 1'
 alias tree1='tree -Ch --du -L 1'
+alias t2='tree -Ch --du -L 2'
 alias tree2='tree -Ch --du -L 2'
+alias t3='tree -Ch --du -L 3'
 alias tree3='tree -Ch --du -L 3'
 # use system color, human readable, du all dirs
