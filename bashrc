@@ -91,3 +91,8 @@ fi
 
 
 source ~/.aliases
+
+# For Ruby RVM
+[[ -s '/home/ubuntu/maxlufs/.rvm/scripts/rvm' ]] && source '/home/ubuntu/maxlufs/.rvm/scripts/rvm'
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
