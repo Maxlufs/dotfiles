@@ -25,6 +25,12 @@ set nocompatible
 " filetype detection[ON] plugin[ON] indent[ON]
 filetype plugin indent on 
 
+" Automatic update .vimrc on the fly
+if has("autocmd")
+    autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+   
+"
 " " In Makefiles DO NOT use spaces instead of tabs
 " autocmd FileType make setlocal noexpandtab
 " " In Ruby files, use 2 spaces instead of 4 for tabs
