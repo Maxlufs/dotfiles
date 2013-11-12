@@ -146,7 +146,7 @@ echo "--------------------------------------------"
 #############################################################################
 # Install pathogen
 #===========================================================================#
-echo -ne ">>> Installing [Pathogen] for Vim... \t" 
+echo -ne ">>> Installing [Pathogen] for Vim..." 
 
 mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
@@ -154,9 +154,9 @@ if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
     if [ ! $(which curl) ]; then sudo apt-get install -y curl; fi;
 	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
-	echo "[Pathogen] installation completed. <<<"
+	echo "      [Pathogen] installation completed. <<<"
 else
-	echo "[Pathogen] already installed. <<<"
+	echo "           [Pathogen] already installed. <<<"
 fi
 
 # Install vim plugins with git submodules
