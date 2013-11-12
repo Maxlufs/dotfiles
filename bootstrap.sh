@@ -149,63 +149,65 @@ then
 else
 	echo "                           [Pathogen] already installed. <<<"
 fi
+echo
 
 # Install vim plugins with git submodules
 #===========================================================================#
 # cd .dotfiles/
-echo
-echo ">>> Installing Submodule plugins for Vim... <<<" 
-# Had to remove .git/index to make sure submodules work 
-# when vim/bundles dir is deleted.
-rm -f .git/index
-
-for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
-do
-    echo -ne "  > Installing [$i]... \t" 
-    # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
-    # check if plugin dir exists
-    # and there is something inside the plugin dir
-    files=$(shopt -s nullglob dotglob; echo $BUNDLEDIR/$i/*)
-    if (( ${#files} )) # if there is something inside $i dir
-    then
-        # git submodule -q update --init
-        # BUG here
-        echo "already up-to-date <"
-    else
-        # if there's nothing
-        rm -rf $BUNDLEFIR/$i
-        rm -rf .git/modules/$BUNDLEDIR/$i
-        git submodule -q add -f ${repo[$i]} $BUNDLEDIR/$i
-        # submodule's syntax, [--quiet] add [--force]
-        echo "installation done <"
-    fi
-done
-
-# git submodule -q init 
-git submodule -q update --init
-
-# Install vim plugins
-#===========================================================================#
-# cd $BUNDLEDIR
+# echo ">>> Installing Submodule plugins for Vim... <<<" 
+#
+# # Had to remove .git/index to make sure submodules work 
+# # when vim/bundles dir is deleted.
+# rm -f .git/index
 # 
-# for i in "${!repo[@]}"     # support quotes for repo names w/ space in it.
+# for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
 # do
 #     echo -ne "  > Installing [$i]... \t" 
 #     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
 #     # check if plugin dir exists
 #     # and there is something inside the plugin dir
-#     files=$(shopt -s nullglob dotglob; echo $i/*)
-#     if (( ${#files} ))
+#     files=$(shopt -s nullglob dotglob; echo $BUNDLEDIR/$i/*)
+#     if (( ${#files} )) # if there is something inside $i dir
 #     then
-#         cd $i 
-#         git pull -q                 # quite mode
-#         echo ">>> [$i] already up-to-date <<<"
-#         cd ..
+#         # git submodule -q update --init
+#         # BUG here
+#         echo "already up-to-date <"
 #     else
-#         git clone ${repo[$i]} $i -q # quite mode
-#         echo ">>> [$i] installation done <<<"
+#         # if there's nothing
+#         rm -rf $BUNDLEFIR/$i
+#         rm -rf .git/modules/$BUNDLEDIR/$i
+#         git submodule -q add -f ${repo[$i]} $BUNDLEDIR/$i
+#         # submodule's syntax, [--quiet] add [--force]
+#         echo "installation done <"
 #     fi
 # done
+# 
+# # git submodule -q init 
+# git submodule -q update --init
+# 
+# Install vim plugins
+#===========================================================================#
+cd $BUNDLEDIR
+echo ">>> Installing Submodule plugins for Vim... <<<" 
+for i in "${!repo[@]}"    
+    # support quotes for repo names w/ space in it.
+do
+    echo -ne "  > Installing [$i]... \t" 
+    # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
+    # check if plugin dir exists
+    # and there is something inside the plugin dir
+    files=$(shopt -s nullglob dotglob; echo $i/*)
+    if (( ${#files} )) # if there is something inside $i dir
+    then
+        cd $i 
+        git pull -q                 # quite mode
+        echo "already up-to-date <"
+        cd ..
+    else
+        git clone ${repo[$i]} $i -q # quite mode
+        echo "installation done <"
+    fi
+done
 #############################################################################
     
 echo "------------------------------------------------------------"
@@ -229,6 +231,7 @@ echo "------------------------------------------------------------"
 #############################################################################
 # Back up automatically to github
 #===========================================================================#
+cd $DOTFILEDIR
 
 n=1
 while [ $n -le 3 ]
