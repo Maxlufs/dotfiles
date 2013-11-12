@@ -48,6 +48,7 @@ repo["wombat"]="https://github.com/vim-scripts/Wombat.git "
 repo["wombat256"]="https://github.com/vim-scripts/wombat256.vim.git"
 
 # vim plugins
+
 PATHOGENREPO="https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim"
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
 repo["nerdtree"]="https://github.com/scrooloose/nerdtree.git"
@@ -82,12 +83,12 @@ git commit -am "automatic backup"
 git push
 #############################################################################
 
-echo
+echo "------------------------------------------"
 
 #############################################################################
 # Clean up broken symlinks
 #===========================================================================#
-echo ">>> Cleaning up broken symlinks to dotfiles_old... " 
+echo ">>> Cleaning up broken symlinks to dotfiles_old..." 
 shopt -s dotglob # list hidden files
 
 # if [ -L $OLDDIR ]; then rm $OLDDIR; fi 
@@ -98,42 +99,42 @@ for f in ~/*
 do
     if [ ! -e "$f" ]
     then
-        echo -ne ">>> Cleaning up broken link [$(basename "$f")]... \t"
+        echo -ne "  > Cleaning up broken link [$(basename "$f")]... \t"
         mv ~/$(basename "$f") $OLDDIR
-        echo "done <<<"
+        echo "done <"
     fi
 done
-
-echo "done <<<" 
+echo "                                         done <<<" 
+#############################################################################
 
 echo "------------------------------------------"
 
+#############################################################################
 # Backing up old dotfiles
 #===========================================================================#
-echo ">>> Backing up old dotfiles to dotfiles_old/... <<<" 
+echo ">>> Backing up old dotfiles to dotfiles_old/..." 
 for f in $DOTFILEDIR/*
 do
     # if [ \( -L $f \) -a \( ! -e $f \) ] 
     # if file is a symlink and its broken
     if [ -e ~/.$(basename "$f") ]
     then
-        echo -ne ">>> Backing up old [$(basename "$f")]... \t"
+        echo -ne "  > Backing up old [$(basename "$f")]... \t"
         mv ~/.$(basename "$f") $OLDDIR
-        echo "done <<<"
+        echo "done <"
     fi
 done
+echo "                                         done <<<" 
 
 shopt -u dotglob # unlist hidden files
-
-echo "------------------------------------------"
 #############################################################################
 
-echo
+echo "------------------------------------------"
 
 #############################################################################
 # Install pathogen
 #===========================================================================#
-echo ">>> Installing [Pathogen] for Vim... <<<" 
+echo -ne ">>> Installing [Pathogen] for Vim... \t" 
 
 mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
@@ -141,36 +142,37 @@ if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
     if [ ! $(which curl) ]; then sudo apt-get install -y curl; fi;
 	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
-	echo ">>> [Pathogen] installation completed. <<<"
+	echo "[Pathogen] installation completed. <<<"
 else
-	echo ">>> [Pathogen] already installed. <<<"
+	echo "[Pathogen] already installed. <<<"
 fi
 
 # Install vim plugins with git submodules
 #===========================================================================#
 # cd .dotfiles/
-echo ">>> Installing submodule plugins for Vim... <<<" 
+echo
+echo ">>> Installing Submodule plugins for Vim... <<<" 
 
-git submodule init
-git submodule update
+git submodule init -q
+git submodule update -q
 
 for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
 do
-    echo -ne ">>> Installing [$i]... \t" 
+    echo -ne "  > Installing [$i]... \t" 
     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
     # check if plugin dir exists
     # and there is something inside the plugin dir
     files=$(shopt -s nullglob dotglob; echo $BUNDLEDIR/$i/*)
-    if (( ${#files} ))
+    if (( ${#files} )) # if there is something inside $i dir
     then
-        echo "[$i] already up-to-date <<<"
+        echo "[$i] already up-to-date <"
     else
-        git submodule add ${repo[$i]} $BUNDLEDIR/$i -q # quite mode
-        echo "[$i] installation done <<<"
+        # if there's nothing
+        rm -rf $BUNDLEFIR/$i
+        git submodule add ${repo[$i]} $BUNDLEDIR/$i -q
+        echo "[$i] installation done <"
     fi
 done
-
-echo "------------------------------------------"
 # Install vim plugins
 #===========================================================================#
 # cd $BUNDLEDIR
@@ -195,23 +197,21 @@ echo "------------------------------------------"
 # done
 #############################################################################
     
-echo
+echo "------------------------------------------"
 
 #############################################################################
 # Creating symlinks
 #===========================================================================#
-echo ">>> Creating symbolic links... <<<" 
+echo ">>> Creating symbolic links..." 
 for f in $DOTFILEDIR/*
 do
-    echo -ne ">>> Linking file [$(basename "$f")]... \t"
+    echo -ne "  > Linking file [$(basename "$f")]... \t"
     ln -s $f ~/.$(basename "$f")
-    echo "done <<<"
+    echo "done <"
 done
-
-echo "------------------------------------------"
+echo "                                  done <<<"
 #############################################################################
 
-echo
 echo "=========================================="
 echo ">>> Enjoy your new coding environment! <<<"
 echo ">>>                          --Maxlufs <<<"
