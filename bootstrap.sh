@@ -87,7 +87,7 @@ echo
 #############################################################################
 # Clean up broken symlinks
 #===========================================================================#
-echo ">>> Cleaning up broken symlinks to dotfiles_old... <<<" 
+echo ">>> Cleaning up broken symlinks to dotfiles_old... " 
 shopt -s dotglob # list hidden files
 
 # if [ -L $OLDDIR ]; then rm $OLDDIR; fi 
@@ -103,9 +103,11 @@ do
         echo "done <<<"
     fi
 done
+
+echo "done <<<" 
+
 echo "------------------------------------------"
 
-echo
 # Backing up old dotfiles
 #===========================================================================#
 echo ">>> Backing up old dotfiles to dotfiles_old/... <<<" 
