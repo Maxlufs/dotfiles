@@ -111,7 +111,8 @@ do
     then
         echo -ne "  > Cleaning up broken link [$(basename "$f")]... \t"
         mv ~/$(basename "$f") $OLDDIR
-        printf "%${COL}s\n" "$STATUS"
+        echo "done <"
+        #printf "%${COL}s\n" "$STATUS"
     fi
 done
 echo "                                         done <<<" 
@@ -131,7 +132,8 @@ do
     then
         echo -ne "  > Backing up old [$(basename "$f")]... \t"
         mv ~/.$(basename "$f") $OLDDIR
-        printf "%${COL}s\n" "$STATUS"
+        echo "done <"
+        #printf "%${COL}s\n" "$STATUS"
     fi
 done
 echo "                                         done <<<" 
@@ -217,7 +219,8 @@ for f in $DOTFILEDIR/*
 do
     echo -ne "  > Linking file [$(basename "$f")]... \t"
     ln -s $f ~/.$(basename "$f")
-    printf "%${COL}s\n" "$STATUS"
+    echo "done <"
+    #printf "%${COL}s\n" "$STATUS"
 done
 echo "                                  done <<<"
 #############################################################################
