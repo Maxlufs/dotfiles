@@ -168,12 +168,12 @@ do
     files=$(shopt -s nullglob dotglob; echo $BUNDLEDIR/$i/*)
     if (( ${#files} )) # if there is something inside $i dir
     then
-        echo "[$i] already up-to-date <"
+        echo "already up-to-date <"
     else
         # if there's nothing
         rm -rf $BUNDLEFIR/$i
         git submodule add ${repo[$i]} $BUNDLEDIR/$i -q
-        echo "[$i] installation done <"
+        echo "installation done <"
     fi
 done
 # Install vim plugins
