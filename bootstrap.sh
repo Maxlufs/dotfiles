@@ -35,7 +35,7 @@
 DOTFILEDIR=~/.dotfiles          # dotfiles dir
 OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=$DOTFILEDIR/vim          # vim dir
-BUNDLEDIR=$VIMDIR/bundle        # vim plugin dir
+BUNDLEDIR=vim/bundle        # vim plugin dir
 
 # Declare vim plugin repo associate matrix
 #===========================================================================#
@@ -90,6 +90,7 @@ echo
 #############################################################################
 # Clean up broken symlinks
 #===========================================================================#
+echo ">>> Cleaning up broken symlinks to dotfiles_old... <<<" 
 shopt -s dotglob # list hidden files
 
 # if [ -L $OLDDIR ]; then rm $OLDDIR; fi 
@@ -100,21 +101,23 @@ for f in ~/*
 do
     if [ ! -e "$f" ]
     then
-        echo ">>> Cleaning up broken link [$(basename "$f")] to dotfiles_old/... <<<"
+        echo ">>> Cleaning up broken link [$(basename "$f")]... <<<"
         mv ~/$(basename "$f") $OLDDIR
         echo ">>> Cleanup completed <<<"
     fi
 done
 
+echo
 # Backing up old dotfiles
 #===========================================================================#
+echo ">>> Backing up old dotfiles to dotfiles_old/... <<<" 
 for f in $DOTFILEDIR/*
 do
     # if [ \( -L $f \) -a \( ! -e $f \) ] 
     # if file is a symlink and its broken
     if [ -e ~/.$(basename "$f") ]
     then
-        echo ">>> Backing up old [$(basename "$f")] to dotfiles_old/... <<<"
+        echo ">>> Backing up old [$(basename "$f")]... <<<"
         mv ~/.$(basename "$f") $OLDDIR
         echo ">>> Backup completed <<<"
     fi
@@ -128,9 +131,10 @@ echo
 #############################################################################
 # Install pathogen
 #===========================================================================#
+echo ">>> Installing [Pathogen] for Vim... <<<" 
+
 mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
-echo ">>> Installing [Pathogen] for Vim... <<<" 
 if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
     if [ ! $(which curl) ]; then sudo apt-get install -y curl; fi;
@@ -142,7 +146,7 @@ fi
 
 # Install vim plugins with git submodules
 #===========================================================================#
-# cd ,dotfiles/
+# cd .dotfiles/
 
 for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
 do
