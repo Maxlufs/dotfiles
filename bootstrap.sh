@@ -190,7 +190,7 @@ git submodule -q update --init
 # 
 # for i in "${!repo[@]}"     # support quotes for repo names w/ space in it.
 # do
-#     echo ">>> Installing [$i]... <<<" 
+#     echo -ne "  > Installing [$i]... \t" 
 #     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
 #     # check if plugin dir exists
 #     # and there is something inside the plugin dir
