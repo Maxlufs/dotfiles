@@ -201,6 +201,9 @@ do
     then
         cd $i 
         git pull -q                 # quite mode
+        git reset --hard -q origin/master 
+        # My misunderstanding of git pull.
+        # need to use git reset in order to copy from commit to working dir
         echo "already up-to-date <"
         cd ..
     else
