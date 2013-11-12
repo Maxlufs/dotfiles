@@ -24,7 +24,7 @@
 # S: git push backup (based on if ssh keys are generated)                   #
 # S: copy vim :helptags locations                                           #
 # S: only link files w/o extensions                                         #
-# C: add a title of script output                                           #
+# C: add a Welcome title of script output                                   #
 # C: add progress bar while git clone/pull/push                             #
 #===========================================================================#
 
@@ -88,9 +88,17 @@ find $DOTFILEDIR -name '*~' -delete
 #===========================================================================#
 echo ">>> Backing up to dotfiles.git... <<<" 
 cd $DOTFILEDIR
-git add .
-git commit -am "automatic backup"
-git push
+
+
+while true; do
+read -p "Do you wish to back up to GitHub? [y/n]" yn
+case $yn in
+    [Yy]* ) git add .; git commit -am "automatic backup"; git push; break;;
+    [Nn]* ) exit;;
+    * ) echo "Please answer";;
+esac
+done
+
 #############################################################################
 
 echo "--------------------------------------------"
@@ -146,7 +154,7 @@ echo "--------------------------------------------"
 #############################################################################
 # Install pathogen
 #===========================================================================#
-echo -ne ">>> Installing [Pathogen] for Vim..." 
+echo ">>> Installing [Pathogen] for Vim..." 
 
 mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
