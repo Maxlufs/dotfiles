@@ -48,6 +48,7 @@ repo["wombat"]="https://github.com/vim-scripts/Wombat.git "
 repo["wombat256"]="https://github.com/vim-scripts/wombat256.vim.git"
 
 # vim plugins
+
 PATHOGENREPO="https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim"
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
 repo["nerdtree"]="https://github.com/scrooloose/nerdtree.git"
@@ -77,6 +78,8 @@ find $DOTFILEDIR -name '*~' -delete
 #===========================================================================#
 echo ">>> Backing up to dotfiles.git... <<<" 
 cd $DOTFILEDIR
+git submodule init
+git submodule update
 git add .
 git commit -am "automatic backup"
 git push
@@ -107,7 +110,8 @@ done
 #===========================================================================#
 for f in $DOTFILEDIR/*
 do
-    # if [ \( -L $f \) -a \( ! -e $f \) ] # if file is a symlink and its broken
+    # if [ \( -L $f \) -a \( ! -e $f \) ] 
+    # if file is a symlink and its broken
     if [ -e ~/.$(basename "$f") ]
     then
         echo ">>> Backing up old [$(basename "$f")] to dotfiles_old/... <<<"
@@ -136,9 +140,9 @@ else
 	echo ">>> [Pathogen] already installed. <<<"
 fi
 
-# Install vim plugins
+# Install vim plugins with git submodules
 #===========================================================================#
-cd $BUNDLEDIR
+# cd ,dotfiles/
 
 for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
 do
@@ -149,15 +153,35 @@ do
     files=$(shopt -s nullglob dotglob; echo $i/*)
     if (( ${#files} ))
     then
-        cd $i 
-        git pull -q                 # quite mode
         echo ">>> [$i] already up-to-date <<<"
-        cd ..
     else
-        git clone ${repo[$i]} $i -q # quite mode
+        git submodule add ${repo[$i]} $i #-q # quite mode
         echo ">>> [$i] installation done <<<"
     fi
 done
+
+# Install vim plugins
+#===========================================================================#
+# cd $BUNDLEDIR
+# 
+# for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
+# do
+#     echo ">>> Installing [$i]... <<<" 
+#     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
+#     # check if plugin dir exists
+#     # and there is something inside the plugin dir
+#     files=$(shopt -s nullglob dotglob; echo $i/*)
+#     if (( ${#files} ))
+#     then
+#         cd $i 
+#         git pull -q                 # quite mode
+#         echo ">>> [$i] already up-to-date <<<"
+#         cd ..
+#     else
+#         git clone ${repo[$i]} $i -q # quite mode
+#         echo ">>> [$i] installation done <<<"
+#     fi
+# done
 #############################################################################
     
 echo
