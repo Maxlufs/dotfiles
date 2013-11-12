@@ -88,18 +88,24 @@ find $DOTFILEDIR -name '*~' -delete
 #===========================================================================#
 cd $DOTFILEDIR
 
-while true; do
-read -p "Do you wish to back up to GitHub? [y/n]" yn
-case $yn in
-    [Yy]* ) 
-        echo ">>> Backing up to dotfiles.git... <<<" 
-        git add .
-        git commit -am "automatic backup"
-        git push
-        break;;
-    [Nn]* ) break;;
-    * ) echo "Please answer";;
-esac
+n=1
+while [ $n -le 3 ]
+do
+    read -p "Do you wish to back up to GitHub this time? [y/n]" yn
+    case $yn in
+        [Yy]* ) 
+            echo ">>> Backing up to dotfiles.git... <<<" 
+            git add .
+            git commit -am "automatic backup"
+            git push
+            break;;
+        [Nn]* ) 
+            break;;
+        * ) 
+            #echo "Unknown input"
+            n=$(( n+1 ))
+            ;;
+    esac
 done
 
 #############################################################################
