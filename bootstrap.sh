@@ -230,7 +230,7 @@ do
         [Yy]*|"1" ) 
             echo ">>> Backing up to dotfiles.git... <<<" 
             git add .
-            if [[ git diff ]]
+            if [[ $(git diff HEAD) ]]
             then
                 echo "Please type in your commit message:" 
                 read msg
