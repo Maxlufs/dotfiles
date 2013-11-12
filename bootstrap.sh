@@ -34,8 +34,8 @@
 #===========================================================================#
 DOTFILEDIR=~/.dotfiles          # dotfiles dir
 OLDDIR=~/.dotfiles_old          # dotfiles backup dir
-VIMDIR=$DOTFILEDIR/vim          # vim dir
-BUNDLEDIR=vim/bundle        # vim plugin dir
+VIMDIR=vim                      # vim dir
+BUNDLEDIR=vim/bundle            # vim plugin dir
 
 # Declare vim plugin repo associate matrix
 #===========================================================================#
@@ -48,7 +48,6 @@ repo["wombat"]="https://github.com/vim-scripts/Wombat.git "
 repo["wombat256"]="https://github.com/vim-scripts/wombat256.vim.git"
 
 # vim plugins
-
 PATHOGENREPO="https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim"
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
 repo["nerdtree"]="https://github.com/scrooloose/nerdtree.git"
@@ -78,8 +77,6 @@ find $DOTFILEDIR -name '*~' -delete
 #===========================================================================#
 echo ">>> Backing up to dotfiles.git... <<<" 
 cd $DOTFILEDIR
-git submodule init
-git submodule update
 git add .
 git commit -am "automatic backup"
 git push
@@ -101,11 +98,12 @@ for f in ~/*
 do
     if [ ! -e "$f" ]
     then
-        echo ">>> Cleaning up broken link [$(basename "$f")]... <<<"
+        echo -ne ">>> Cleaning up broken link [$(basename "$f")]... \t"
         mv ~/$(basename "$f") $OLDDIR
-        echo ">>> Cleanup completed <<<"
+        echo "done <<<"
     fi
 done
+echo "------------------------------------------"
 
 echo
 # Backing up old dotfiles
@@ -117,13 +115,15 @@ do
     # if file is a symlink and its broken
     if [ -e ~/.$(basename "$f") ]
     then
-        echo ">>> Backing up old [$(basename "$f")]... <<<"
+        echo -ne ">>> Backing up old [$(basename "$f")]... \t"
         mv ~/.$(basename "$f") $OLDDIR
-        echo ">>> Backup completed <<<"
+        echo "done <<<"
     fi
 done
 
 shopt -u dotglob # unlist hidden files
+
+echo "------------------------------------------"
 #############################################################################
 
 echo
@@ -147,23 +147,28 @@ fi
 # Install vim plugins with git submodules
 #===========================================================================#
 # cd .dotfiles/
+echo ">>> Installing submodule plugins for Vim... <<<" 
+
+git submodule init
+git submodule update
 
 for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
 do
-    echo ">>> Installing [$i]... <<<" 
+    echo -ne ">>> Installing [$i]... \t" 
     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
     # check if plugin dir exists
     # and there is something inside the plugin dir
     files=$(shopt -s nullglob dotglob; echo $BUNDLEDIR/$i/*)
     if (( ${#files} ))
     then
-        echo ">>> [$i] already up-to-date <<<"
+        echo "[$i] already up-to-date <<<"
     else
         git submodule add ${repo[$i]} $BUNDLEDIR/$i -q # quite mode
-        echo ">>> [$i] installation done <<<"
+        echo "[$i] installation done <<<"
     fi
 done
 
+echo "------------------------------------------"
 # Install vim plugins
 #===========================================================================#
 # cd $BUNDLEDIR
@@ -196,9 +201,12 @@ echo
 echo ">>> Creating symbolic links... <<<" 
 for f in $DOTFILEDIR/*
 do
-    echo ">>> Linking file [$(basename "$f")] <<<"
+    echo -ne ">>> Linking file [$(basename "$f")]... \t"
     ln -s $f ~/.$(basename "$f")
+    echo "done <<<"
 done
+
+echo "------------------------------------------"
 #############################################################################
 
 echo
