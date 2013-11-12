@@ -225,15 +225,20 @@ echo "------------------------------------------------------------"
 n=1
 while [ $n -le 3 ]
 do
-    read -p "Do you wish to back up to GitHub this time? [y/n] " yn
+    read -p "Do you wish to back up to GitHub this time? [Y/n] " yn
     case $yn in
-        [Yy]* ) 
+        [Yy]*|"1" ) 
             echo ">>> Backing up to dotfiles.git... <<<" 
-            echo "Please type in your commit message:" 
-            read msg
             git add .
-            git commit -m "$msg"
-            git push
+            if [[ git diff ]]
+            then
+                echo "Please type in your commit message:" 
+                read msg
+                git commit -m "$msg"
+                git push
+            else
+                echo "Nothing to commit (working directory clean)" 
+            fi
             break;;
         [Nn]* ) 
             break;;
