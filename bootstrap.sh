@@ -78,39 +78,10 @@ echo "============================================"
 #############################################################################
 # Clean up vim backup files
 #===========================================================================#
+cd $DOTFILEDIR
 shopt -s dotglob # list hidden files
 find $DOTFILEDIR -name '*~' -delete
 #############################################################################
-
-
-#############################################################################
-# Back up automatically to github
-#===========================================================================#
-cd $DOTFILEDIR
-
-n=1
-while [ $n -le 3 ]
-do
-    read -p "Do you wish to back up to GitHub this time? [y/n]" yn
-    case $yn in
-        [Yy]* ) 
-            echo ">>> Backing up to dotfiles.git... <<<" 
-            git add .
-            git commit -am "automatic backup"
-            git push
-            break;;
-        [Nn]* ) 
-            break;;
-        * ) 
-            #echo "Unknown input"
-            n=$(( n+1 ))
-            ;;
-    esac
-done
-
-#############################################################################
-
-echo "--------------------------------------------"
 
 #############################################################################
 # Clean up broken symlinks
@@ -240,6 +211,33 @@ do
     #printf "%${COL}s\n" "$STATUS"
 done
 echo "                                    done <<<"
+#############################################################################
+
+echo "--------------------------------------------"
+
+#############################################################################
+# Back up automatically to github
+#===========================================================================#
+
+n=1
+while [ $n -le 3 ]
+do
+    read -p "Do you wish to back up to GitHub this time? [y/n]" yn
+    case $yn in
+        [Yy]* ) 
+            echo ">>> Backing up to dotfiles.git... <<<" 
+            git add .
+            git commit -am "automatic backup"
+            git push
+            break;;
+        [Nn]* ) 
+            break;;
+        * ) 
+            #echo "Unknown input"
+            n=$(( n+1 ))
+            ;;
+    esac
+done
 #############################################################################
 
 echo "============================================"
