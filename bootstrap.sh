@@ -37,13 +37,15 @@ OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=vim                      # vim dir
 BUNDLEDIR=vim/bundle            # vim plugin dir
 
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-NORMAL=$(tput sgr0)
-MSG="$1"
-
-let COL=$(tput cols)-${#MSG}+${#GREEN}+${#NORMAL}
-# The let command carries out arithmetic operations on variables.
+    MSG="$1"
+    RED=$(tput setaf 1)
+    GREEN=$(tput setaf 2) # len = 5
+    NORMAL=$(tput sgr0) # len = 6
+    STATUS="$GREEN[DONE]$NORMAL" # len = 17
+    let COL=$(tput cols)-${#STATUS}+${#GREEN}+${#NORMAL} 
+    printf "%${COL}s" "$STATUS"
+    # current col - [DONE] + GREEN and NORMAL
+    # The let command carries out arithmetic operations on variables.
 
 # Declare vim plugin repo associate matrix
 #===========================================================================#
