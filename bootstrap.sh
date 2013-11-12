@@ -150,12 +150,12 @@ do
     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
     # check if plugin dir exists
     # and there is something inside the plugin dir
-    files=$(shopt -s nullglob dotglob; echo $i/*)
+    files=$(shopt -s nullglob dotglob; echo $BUNDLEDIR/$i/*)
     if (( ${#files} ))
     then
         echo ">>> [$i] already up-to-date <<<"
     else
-        git submodule add ${repo[$i]} $i #-q # quite mode
+        git submodule add ${repo[$i]} $BUNDLEDIR/$i -q # quite mode
         echo ">>> [$i] installation done <<<"
     fi
 done
