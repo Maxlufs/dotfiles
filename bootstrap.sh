@@ -130,6 +130,7 @@ do
     then
         echo -ne "  > Backing up old [$(basename "$f")]... \t"
         mv ~/.$(basename "$f") $OLDDIR
+        printf "%${COL}s\n" "$GREEN[OK]$NORMAL"
         echo "done <"
     fi
 done
