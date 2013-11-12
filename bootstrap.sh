@@ -37,6 +37,14 @@ OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=vim                      # vim dir
 BUNDLEDIR=vim/bundle            # vim plugin dir
 
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+NORMAL=$(tput sgr0)
+MSG="$1"
+
+let COL=$(tput cols)-${#MSG}+${#GREEN}+${#NORMAL}
+# The let command carries out arithmetic operations on variables.
+
 # Declare vim plugin repo associate matrix
 #===========================================================================#
 declare -A repo                 
@@ -101,6 +109,7 @@ do
     then
         echo -ne "  > Cleaning up broken link [$(basename "$f")]... \t"
         mv ~/$(basename "$f") $OLDDIR
+        printf "%${COL}s\n" "$GREEN[OK]$NORMAL"
         echo "done <"
     fi
 done
