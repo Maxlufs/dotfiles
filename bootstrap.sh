@@ -42,7 +42,7 @@ RED=$(tput setaf 1)
 GREEN=$(tput setaf 2) # len = 5
 NORMAL=$(tput sgr0) # len = 6
 STATUS="$GREEN[OK]$NORMAL" # len = 17
-let COL=$(tput cols)-${#STATUS}+${#GREEN}+${#NORMAL} 
+let COL=$(tput cols)-${#MSG}+${#STATUS}+${#GREEN}+${#NORMAL} 
 # printf "%${COL}s" "$STATUS"
 # current col - [DONE] + GREEN and NORMAL
 # The let command carries out arithmetic operations on variables.
