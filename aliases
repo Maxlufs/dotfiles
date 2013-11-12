@@ -92,4 +92,8 @@ alias t2='tree -Ch --du -L 2'
 alias tree2='tree -Ch --du -L 2'
 alias t3='tree -Ch --du -L 3'
 alias tree3='tree -Ch --du -L 3'
+
+alias tt='tree -Ch --du -L 1'
+alias ttt='tree -Ch --du -L 2'
+alias tttt='tree -Ch --du -L 3'
 # use system color, human readable, du all dirs
