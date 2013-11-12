@@ -86,15 +86,18 @@ find $DOTFILEDIR -name '*~' -delete
 #############################################################################
 # Back up automatically to github
 #===========================================================================#
-echo ">>> Backing up to dotfiles.git... <<<" 
 cd $DOTFILEDIR
-
 
 while true; do
 read -p "Do you wish to back up to GitHub? [y/n]" yn
 case $yn in
-    [Yy]* ) git add .; git commit -am "automatic backup"; git push; break;;
-    [Nn]* ) exit;;
+    [Yy]* ) 
+        echo ">>> Backing up to dotfiles.git... <<<" 
+        git add .
+        git commit -am "automatic backup"
+        git push
+        break;;
+    [Nn]* ) break;;
     * ) echo "Please answer";;
 esac
 done
