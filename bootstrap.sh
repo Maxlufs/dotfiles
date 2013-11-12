@@ -227,7 +227,7 @@ while [ $n -le 3 ]
 do
     read -p "Do you wish to back up to GitHub this time? [Y/n] " yn
     case $yn in
-        [Yy]*|"1" ) 
+        [Yy]*|"" ) 
             echo ">>> Backing up to dotfiles.git... <<<" 
             git add .
             if [[ $(git diff HEAD) ]]
