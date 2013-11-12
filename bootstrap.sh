@@ -168,6 +168,8 @@ do
     files=$(shopt -s nullglob dotglob; echo $BUNDLEDIR/$i/*)
     if (( ${#files} )) # if there is something inside $i dir
     then
+        # git submodule -q update --init
+        # BUG here
         echo "already up-to-date <"
     else
         # if there's nothing
@@ -186,7 +188,7 @@ git submodule -q update --init
 #===========================================================================#
 # cd $BUNDLEDIR
 # 
-# for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
+# for i in "${!repo[@]}"     # support quotes for repo names w/ space in it.
 # do
 #     echo ">>> Installing [$i]... <<<" 
 #     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
