@@ -155,6 +155,9 @@ fi
 # cd .dotfiles/
 echo
 echo ">>> Installing Submodule plugins for Vim... <<<" 
+# Had to remove .git/index to make sure submodules work 
+# when vim/bundles dir is deleted.
+rm -f .git/index
 
 for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
 do
@@ -169,13 +172,15 @@ do
     else
         # if there's nothing
         rm -rf $BUNDLEFIR/$i
-        git submodule -q add ${repo[$i]} $BUNDLEDIR/$i
+        rm -rf .git/modules/$BUNDLEDIR/$i
+        git submodule -q add -f ${repo[$i]} $BUNDLEDIR/$i
+        # submodule's syntax, [--quiet] add [--force]
         echo "installation done <"
     fi
 done
 
-git submodule init -q
-git submodule update -q
+# git submodule -q init 
+git submodule -q update --init
 
 # Install vim plugins
 #===========================================================================#
