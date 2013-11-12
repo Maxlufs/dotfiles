@@ -145,9 +145,9 @@ if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
     if [ ! $(which curl) ]; then sudo apt-get install -y curl; fi;
 	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
-	echo "      [Pathogen] installation completed. <<<"
+	echo "                      [Pathogen] installation completed. <<<"
 else
-	echo "           [Pathogen] already installed. <<<"
+	echo "                           [Pathogen] already installed. <<<"
 fi
 
 # Install vim plugins with git submodules
@@ -155,9 +155,6 @@ fi
 # cd .dotfiles/
 echo
 echo ">>> Installing Submodule plugins for Vim... <<<" 
-
-git submodule init -q
-git submodule update -q
 
 for i in "${!repo[@]}"      # support quotes for repo names w/ space in it.
 do
@@ -172,10 +169,14 @@ do
     else
         # if there's nothing
         rm -rf $BUNDLEFIR/$i
-        git submodule add ${repo[$i]} $BUNDLEDIR/$i -q
+        git submodule -q add ${repo[$i]} $BUNDLEDIR/$i
         echo "installation done <"
     fi
 done
+
+git submodule init -q
+git submodule update -q
+
 # Install vim plugins
 #===========================================================================#
 # cd $BUNDLEDIR
