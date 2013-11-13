@@ -38,12 +38,42 @@ OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=vim                      # vim dir
 BUNDLEDIR=vim/bundle            # vim plugin dir
 
-MSG="$1"
 RED=$(tput setaf 1)
+YELLOW=
 GREEN=$(tput setaf 2) # len = 5
 NORMAL=$(tput sgr0) # len = 6
-STATUS="$GREEN[OK]$NORMAL" # len = 17
-let COL=$(tput cols)-${#MSG}+${#STATUS}+${#GREEN}+${#NORMAL} 
+
+# log_msg() function takes in previous MSG's COL
+# param (STATUS, COLOR, MSG)
+log_msg() {
+
+    STATUS=$1
+    COLOR=$2
+    MSG=$3
+    # FIXTHIS!!!!!!
+    COLORSTATUS="$COLOR${STATUS}$NORMAL"
+
+    # REDSTATUS="$RED${STATUS}$NORMAL"
+    # YELLOWSTATUS="$YELLOW${STATUS}$NORMAL"
+    # GREENSTATUS="$GREEN${STATUS}$NORMAL"
+
+    let COL=$(tput cols)-3-${#MSG}-${#STATUS}+${#COLORSTATUS}
+    # tput cols = terminal width
+    # 3 = <<<
+    # MSG = $1
+    # STATUS = text
+    # COLORSTATUS = wrapped text
+
+    if [[ ${#MSG} -ge ${COL} ]]
+    then
+        let COL=$(tput cols)-3-${#STATUS}+${#COLORSTATUS}
+        # new line, need a new COL, i.e. ${#MSG} = 0
+        printf "\n%${COL}s\n"  "$COLORSTATUS"
+    else
+        printf "%${COL}s\n"  "$COLORSTATUS"
+    fi
+}
+
 # printf "%${COL}s" "$STATUS"
 # current col - [DONE] + GREEN and NORMAL
 # The let command carries out arithmetic operations on variables.
@@ -100,10 +130,10 @@ for f in ~/*
 do
     if [ ! -e "$f" ]
     then
-        echo -ne "  > Cleaning up broken link [$(basename "$f")]... \t"
+        MSG="  > Cleaning up broken link [$(basename "$f")]..."
+        printf $MSG
         mv ~/$(basename "$f") $OLDDIR
-        echo "done <"
-        #printf "%${COL}s\n" "$STATUS"
+        log_msg "[OK]" "GREEN" $MSG
     fi
 done
 echo "                                                    done <<<"
@@ -121,10 +151,10 @@ do
     # if file is a symlink and its broken
     if [ -e ~/.$(basename "$f") ]
     then
-        echo -ne "  > Backing up old [$(basename "$f")]... \t"
+        MSG="  > Backing up old [$(basename "$f")]..."
+        printf $MSG
         mv ~/.$(basename "$f") $OLDDIR
-        echo "done <"
-        #printf "%${COL}s\n" "$STATUS"
+        log_msg "[OK]" "GREEN" $MSG
     fi
 done
 echo "                                                    done <<<"
@@ -182,7 +212,7 @@ echo
 #     fi
 # done
 # 
-# # git submodule -q init 
+# # git submodule -q init # combined into one
 # git submodule -q update --init
 # 
 # Install vim plugins
@@ -192,7 +222,8 @@ echo ">>> Installing Submodule plugins for Vim... <<<"
 for i in "${!repo[@]}"    
     # support quotes for repo names w/ space in it.
 do
-    echo -ne "  > Installing [$i]... \t" 
+    MSG="  > Installing [$i]... " 
+    printf $MSG
     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
     # check if plugin dir exists
     # and there is something inside the plugin dir
@@ -204,11 +235,13 @@ do
         git reset --hard -q origin/master 
         # My misunderstanding of git pull.
         # need to use git reset in order to copy from commit to working dir
-        echo "already up-to-date <"
+        # echo "already up-to-date <"
+        log_msg "[already up-to-date]" "GREEN" $MSG
         cd ..
     else
         git clone ${repo[$i]} $i -q # quite mode
-        echo "installation done <"
+        log_msg "[installation done]" "GREEN" $MSG
+        # echo "installation done <"
     fi
 done
 #############################################################################
@@ -221,9 +254,11 @@ echo "------------------------------------------------------------"
 echo ">>> Creating symbolic links..." 
 for f in $DOTFILEDIR/*
 do
-    echo -ne "  > Linking file [$(basename "$f")]... \t"
+    MSG="  > Linking file [$(basename "$f")]..."
+    printf $MSG
     ln -s $f ~/.$(basename "$f")
-    echo "done <"
+    log_msg "[OK]" "GREEN" $MSG
+    #echo "done <"
     #printf "%${COL}s\n" "$STATUS"
 done
 echo "                                                    done <<<"
