@@ -66,8 +66,9 @@ log_msg() {
 
     NORMAL=$(tput sgr0)
     COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
+    OFFSET=4    # This is for '<' or '<<<'
 
-    let COL=$(tput cols)+${#COLORSTATUS}-3-${#MSG}-${#STATUS}
+    let COL=$(tput cols)+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
     # tput cols = terminal width
     # 3 = <<<
     # MSG = $1
@@ -76,11 +77,11 @@ log_msg() {
 
     if [[ ${#MSG} -ge ${COL} ]]
     then
-        let COLFORLONG=$(tput cols)-3-${#STATUS}+${#COLORSTATUS}
+        let COLFORLONG=$(tput cols)-$OFFSET-${#STATUS}+${#COLORSTATUS}
         # new line, need a new COL, i.e. ${#MSG} = 0
-        printf "\n%${COLFORLONG}s\n"  "$COLORSTATUS"
+        printf "\n%${COLFORLONG}s"  "$COLORSTATUS"
     else
-        printf "%${COL}s\n"  "$COLORSTATUS"
+        printf "%${COL}s"  "$COLORSTATUS"
     fi
 }
 
@@ -140,9 +141,14 @@ do
         printf "$MSG"
         mv ~/$(basename "$f") $OLDDIR
         log_msg "[OK]" "GREEN" "$MSG"
+        printf " <\n"
     fi
 done
-echo "                                                    done <<<"
+
+log_msg "[OK]" "GREEN" ""
+printf " <<<\n"
+
+# echo "                                                    done <<<"
 #############################################################################
 
 echo "------------------------------------------------------------"
@@ -161,9 +167,13 @@ do
         printf "$MSG"
         mv ~/.$(basename "$f") $OLDDIR
         log_msg "[OK]" "GREEN" "$MSG"
+        printf " <\n"
     fi
 done
-echo "                                                    done <<<"
+
+log_msg "[OK]" "GREEN" ""
+printf " <<<\n"
+
 
 shopt -u dotglob # unlist hidden files
 #############################################################################
@@ -243,13 +253,17 @@ do
         # need to use git reset in order to copy from commit to working dir
         # echo "already up-to-date <"
         log_msg "[already up-to-date]" "GREEN" "$MSG"
+        printf " <\n"
         cd ..
     else
         git clone ${repo[$i]} $i -q # quite mode
         log_msg "[installation done]" "GREEN" "$MSG"
-        # echo "installation done <"
+        printf " <\n"
     fi
 done
+
+log_msg "[OK]" "GREEN" ""
+printf " <<<\n"
 #############################################################################
     
 echo "------------------------------------------------------------"
@@ -264,8 +278,11 @@ do
     printf "$MSG"
     ln -s $f ~/.$(basename "$f")
     log_msg "[OK]" "GREEN" "$MSG"
+    printf " <\n"
 done
-echo "                                                    done <<<"
+
+log_msg "[OK]" "GREEN" ""
+printf " <<<\n"
 #############################################################################
 
 echo "------------------------------------------------------------"
