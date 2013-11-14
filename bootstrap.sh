@@ -194,7 +194,7 @@ if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
     if [ ! $(which curl) ]; then sudo apt-get install -y curl; fi;
 	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
-    log_msg "[Installation competed.]" "GREEN" "$MSG"
+    log_msg "[Installation competed.]" "YELLOW" "$MSG"
     printf " <\n"
 	#echo "                      [Pathogen] installation completed. <<<"
 else
@@ -264,7 +264,7 @@ do
         cd ..
     else
         git clone ${repo[$i]} $i -q # quite mode
-        log_msg "[Installation done]" "GREEN" "$MSG"
+        log_msg "[Installation done]" "YELLOW" "$MSG"
         printf " <\n"
     fi
 done
