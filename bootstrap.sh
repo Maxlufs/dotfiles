@@ -64,11 +64,13 @@ log_msg() {
     esac
     MSG=$3
 
+    MAXCOL=70
+    # MAXCOL=$(tput cols)
+    OFFSET=4    # This is for '<' or '<<<'
     NORMAL=$(tput sgr0)
     COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
-    OFFSET=4    # This is for '<' or '<<<'
 
-    let COL=$(tput cols)+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
+    let COL=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
     # tput cols = terminal width
     # 3 = <<<
     # MSG = $1
@@ -77,7 +79,7 @@ log_msg() {
 
     if [[ ${#MSG} -ge ${COL} ]]
     then
-        let COLFORLONG=$(tput cols)-$OFFSET-${#STATUS}+${#COLORSTATUS}
+        let COLFORLONG=$MAXCOL-$OFFSET-${#STATUS}+${#COLORSTATUS}
         # new line, need a new COL, i.e. ${#MSG} = 0
         printf "\n%${COLFORLONG}s"  "$COLORSTATUS"
     else
