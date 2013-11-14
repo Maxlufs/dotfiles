@@ -67,7 +67,7 @@ log_msg() {
     NORMAL=$(tput sgr0)
     COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
 
-    let COL=$(tput cols)-3-${#MSG}-${#STATUS}+${#COLORSTATUS}
+    let COL=$(tput cols)+${#COLORSTATUS}-3-${#MSG}-${#STATUS}
     # tput cols = terminal width
     # 3 = <<<
     # MSG = $1
@@ -76,9 +76,9 @@ log_msg() {
 
     if [[ ${#MSG} -ge ${COL} ]]
     then
-        let COL=$(tput cols)-3-${#STATUS}+${#COLORSTATUS}
+        let COLFORLONG=$(tput cols)-3-${#STATUS}+${#COLORSTATUS}
         # new line, need a new COL, i.e. ${#MSG} = 0
-        printf "\n%${COL}s\n"  "$COLORSTATUS"
+        printf "\n%${COLFORLONG}s\n"  "$COLORSTATUS"
     else
         printf "%${COL}s\n"  "$COLORSTATUS"
     fi
@@ -139,7 +139,7 @@ do
         MSG="  > Cleaning up broken link [$(basename "$f")]..."
         printf "$MSG"
         mv ~/$(basename "$f") $OLDDIR
-        log_msg "[OK]" "GREEN" $MSG
+        log_msg "[OK]" "GREEN" "$MSG"
     fi
 done
 echo "                                                    done <<<"
@@ -160,7 +160,7 @@ do
         MSG="  > Backing up old [$(basename "$f")]..."
         printf "$MSG"
         mv ~/.$(basename "$f") $OLDDIR
-        log_msg "[OK]" "GREEN" $MSG
+        log_msg "[OK]" "GREEN" "$MSG"
     fi
 done
 echo "                                                    done <<<"
@@ -242,11 +242,11 @@ do
         # My misunderstanding of git pull.
         # need to use git reset in order to copy from commit to working dir
         # echo "already up-to-date <"
-        log_msg "[already up-to-date]" "GREEN" $MSG
+        log_msg "[already up-to-date]" "GREEN" "$MSG"
         cd ..
     else
         git clone ${repo[$i]} $i -q # quite mode
-        log_msg "[installation done]" "GREEN" $MSG
+        log_msg "[installation done]" "GREEN" "$MSG"
         # echo "installation done <"
     fi
 done
@@ -263,7 +263,7 @@ do
     MSG="  > Linking file [$(basename "$f")]..."
     printf "$MSG"
     ln -s $f ~/.$(basename "$f")
-    log_msg "[OK]" "GREEN" $MSG
+    log_msg "[OK]" "GREEN" "$MSG"
 done
 echo "                                                    done <<<"
 #############################################################################
