@@ -183,7 +183,8 @@ echo "------------------------------------------------------------"
 #############################################################################
 # Install pathogen
 #===========================================================================#
-echo ">>> Installing [Pathogen] for Vim..." 
+MSG=">>> Installing [Pathogen] for Vim..." 
+printf "$MSG"
 
 mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
@@ -191,9 +192,13 @@ if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]
 then
     if [ ! $(which curl) ]; then sudo apt-get install -y curl; fi;
 	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
-	echo "                      [Pathogen] installation completed. <<<"
+    log_msg "[Installation competed.]" "GREEN" "$MSG"
+    printf " <\n"
+	#echo "                      [Pathogen] installation completed. <<<"
 else
-	echo "                           [Pathogen] already installed. <<<"
+	#echo "                           [Pathogen] already installed. <<<"
+    log_msg "[Already up-to-date]" "GREEN" "$MSG"
+    printf " <\n"
 fi
 echo
 
@@ -252,12 +257,12 @@ do
         # My misunderstanding of git pull.
         # need to use git reset in order to copy from commit to working dir
         # echo "already up-to-date <"
-        log_msg "[already up-to-date]" "GREEN" "$MSG"
+        log_msg "[Already up-to-date]" "GREEN" "$MSG"
         printf " <\n"
         cd ..
     else
         git clone ${repo[$i]} $i -q # quite mode
-        log_msg "[installation done]" "GREEN" "$MSG"
+        log_msg "[Installation done]" "GREEN" "$MSG"
         printf " <\n"
     fi
 done
