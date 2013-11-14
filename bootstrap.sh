@@ -38,34 +38,34 @@ OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=vim                      # vim dir
 BUNDLEDIR=vim/bundle            # vim plugin dir
 
-NORMAL=$(tput sgr0) # len = 6
-
 # log_msg() function takes in previous MSG's COL
 # param (STATUS, COLOR, MSG)
 log_msg() {
 
+    # variables
     STATUS=$1
     case $2 in
-        BLACK:) 0
+        BLACK ) COLOR=0
             ;;
-        RED:) 1
+        RED ) COLOR=1
             ;;
-        GREEN:) 2
+        GREEN ) COLOR=2
             ;;
-        YELLOW:) 3
+        YELLOW ) COLOR=3
             ;;
-        BLUE:) 4
+        BLUE ) COLOR=4
             ;;
-        MAGENTA:) 5
+        MAGENTA ) COLOR=5
             ;;
-        CYAN:) 6
+        CYAN ) COLOR=6
             ;;
-        WHITE:) 7
+        WHITE ) COLOR=7
             ;;
     esac
     MSG=$3
-    # FIXTHIS!!!!!!
-    COLORSTATUS="$(tput setaf $2)${STATUS}$NORMAL"
+
+    NORMAL=$(tput sgr0)
+    COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
 
     let COL=$(tput cols)-3-${#MSG}-${#STATUS}+${#COLORSTATUS}
     # tput cols = terminal width
@@ -83,10 +83,6 @@ log_msg() {
         printf "%${COL}s\n"  "$COLORSTATUS"
     fi
 }
-
-# printf "%${COL}s" "$STATUS"
-# current col - [DONE] + GREEN and NORMAL
-# The let command carries out arithmetic operations on variables.
 
 # Declare vim plugin repo associate matrix
 #===========================================================================#
@@ -141,7 +137,7 @@ do
     if [ ! -e "$f" ]
     then
         MSG="  > Cleaning up broken link [$(basename "$f")]..."
-        printf $MSG
+        printf "$MSG"
         mv ~/$(basename "$f") $OLDDIR
         log_msg "[OK]" "GREEN" $MSG
     fi
@@ -162,7 +158,7 @@ do
     if [ -e ~/.$(basename "$f") ]
     then
         MSG="  > Backing up old [$(basename "$f")]..."
-        printf $MSG
+        printf "$MSG"
         mv ~/.$(basename "$f") $OLDDIR
         log_msg "[OK]" "GREEN" $MSG
     fi
@@ -233,7 +229,7 @@ for i in "${!repo[@]}"
     # support quotes for repo names w/ space in it.
 do
     MSG="  > Installing [$i]... " 
-    printf $MSG
+    printf "$MSG"
     # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]  
     # check if plugin dir exists
     # and there is something inside the plugin dir
@@ -265,11 +261,9 @@ echo ">>> Creating symbolic links..."
 for f in $DOTFILEDIR/*
 do
     MSG="  > Linking file [$(basename "$f")]..."
-    printf $MSG
+    printf "$MSG"
     ln -s $f ~/.$(basename "$f")
     log_msg "[OK]" "GREEN" $MSG
-    #echo "done <"
-    #printf "%${COL}s\n" "$STATUS"
 done
 echo "                                                    done <<<"
 #############################################################################
