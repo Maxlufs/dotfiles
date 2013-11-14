@@ -38,9 +38,6 @@ OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=vim                      # vim dir
 BUNDLEDIR=vim/bundle            # vim plugin dir
 
-RED=$(tput setaf 1)
-YELLOW=
-GREEN=$(tput setaf 2) # len = 5
 NORMAL=$(tput sgr0) # len = 6
 
 # log_msg() function takes in previous MSG's COL
@@ -48,14 +45,27 @@ NORMAL=$(tput sgr0) # len = 6
 log_msg() {
 
     STATUS=$1
-    COLOR=$2
+    case $2 in
+        BLACK:) 0
+            ;;
+        RED:) 1
+            ;;
+        GREEN:) 2
+            ;;
+        YELLOW:) 3
+            ;;
+        BLUE:) 4
+            ;;
+        MAGENTA:) 5
+            ;;
+        CYAN:) 6
+            ;;
+        WHITE:) 7
+            ;;
+    esac
     MSG=$3
     # FIXTHIS!!!!!!
-    COLORSTATUS="$COLOR${STATUS}$NORMAL"
-
-    # REDSTATUS="$RED${STATUS}$NORMAL"
-    # YELLOWSTATUS="$YELLOW${STATUS}$NORMAL"
-    # GREENSTATUS="$GREEN${STATUS}$NORMAL"
+    COLORSTATUS="$(tput setaf $2)${STATUS}$NORMAL"
 
     let COL=$(tput cols)-3-${#MSG}-${#STATUS}+${#COLORSTATUS}
     # tput cols = terminal width
