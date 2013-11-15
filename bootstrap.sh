@@ -19,7 +19,7 @@
 #===========================================================================#
 # TODO                                                                      #
 # M: add bash 3.00 support                                                  #
-# M: prompt users and ask if they what to git push for backup               #
+# M: prompt users and ask if they what to back up old files                 #
 # S: add report of system default env, eg. uname,bash,etc                   #
 # S: git push backup (only when there is change in git diff)                #
 # S: git push backup (based on if ssh keys are generated)                   #
@@ -38,12 +38,14 @@ OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=vim                      # vim dir
 BUNDLEDIR=vim/bundle            # vim plugin dir
 
-# log_msg() function takes in previous MSG's COL
-# param (STATUS, COLOR, MSG)
+# log_msg() function 
+# input: (STATUS, COLOR, MSG)
+# output: colored status in the same line with MSG
+#===========================================================================#
 log_msg() {
 
-    # variables
     STATUS=$1
+    # tput setaf colors
     case $2 in
         BLACK ) COLOR=0
             ;;
@@ -64,10 +66,9 @@ log_msg() {
     esac
     MSG=$3
 
-    MAXCOL=70
-    # MAXCOL=$(tput cols)
-    OFFSET=4    # This is for '<' or '<<<'
-    NORMAL=$(tput sgr0)
+    MAXCOL=70                   # MAXCOL=$(tput cols)
+    OFFSET=4                    # This is for '<' or '<<<'
+    NORMAL=$(tput sgr0)         # Normal color mode
     COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
 
     let COL=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
@@ -77,9 +78,10 @@ log_msg() {
     # STATUS = text
     # COLORSTATUS = wrapped text
 
-    if [[ ${#MSG} -ge ${COL} ]]
+    if [[ ${#MSG} -ge ${COL} ]] 
+        # if MSG length too long, then print in new line
     then
-        let COLFORLONG=$MAXCOL-$OFFSET-${#STATUS}+${#COLORSTATUS}
+        let COLFORLONG=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#STATUS}
         # new line, need a new COL, i.e. ${#MSG} = 0
         printf "\n%${COLFORLONG}s"  "$COLORSTATUS"
     else
@@ -241,7 +243,7 @@ echo
 # Install vim plugins
 #===========================================================================#
 cd $BUNDLEDIR
-echo ">>> Installing Submodule plugins for Vim... <<<" 
+echo ">>> Installing Submodule plugins for Vim..." 
 for i in "${!repo[@]}"    
     # support quotes for repo names w/ space in it.
 do
@@ -295,7 +297,7 @@ printf " <<<\n"
 echo "----------------------------------------------------------------------"
 
 #############################################################################
-# Back up automatically to github
+# Back up to github
 #===========================================================================#
 cd $DOTFILEDIR
 
