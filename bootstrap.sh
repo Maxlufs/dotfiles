@@ -307,7 +307,7 @@ do
     read -p "Do you wish to back up to GitHub this time? [Y/n] " yn
     case $yn in
         [Yy]*|"" ) 
-            echo ">>> Backing up to dotfiles.git... <<<" 
+            echo ">>> Backing up to dotfiles.git..." 
             git add .
             if [[ $(git diff HEAD) ]]
             then
@@ -318,6 +318,8 @@ do
             else
                 echo "Nothing to commit (working directory clean)" 
             fi
+            log_msg "[OK]" "GREEN" ""
+            printf " <<<\n"
             break;;
         [Nn]* ) 
             break;;
@@ -327,6 +329,7 @@ do
             ;;
     esac
 done
+
 #############################################################################
 
 echo "======================================================================"
