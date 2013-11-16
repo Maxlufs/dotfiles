@@ -1,2 +1,2 @@
 " Leader key
-let mapleader = ","
+" let mapleader = ","
