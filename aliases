@@ -82,7 +82,6 @@ alias calc='bc -l'
 # path
 alias path='echo -e ${PATH//:/\\n}'
 
-
 # tree Version 1.6.0
 alias tr='tree -Ch --du'
 alias tree='tree -Ch --du'
