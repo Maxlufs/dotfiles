@@ -106,6 +106,7 @@ repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
 repo["nerdtree"]="https://github.com/scrooloose/nerdtree.git"
 repo["powerline"]="https://github.com/Lokaltog/powerline.git"
 repo["airline"]="https://github.com/bling/vim-airline.git"
+repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
 #############################################################################
 
 
