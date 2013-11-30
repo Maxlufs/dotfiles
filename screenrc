@@ -37,3 +37,5 @@ idle 600 blanker
 
 # key bindings
 bind ^k kill    # default C-a K k is a bit clumbsy, keep pressing ctrl
+
+termcapinfo xterm* ti@:te@
