@@ -1,2 +1,0 @@
-shopt -s extglob
-for f in /home/ubuntu/maxlufs/.dotfiles/!(*.*); do echo $f; done 

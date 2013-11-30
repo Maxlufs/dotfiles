@@ -5,13 +5,19 @@
     # URL: https://github.com/Maxlufs/dotfiles                          #
 #===========================================================================#
 
+screen -t vim 0
+screen -t sh 1
+
 hardstatus alwayslastline 
 hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
 # hardstatus string "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
 
 
+# Change default scrollback buffer
+defscrollback   30000
 autodetach      on      # default: on
 # C-a C-g toggles virtual bell
 vbell           off     # default: on
 # Trun off start message
 startup_message off     # default: on
+#defutf8        on      # default: off w/o -U
