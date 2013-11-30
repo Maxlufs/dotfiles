@@ -1,7 +1,30 @@
-# TODO
-# S: Test OS version, use dpkg or rpm
-#
+#===========================================================================#
+    # Filename: aliases                                                 #
+    # Description: shell aliases                                        #
+    # Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                #
+    # URL: https://github.com/Maxlufs/dotfiles                          #
+#===========================================================================#
+    # Usage:                                                            #
+    # source aliases @bashrc                                            #
+#===========================================================================#
+    # Contents:                                                         #
+    # 00. System checking                                               #
+    # 01. Navigation                                                    #
+    # 02. Backup old dotfiles to ~/.dotfiles_old/                       #
+    # 04. Installing vim plugins                                        #
+    # 03. Create symlinks to ~/.dotfiles/                               #
+#===========================================================================#
+ 
+#===========================================================================#
+# TODO                                                                      #
+# S: Test OS version, use dpkg or rpm                                       #
+# S: Test OS version, tree --du or -s                                       #
+#===========================================================================#
 
+
+#############################################################################
+# 00. System checking
+#===========================================================================#
 # PKG should not reuturn an '-a' list. Time effiency
 DISTRO=$(lsb_release -i | cut -f2)  
 if [ $DISTRO == 'CentOS' ]; then PKG='rpm -q';fi
@@ -11,7 +34,36 @@ if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
 # if [ $UID -ne 0 ]; then
 # alias reboot='sudo reboot'
 # fi
+
+# path
+alias path='echo -e ${PATH//:/\\n}'
+#############################################################################
+
  
+#############################################################################
+# 01. Navigation
+#===========================================================================#
+alias ..='cd ..'
+alias cd..='cd ..'
+# alias -='cd -'
+#
+# Shortcuts
+#Dropbox='/home/Dropbox'
+# mkdir, might be too verbose
+alias mkdir='mkdir -pv'
+
+# open files
+# gnome-open
+# kde-open
+# open -> openvt by default
+alias open="xdg-open"
+# mimeopen
+#############################################################################
+
+
+#############################################################################
+# 0. Highlight
+#===========================================================================#
 # ls
 alias ls='ls --color=auto'      # normal files
 alias ll='ls -lhp'              # normal files long format
@@ -24,23 +76,19 @@ alias grep='grep --colour=auto'
 alias egrep='egrep --colour=auto'
 alias fgrep='fgrep --colour=auto'
 
-#
-# Navigation
-alias ..='cd ..'
-alias cd..='cd ..'
-# alias -='cd -'
-#
-# Shortcuts
-#Dropbox='/home/Dropbox'
-
-# mkdir, might be too verbose
-alias mkdir='mkdir -pv'
-
-
 # colordiff
 if [ $(which colordiff) ]
 then alias diff='colordiff'
 fi
+#############################################################################
+
+
+#############################################################################
+# 0. Application
+#===========================================================================#
+# screen
+alias s='screen'
+alias sls='screen -ls'
 
 # trash
 if [ $(which trash-put) ]
@@ -52,7 +100,7 @@ alias apt-get='sudo apt-get'
 alias update='sudo apt-get update && sudo apt-get dist-upgrade'
 # alias update='sudo apt-get update'
 # alias upgrade='sudo apt-get dist-upgrade'
-# alias install='sudo apt-get install'
+# alias install='sudo apt-get install' system already has install
 alias autoremove='sudo apt-get autoremove'
 alias purge='sudo apt-get purge'
 
@@ -69,18 +117,9 @@ alias afs='sudo apt-file search'
 alias afsh='sudo apt-file show'
 alias afu='sudo apt-file update'
 
-# open files
-# gnome-open
-# kde-open
-# open -> openvt by default
-alias open="xdg-open"
-# mimeopen
 
 # calculator
 alias calc='bc -l'
-
-# path
-alias path='echo -e ${PATH//:/\\n}'
 
 # tree Version 1.6.0
 alias tr='tree -Ch --du'
@@ -96,4 +135,8 @@ alias t='tree -Ch --du -L 1'
 alias tt='tree -Ch --du -L 2'
 alias ttt='tree -Ch --du -L 3'
 alias tttt='tree -Ch --du -L 4'
-# use system color, human readable, du all dirs
+# -C use system color
+# -h human readable 
+# --du all dirs
+# Note: earlier versions only has -s show size
+#############################################################################
