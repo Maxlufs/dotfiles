@@ -120,7 +120,7 @@ repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
 echo "======================================================================"
 echo ">>>                      Starting bootstap...                      <<<"
 echo ">>>         Your system envion :                                   <<<"
-echo ">>>         Your bash version :                                    <<<"
+echo ">>>         Your shell version :                                   <<<"
 echo "======================================================================"
 #############################################################################
 

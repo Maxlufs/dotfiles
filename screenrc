@@ -5,7 +5,8 @@
     # URL: https://github.com/Maxlufs/dotfiles                          #
 #===========================================================================#
 
-term screen-256color
+# term screen-256color # This one is way too bright
+term xterm-256color
 # emulate .logout message
 pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
 screen -t vim 0
