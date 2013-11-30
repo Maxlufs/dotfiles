@@ -12,14 +12,14 @@ screen -t vim 0
 screen -t sh 1
 
 hardstatus alwayslastline 
-hardstatus string '%{= kg}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%D %M.%d %{W}%C%A%{g}]'
+hardstatus string '%{= kg}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b Yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%D %M.%d %{W}%C%A%{g}]'
 # That's a classic one
 # hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
 # hardstatus string "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
 
 
 # Change default scrollback buffer
-defscrollback   30000   # default: 100
+defscrollback   100000  # default: 100
 # C-a _ monitor silence
 silencewait     15      # default: 30
 
