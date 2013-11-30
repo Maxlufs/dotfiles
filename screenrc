@@ -1,2 +1,17 @@
+#===========================================================================#
+    # Filename: screenrc                                                #
+    # Description: screenrc config                                      #
+    # Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                #
+    # URL: https://github.com/Maxlufs/dotfiles                          #
+#===========================================================================#
+
+hardstatus alwayslastline 
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
+# hardstatus string "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
+
+
+autodetach      on      # default: on
 # C-a C-g toggles virtual bell
-vbell off
+vbell           off     # default: on
+# Trun off start message
+startup_message off     # default: on

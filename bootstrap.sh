@@ -27,7 +27,7 @@
 # S: git push backup (only when there is change in git diff)                #
 # S: git push backup (based on if ssh keys are generated)                   #
 # S: copy vim :helptags locations                                           #
-# S: only link files w/o extensions                                         #
+# S: only link files w/o extensions                                    [OK] #
 # C: add a Welcome title of script output                                   #
 # C: add progress bar while git clone/pull/push                             #
 #===========================================================================#
