@@ -289,8 +289,11 @@ echo "----------------------------------------------------------------------"
 # 05. Creating symlinks
 #===========================================================================#
 echo ">>> Creating symbolic links..." 
+
+shopt -s extglob
+# had to use extended pattern matching syntax in bash
 # looping over all files without extension, not yet perfect
-for f in $DOTFILEDIR/*[.]*
+for f in $DOTFILEDIR/!(*.*)
 do
     MSG="  > Linking file [$(basename "$f")]..."
     printf "$MSG"
