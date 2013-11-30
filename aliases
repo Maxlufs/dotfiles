@@ -89,6 +89,7 @@ fi
 # screen
 alias s='screen'
 alias sls='screen -ls'
+alias sr='screen -r'
 
 # trash
 if [ $(which trash-put) ]
