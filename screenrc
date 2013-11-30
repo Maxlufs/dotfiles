@@ -12,7 +12,7 @@ screen -t vim 0
 screen -t sh 1
 
 hardstatus alwayslastline 
-hardstatus string '%{= kG}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%m/%d %{W}%C%A%{g}]'
+hardstatus string '%{= kg}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%D %M.%d %{W}%C%A%{g}]'
 # That's a classic one
 # hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
 # hardstatus string "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
@@ -28,8 +28,11 @@ autodetach      on      # default: on
 vbell           off     # default: on
 # Trun off start message
 startup_message off     # default: on
-#defutf8        on      # default: off w/o -U
+defutf8         on      # default: off w/o -U
 
 # Screensaver
 blankerprg cmatrix
 idle 300 blanker
+
+# key bindings
+bind ^k kill    # default C-a K k is a bit clumbsy, keep pressing ctrl
