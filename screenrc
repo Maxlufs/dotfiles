@@ -6,7 +6,8 @@
 #===========================================================================#
 
 # term screen-256color # This one is way too bright
-term xterm-256color
+# term xterm-256color
+term xterm
 # emulate .logout message
 pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
 screen -t vim 0
@@ -33,7 +34,7 @@ defutf8         on      # default: off w/o -U
 
 # Screensaver
 blankerprg cmatrix
-idle 300 blanker
+idle 600 blanker
 
 # key bindings
 bind ^k kill    # default C-a K k is a bit clumbsy, keep pressing ctrl
