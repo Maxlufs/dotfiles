@@ -14,7 +14,10 @@ hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u
 
 
 # Change default scrollback buffer
-defscrollback   30000
+defscrollback   30000   # default: 100
+# C-a _ monitor silence
+silencewait     15      # default: 30
+
 autodetach      on      # default: on
 # C-a C-g toggles virtual bell
 vbell           off     # default: on
