@@ -341,6 +341,8 @@ if [[ $(git diff HEAD) ]]; then
     done
 else
     echo "Nothing to commit (working directory clean)" 
+    log_msg "[OK]" "GREEN" ""
+    printf " <<<\n"
 fi
 
 #############################################################################
