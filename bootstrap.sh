@@ -320,12 +320,13 @@ git add -u
 if [[ $(git diff HEAD) ]]; then
     n=1
     while [ $n -le 3 ]; do
-        read -p "Do you wish to back up to GitHub this time? [Y/n] " yn
+        read -p "Files changed. Do you wish to back up to GitHub this time? [Y/n] " yn
         case $yn in
             [Yy]*|"" ) 
                 echo "Please type in your commit message:" 
                 read -e -i "$defaultMsg" subject    # commit msg subject
                 body=$(</dev/stdin)                 # commit msg body
+                echo
                 git commit -m "$subject" -m "$body"
                 # git push
                 log_msg "[OK]" "GREEN" ""
