@@ -317,17 +317,23 @@ defaultMsg="automatic backup"
 echo ">>> Backing up to dotfiles.git..." 
 git add .
 git add -u
+echo "  > Changes to be committed:"
+# git status -s   
+# print out all modified files with indent, awk might be easier
+# need git config color.status always to pipe color to sed.
+git status -s | sed 's/^/    /' 
+
 if [[ $(git diff HEAD) ]]; then
     n=1
     while [ $n -le 3 ]; do
-        read -p "Files changed. Do you wish to back up to GitHub this time? [Y/n] " yn
+        read -p "Do you wish to back up to GitHub this time? [Y/n] " yn
         case $yn in
             [Yy]*|"" ) 
                 echo "Please type in your commit message:" 
                 read -e -i "$defaultMsg" subject    # commit msg subject
                 body=$(</dev/stdin)                 # commit msg body
                 echo
-                git commit -m "$subject" -m "$body"
+                git commit -m "$subject" -m "$body" # git commit both subject and body
                 # git push
                 log_msg "[OK]" "GREEN" ""
                 printf " <<<\n"

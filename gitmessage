@@ -3,3 +3,14 @@ subject line
 what happened
 
 [ticket: X]
+
+M = modify
+A = add
+D = delete
+R = rename
+C = copy
+U = update
+
+other verbs: 
+remove
+refactor
