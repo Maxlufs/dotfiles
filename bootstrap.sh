@@ -312,20 +312,20 @@ echo "----------------------------------------------------------------------"
 # 06. Back up to github
 #===========================================================================#
 cd $DOTFILEDIR
+defaultMsg="automatic backup"
 
 n=1
-while [ $n -le 3 ]
-do
+while [ $n -le 3 ]; do
     read -p "Do you wish to back up to GitHub this time? [Y/n] " yn
     case $yn in
         [Yy]*|"" ) 
             echo ">>> Backing up to dotfiles.git..." 
             git add .
-            if [[ $(git diff HEAD) ]]
-            then
+            if [[ $(git diff HEAD) ]]; then
                 echo "Please type in your commit message:" 
-                read msg
-                git commit -m "$msg"
+                read -e -i "$defaultMsg" subject
+                body=($(< /dev/stdin))
+                git commit -m "$subject"
                 git push
             else
                 echo "Nothing to commit (working directory clean)" 

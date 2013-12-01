@@ -8,8 +8,23 @@
 	st = status
 	co = checkout
 	br = branch
+	bra = branch -a
 	ci = commit
 	ls = ls-files
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 [core]
-	excludesfile = /home/ubuntu/maxlufs/.gitignore_global
+	excludesfile = ~/.gitignore_global
+[color]
+	diff = auto
+	branch = auto
+	status = auto
+	ui = auto
+	interactive = auto
+[color "branch"]
+	local = yellow
+	remote = cyan
+	current = green bold
+[color "status"]
+	header = normal
+[commit]
+	template = ~/.gitmessage
