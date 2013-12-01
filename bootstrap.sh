@@ -336,7 +336,7 @@ if [[ $(git diff HEAD) ]]; then
                 body=$(</dev/stdin)                        # commit msg body
                 echo
                 # git commit both subject and body
-                git commit -m "$subject" -m "$body" | sed 's/^/    /' 
+                git commit -m "$subject" -m "$body" | sed 's/^/  > /' 
                 # git push
                 log_msg "[OK]" "GREEN" ""
                 printf " <<<\n"
