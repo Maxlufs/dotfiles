@@ -1,0 +1,15 @@
+[user]
+	name = Maxlufs
+	email = maxlufs@hotmail.com
+[merge]
+	tool = vimdiff
+[alias]
+	unstage = reset HEAD --
+	st = status
+	co = checkout
+	br = branch
+	ci = commit
+	ls = ls-files
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[core]
+	excludesfile = /home/ubuntu/maxlufs/.gitignore_global
