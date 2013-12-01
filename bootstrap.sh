@@ -326,14 +326,17 @@ git status -s | sed 's/^/    /'
 if [[ $(git diff HEAD) ]]; then
     n=1
     while [ $n -le 3 ]; do
-        read -p "Do you wish to back up to GitHub this time? [Y/n] " yn
+        read -p "  > Do you wish to back up to GitHub this time? [Y/n] " yn
         case $yn in
             [Yy]*|"" ) 
-                echo "Please type in your commit message:" 
-                read -e -i "$defaultMsg" subject    # commit msg subject
-                body=$(</dev/stdin)                 # commit msg body
+                echo "  > Please type in your commit message:" 
+                read -e -i "$defaultMsg" -p "    " subject # commit msg subject
+                echo "  > Please type in your commit message body: [Press EOF to submit]" 
                 echo
-                git commit -m "$subject" -m "$body" # git commit both subject and body
+                body=$(</dev/stdin)                        # commit msg body
+                echo
+                # git commit both subject and body
+                git commit -m "$subject" -m "$body"        
                 # git push
                 log_msg "[OK]" "GREEN" ""
                 printf " <<<\n"
