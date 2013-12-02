@@ -140,4 +140,7 @@ alias tttt='tree -Ch --du -L 4'
 # -h human readable 
 # --du all dirs
 # Note: earlier versions only has -s show size
+
+# ranger
+alias r='ranger'
 #############################################################################
