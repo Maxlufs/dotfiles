@@ -9,6 +9,7 @@
 term xterm-256color # need to set $TERM to xterm-256color in bashrc
 # emulate .logout message
 pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+# startup tab names
 screen -t vim 0
 screen -t sh 1
 
@@ -30,7 +31,8 @@ vbell           off     # default: on
 # Trun off start message
 startup_message off     # default: on
 defutf8         on      # default: off w/o -U
-
+# support alternate screens so that vim restores shell after exit
+altscreen       on      # default: off
 # Screensaver
 blankerprg cmatrix
 idle 600 blanker
