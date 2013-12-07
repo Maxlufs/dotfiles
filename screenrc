@@ -38,6 +38,7 @@ blankerprg cmatrix
 idle 600 blanker
 
 # key bindings
+bind k          # remove dangerous kill key when in vim
 bind ^k kill    # default C-a K k is a bit clumbsy, keep pressing ctrl
 
 termcapinfo xterm* ti@:te@
