@@ -51,6 +51,7 @@ termcapinfo xterm* ti@:te@
 # set default dir for buffer and hardcopy
 # bufferfile "$HOME/.screen/exchange"
 # hardcopydir "$HOME/.screen/hardcopy"
+# logfile ~/.backups/.screen/screen_%y-%m-%d_%n
 
 # Allow bold colors
 attrcolor b ".I"
