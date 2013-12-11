@@ -30,9 +30,10 @@ if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC
 endif
    
-"
-" " In Makefiles DO NOT use spaces instead of tabs
-" autocmd FileType make setlocal noexpandtab
+
+" In Makefiles DO NOT use spaces instead of tabs
+autocmd FileType make setlocal noexpandtab
+
 " " In Ruby files, use 2 spaces instead of 4 for tabs
 " autocmd FileType ruby setlocal sw=2 ts=2 sts=2
 
@@ -42,10 +43,11 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 03. Theme/Colors 								                            "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set t_Co=256 " enable 256-color mode.
+set t_Co=256 " enable 256-color mode.
 " syntax enable " enable syntax highlighting (previously syntax on).
-" colorscheme molokai " set colorscheme
-"
+" colorscheme wombat256mod " set colorscheme
+" colorscheme wombat
+
 " " Prettify JSON files
 " autocmd BufRead,BufNewFile *.json set filetype=json
 " autocmd Syntax json sou ~/.vim/syntax/json.vim
@@ -70,7 +72,7 @@ set ignorecase " Make searches case-insensitive.
 set showmatch " Show matching parenthesis
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 05. Text Formatting/Layout 							                    "
+" 05. Text Font/Formatting/Layout 						                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set autoindent " auto-indent
 set tabstop=4 " tab spacing
@@ -103,6 +105,11 @@ set noswapfile
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 06. Mapping                							                    "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader key
+" let mapleader = ","
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
@@ -121,6 +128,21 @@ if &t_Co > 2 || has("gui_running")
   syntax on
   set hlsearch
 endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 07. Plugins                							                    "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Latex-Suite
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_MultipleCompileFormats='pdf, aux'"
+" OPTIONAL
+let g:tex_flavor='latex'
+" """""""""""""""""""""
+" vim-airline 
+
+" Pathogen
+execute pathogen#infect()
+
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -160,18 +182,15 @@ if !exists(":DiffOrig")
 endif
 
 "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Pathogen
-execute pathogen#infect()
 
 "
-" Load custom settings
-source ~/.vim/custom/color.vim
-source ~/.vim/custom/font.vim
-"source ~/.vim/custom/functions.vim
-source ~/.vim/custom/mappings.vim
-source ~/.vim/custom/settings.vim
-source ~/.vim/custom/plugins.vim
+" Load custom settings [deprecated]
+" source ~/.vim/custom/color.vim
+" source ~/.vim/custom/font.vim
+" source ~/.vim/custom/functions.vim
+" source ~/.vim/custom/mappings.vim
+" source ~/.vim/custom/settings.vim
+" source ~/.vim/custom/plugins.vim
 "
 " IMPORTANT: win32 users will need to have 'shellslash' set so that latex
 " can be called correctly.
@@ -182,8 +201,7 @@ set shellslash
 " program to always generate a file-name.
 set grepprg=grep\ -nH\ $*
 
-" OPTIONAL
-let g:tex_flavor='latex'
 
 " transparent background for vim
 hi Normal ctermbg=NONE
+colorscheme wombat256mod " set colorscheme

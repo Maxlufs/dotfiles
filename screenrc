@@ -1,23 +1,28 @@
-#===========================================================================#
+#=========================================================================#
     # Filename: screenrc                                                #
     # Description: screenrc config                                      #
     # Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                #
     # URL: https://github.com/Maxlufs/dotfiles                          #
-#===========================================================================#
+#=========================================================================#
 
-# term screen-256color 
-term xterm-256color # need to set $TERM to xterm-256color in bashrc
+term screen-256color
+# term xterm-256color # need to set $TERM to xterm-256color in bashrc
+# term rxvt-256color 
 # emulate .logout message
 pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+
+# screen default tab sessions
 screen -t vim 0
 screen -t sh 1
 
+# status line settings
 hardstatus alwayslastline 
-hardstatus string '%{= kg}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b Yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%D %M.%d %{W}%C%A%{g}]'
+hardstatus string '%{= mW} %H%? %1`%? %{= kg} %= %{= kw}%-w%{+b Yk} %n*%t%?(%u)%? %{-}%+w %= %{g} [%{B}%D %M.%d %{W}%C%A%{g}]'
+# original
+# hardstatus string '%{= kg}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b Yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%D %M.%d %{W}%C%A%{g}]'
 # That's a classic one
 # hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %m-%d %{W}%c %{g}]'
 # hardstatus string "%{=b}%{G} Screen(s): %{b}%w %=%{kG}%C%A  %D, %M/%d/%Y "
-
 
 # Change default scrollback buffer
 defscrollback   100000  # default: 100
@@ -30,6 +35,8 @@ vbell           off     # default: on
 # Trun off start message
 startup_message off     # default: on
 defutf8         on      # default: off w/o -U
+# Turn of alternate screen
+altscreen       on
 
 # Screensaver
 blankerprg cmatrix
@@ -38,4 +45,17 @@ idle 600 blanker
 # key bindings
 bind ^k kill    # default C-a K k is a bit clumbsy, keep pressing ctrl
 
+# use X scrolling mechanism
 termcapinfo xterm* ti@:te@
+
+# set default dir for buffer and hardcopy
+# bufferfile "$HOME/.screen/exchange"
+# hardcopydir "$HOME/.screen/hardcopy"
+# logfile ~/.backups/.screen/screen_%y-%m-%d_%n
+
+# Allow bold colors
+attrcolor b ".I"
+# set colors AB = background, AF = foreground
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E38;5;%dm'
+# Erase background with current bg color
+defbce "on"

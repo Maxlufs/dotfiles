@@ -12,6 +12,8 @@
 	ci = commit
 	ls = ls-files
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	ad = add
+	cim = commit -m
 [core]
 	excludesfile = ~/.gitignore_global
 [color]
