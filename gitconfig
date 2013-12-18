@@ -17,17 +17,5 @@
 	verbs = git log --pretty=format:'%s' | cut -d \\  -f 1 | sort | uniq -c | sort -nr
 [core]
 	excludesfile = ~/.gitignore_global
-[color]
-	diff = auto
-	branch = auto
-	status = auto
-	ui = auto
-	interactive = auto
-[color "branch"]
-	local = yellow
-	remote = cyan
-	current = green bold
-[color "status"]
-	header = normal
 [commit]
 	template = ~/.gitmessage
