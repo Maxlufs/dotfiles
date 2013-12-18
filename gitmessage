@@ -1,17 +1,62 @@
 subject line
 
-what happened
-
-[ticket: X]
-
-verbs:
-M = modify
-A = add
-D = delete
-R = rename
-C = copy
-U = update
-
-other verbs: 
-remove
-refactor
+# NAME
+#     gitmessage - template for git commit messages
+# 
+# SYNOPSIS
+#     FILE OPTION: @DIR
+#     CODE OPTION: Contents @FILE
+#     [ticketId][test|part|fix][OPTION] Contents @FILE
+# 
+# 
+# DESCRIPTION
+#     A systematic way of mangaing git commit messages.
+#     Use git verbs, which is an alias, to see a list of commit verbs
+#
+# FILE MANIPULATION OPTION
+#     INC = include
+#         Inc @newfiles
+#         Inc @newdir/
+#     REN = rename 
+#         Ren @oldfile to @newfile
+#         Ren @olddir/ to @newdir/
+#     COP = copy
+#         Cop @oldfile to @newfile
+#         Cop @olddir/ to @newdir/
+#     MOV = move
+#         Mov @oldfile to @newfile
+#         Mov @olddir/ to @newdir/
+#     DEL = delete 
+#         Del @oldfiles
+#         Del @olddir/
+# 
+# CODE OPTION
+#     Add = add new functions
+#         Add myFunc() @file
+#     Rem = remove functions
+#         Rem myFunc() @file
+#     Mod = modify functions
+#         Mod myFunc() @file
+#     Ref = refactor code without add/remove/modifying any feature
+#         Ref myFunc() @file
+#
+#     Com = comment
+#         Com myFunc() @file
+#         Com TODO @file
+# 
+# BUG HANDLING
+#     [ticketId][new|test|part|fix][Add|Rem|Mod|Ref]Contents @files
+#         [#250001][new]Rem buggyFunc() @file
+#         [#253012][fix]Rem buggyFunc() @file
+#         [#254238][part]Rem buggyFunc() @file
+#         [#259492][test]Add magicFunc(); Rem maybeBuggyFunc() @file
+# 
+# Bug = bug
+#     Bug #253012
+#
+# Version control:
+# Rel = Release version
+#
+# GIT DEFAULTS
+#     Merge
+# 
