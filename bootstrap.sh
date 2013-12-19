@@ -320,7 +320,8 @@ git add -u
 echo "  > Changes to be committed:"
 # git status -s   
 # print out all modified files with indent, awk might be easier
-# need git config color.status always to pipe color to sed.
+# need git config color.status always to pipe color to sed. 
+# But may have problems with vim-fugitive
 git status -s | sed 's/^/    /' 
 
 if [[ $(git diff HEAD) ]]; then
