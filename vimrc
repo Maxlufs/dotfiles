@@ -203,5 +203,5 @@ set grepprg=grep\ -nH\ $*
 
 
 " transparent background for vim
-hi Normal ctermbg=NONE
 colorscheme wombat256mod " set colorscheme
+hi Normal ctermbg=NONE
