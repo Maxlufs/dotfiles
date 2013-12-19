@@ -17,5 +17,8 @@
 	verbs = git log --pretty=format:'%s' | cut -d \\  -f 1 | sort | uniq -c | sort -nr
 [core]
 	excludesfile = ~/.gitignore_global
+	pager = less -R
 [commit]
 	template = ~/.gitmessage
+[color]
+	ui = auto
