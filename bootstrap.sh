@@ -126,7 +126,7 @@ repo["mwutils"]="https://github.com/MarcWeber/vim-addon-mw-utils.git"
 # 01. Header
 #=========================================================================#
 echo "======================================================================"
-echo ">>>                      Starting bootstap...                      <<<"
+echo ">>>                      Starting bootstrap...                     <<<"
 echo ">>>         Your system envion :                                   <<<"
 echo ">>>         Your shell version :                                   <<<"
 echo "======================================================================"
