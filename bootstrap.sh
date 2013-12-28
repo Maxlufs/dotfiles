@@ -266,11 +266,15 @@ do
     then
         cd $i 
         git pull -q                 # quite mode
-        git reset --hard -q origin/master 
-        # My misunderstanding of git pull.
-        # need to use git reset in order to copy from commit to working dir
-        # echo "already up-to-date <"
-        log_msg "[Already up-to-date]" "GREEN" "$MSG"
+        if [ $(git diff HEAD) ]; then
+            git reset --hard -q origin/master 
+            # My misunderstanding of git pull.
+            # need to use git reset in order to copy from commit to working dir
+            log_msg "[Update done]" "YELLOW" "$MSG"
+            # echo "already up-to-date <"
+        else
+            log_msg "[Already up-to-date]" "GREEN" "$MSG"
+        fi
         printf " <\n"
         cd ..
     else
