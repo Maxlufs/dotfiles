@@ -114,6 +114,7 @@ repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
 repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
 repo["surround"]="https://github.com/tpope/vim-surround.git"
+repo["gundo"]="http://github.com/sjl/gundo.vim.git"
 
 # vim snipmate dependecies
 repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
