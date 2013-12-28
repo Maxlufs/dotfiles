@@ -105,7 +105,6 @@ repo["wombat"]="https://github.com/vim-scripts/Wombat.git "
 repo["wombat256"]="https://github.com/vim-scripts/wombat256.vim.git"
 
 # vim plugins
-
 PATHOGENREPO="https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim"
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
 repo["nerdtree"]="https://github.com/scrooloose/nerdtree.git"
@@ -113,6 +112,12 @@ repo["powerline"]="https://github.com/Lokaltog/powerline.git"
 repo["airline"]="https://github.com/bling/vim-airline.git"
 repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
 repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
+repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
+
+# vim snipmate dependecies
+repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
+repo["tlib"]="git clone https://github.com/tomtom/tlib_vim.git"
+repo["mwutils"]="git clone https://github.com/MarcWeber/vim-addon-mw-utils.git"
 ###########################################################################
 
 ###########################################################################
