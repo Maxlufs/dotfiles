@@ -116,8 +116,8 @@ repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
 
 # vim snipmate dependecies
 repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
-repo["tlib"]="git clone https://github.com/tomtom/tlib_vim.git"
-repo["mwutils"]="git clone https://github.com/MarcWeber/vim-addon-mw-utils.git"
+repo["tlib"]="https://github.com/tomtom/tlib_vim.git"
+repo["mwutils"]="https://github.com/MarcWeber/vim-addon-mw-utils.git"
 ###########################################################################
 
 ###########################################################################
