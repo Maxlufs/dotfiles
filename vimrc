@@ -75,9 +75,9 @@ set showmatch " Show matching parenthesis
 " 05. Text Font/Formatting/Layout 						                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set autoindent " auto-indent
-set tabstop=4 " tab spacing
-set softtabstop=4 " unify
-set shiftwidth=4 " indent/outdent by 4 columns
+set tabstop=4 " tab columns
+set softtabstop=4 " how many columns when hit Tab in insert mode, unify this
+set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
 set shiftround " always indent/outdent to the nearest tabstop
 set expandtab " use spaces instead of tabs
 set smarttab " use tabs at the start of a line, spaces elsewhere
@@ -88,6 +88,7 @@ if v:progname =~? "evim"
   finish
 endif
 
+set list " show invisible chars
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -129,9 +130,20 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
+" Toggle the undo graph from Gundo
+nnoremap <F5> :GundoToggle<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 07. Plugins                							                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" indent-guides
+" let g:indent_guides_enable_on_vim_startup = 1 "default 0
+" let g:indent_guides_guide_size = 0 "default 0, equal to shiftwidth
+" let g:indent_guides_start_level = 1 "default 1
+" let g:indent_guides_space_guides = 1 "default 1, consider space as indent
+
+
+
 " Latex-Suite
 let g:Tex_DefaultTargetFormat = 'pdf'
 let g:Tex_MultipleCompileFormats='pdf, aux'"
@@ -202,6 +214,9 @@ set shellslash
 set grepprg=grep\ -nH\ $*
 
 
-" transparent background for vim
-colorscheme wombat256mod " set colorscheme
-hi Normal ctermbg=NONE
+" wombat256mod settings 
+colorscheme wombat256mod 
+set background=dark
+hi Normal ctermbg=NONE " transparent background for vim
+hi NonText ctermbg=NONE " end of line and unused space 
+hi SpecialKey ctermbg=NONE " eg. listchars, tabs 
