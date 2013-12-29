@@ -65,6 +65,10 @@ set t_Co=256 " enable 256-color mode.
 set number " show line numbers
 " set cul " highlight current line
 set laststatus=2 " last window always has a statusline
+if &t_Co > 2 || has("gui_running")
+	syntax on
+	set hlsearch
+endif
 " set nohlsearch " Don't continue to highlight searched phrases.
 set incsearch " But do highlight as you type your search.
 set ignorecase " Make searches case-insensitive.
@@ -74,13 +78,12 @@ set showmatch " Show matching parenthesis
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting/Layout                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set noexpandtab " do not use spaces instead of tabs
 set tabstop=4 " tab columns
 set softtabstop=0 " how many columns when hit Tab in insert mode, unify this
 set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
 set shiftround " always indent/outdent to the nearest tabstop
-" set smarttab 
-" use tabs at the start of a line, spaces elsewhere, this overwrites noexpandtab
+set noexpandtab " do not use spaces instead of tabs
+set smarttab " use shftwidth at the start of a line, spaces elsewhere
 set autoindent " auto-indent
 set copyindent
 set cindent " set c-style indent
@@ -122,8 +125,10 @@ set noswapfile
 " Don't use Ex mode, use Q for formatting hard returns
 map Q gq
 
-" pressing Enter twice in insert mode, cursor stays at current position
-:inoremap <CR> <CR>x<BS>
+" cursor stays at current position when inserting new lines, either <CR> or O
+inoremap <CR> <CR>x<BS>
+nnoremap o ox<BS>
+nnoremap O Ox<BS>
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
@@ -136,10 +141,6 @@ endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
-endif
 
 " Plugin mappings
 " Toggle the undo graph from Gundo
@@ -206,9 +207,7 @@ if !exists(":DiffOrig")
 endif
 
 "
-
-"
-" Load custom settings [deprecated]
+" Load custom settings (deprecated)
 " source ~/.vim/custom/color.vim
 " source ~/.vim/custom/font.vim
 " source ~/.vim/custom/functions.vim
@@ -225,10 +224,10 @@ set shellslash
 " program to always generate a file-name.
 set grepprg=grep\ -nH\ $*
 
-
 " wombat256mod settings 
 set background=dark
 colorscheme wombat256mod 
 hi Normal ctermbg=NONE " transparent background for vim
 hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space 
 hi SpecialKey ctermbg=NONE ctermfg=darkgray" eg. listchars, tabs 
+
