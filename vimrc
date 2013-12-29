@@ -117,10 +117,13 @@ set noswapfile
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 06. Mapping                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Leader key, default is fine, comma overrites reverse search next
+" Leader key, default is fine
 " let mapleader = ","
-" Don't use Ex mode, use Q for formatting
+" Don't use Ex mode, use Q for formatting hard returns
 map Q gq
+
+" pressing Enter twice in insert mode, cursor stays at current position
+:inoremap <CR> <CR>x<BS>
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
@@ -138,13 +141,14 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
+" Plugin mappings
 " Toggle the undo graph from Gundo
 nnoremap <F5> :GundoToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 07. Plugins                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" indent-guides
+" indent-guides (deprecated)
 " let g:indent_guides_enable_on_vim_startup = 1 "default 0
 " let g:indent_guides_guide_size = 0 "default 0, equal to shiftwidth
 " let g:indent_guides_start_level = 1 "default 1
@@ -223,8 +227,8 @@ set grepprg=grep\ -nH\ $*
 
 
 " wombat256mod settings 
-colorscheme wombat256mod 
 set background=dark
+colorscheme wombat256mod 
 hi Normal ctermbg=NONE " transparent background for vim
 hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space 
 hi SpecialKey ctermbg=NONE ctermfg=darkgray" eg. listchars, tabs 
