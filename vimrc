@@ -1,26 +1,26 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " Filename: .vimrc													"
-    " Maintainer: Maximilian Q. Wang <maxlufs@gmail.com> 				"
-    " URL: https://github.com/Maxlufs/dotfiles 							"
+    " Filename: .vimrc                                                      "
+    " Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                "
+    " URL: https://github.com/Maxlufs/dotfiles.git                      "
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " Contents: 														"
-    " 00. Custom .................. Custom Vim settings 				"
-    " 01. General ................. General Vim behavior 				"
-    " 02. Events .................. General autocmd events				"
-    " 03. Theme/Colors ............ Colors, fonts, etc. 				"
-    " 04. Vim UI .................. User interface behavior 			"
-    " 05. Text Formatting/Layout .. Text, tab, indentation related 		"
+    " Contents:                                                         "
+    " 00. Custom .................. Custom Vim settings                 "
+    " 01. General ................. General Vim behavior                "
+    " 02. Events .................. General autocmd events              "
+    " 03. Theme/Colors ............ Colors, fonts, etc.                 "
+    " 04. Vim UI .................. User interface behavior             "
+    " 05. Text Formatting/Layout .. Text, tab, indentation related      "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 01. General 																"
+" 01. General                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " get rid of Vi compatibility mode. SET FIRST!
 set nocompatible 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 02. Events 																"
+" 02. Events                                                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " filetype detection[ON] plugin[ON] indent[ON]
 filetype plugin indent on 
@@ -41,7 +41,7 @@ autocmd FileType make setlocal noexpandtab
 " set ofu=syntaxcomplete#Complete
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 03. Theme/Colors 															"
+" 03. Theme/Colors                                                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256 " enable 256-color mode.
 " syntax enable " enable syntax highlighting (previously syntax on).
@@ -60,7 +60,7 @@ set t_Co=256 " enable 256-color mode.
 " match OverLength /\%81v.\+/
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 04. Vim UI 																"
+" 04. Vim UI                                                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number " show line numbers
 " set cul " highlight current line
@@ -72,7 +72,7 @@ set ignorecase " Make searches case-insensitive.
 set showmatch " Show matching parenthesis
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 05. Text Font/Formatting/Layout 											"
+" 05. Text Font/Formatting/Layout                                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set noexpandtab " do not use spaces instead of tabs
 set tabstop=4 " tab columns
@@ -82,6 +82,7 @@ set shiftround " always indent/outdent to the nearest tabstop
 " set smarttab 
 " use tabs at the start of a line, spaces elsewhere, this overwrites noexpandtab
 set autoindent " auto-indent
+set copyindent
 set cindent " set c-style indent
 set cinoptions=(0,u0,U0 
 " int f(int x,
@@ -101,22 +102,22 @@ set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
 set backspace=indent,eol,start
 
 if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
+  set nobackup      " do not keep a backup file, use versions instead
 else
-  set backup		" keep a backup file
+  set backup        " keep a backup file
 endif
-set history=500		" keep 50 lines of command line history
-set ruler			" show the cursor position all the time
-set showcmd			" display incomplete commands
+set history=500     " keep 50 lines of command line history
+set ruler           " show the cursor position all the time
+set showcmd         " display incomplete commands
 set noswapfile
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 06. Mapping                												"
+" 06. Mapping                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Leader key
+" Leader key, default is fine, comma overrites reverse search next
 " let mapleader = ","
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -141,7 +142,7 @@ endif
 nnoremap <F5> :GundoToggle<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 07. Plugins                												"
+" 07. Plugins                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " indent-guides
 " let g:indent_guides_enable_on_vim_startup = 1 "default 0
