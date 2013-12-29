@@ -79,7 +79,8 @@ set tabstop=4 " tab columns
 set softtabstop=0 " how many columns when hit Tab in insert mode, unify this
 set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
 set shiftround " always indent/outdent to the nearest tabstop
-set smarttab " use tabs at the start of a line, spaces elsewhere
+" set smarttab 
+" use tabs at the start of a line, spaces elsewhere, this overwrites noexpandtab
 set autoindent " auto-indent
 set cindent " set c-style indent
 set cinoptions=(0,u0,U0 
@@ -94,7 +95,7 @@ if v:progname =~? "evim"
 endif
 
 set list " show invisible chars
-set listchars=eol:¬,tab:\|-,trail:~,extends:>,precedes:<
+set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -225,4 +226,4 @@ colorscheme wombat256mod
 set background=dark
 hi Normal ctermbg=NONE " transparent background for vim
 hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space 
-hi SpecialKey ctermbg=NONE " eg. listchars, tabs 
+hi SpecialKey ctermbg=NONE ctermfg=darkgray" eg. listchars, tabs 
