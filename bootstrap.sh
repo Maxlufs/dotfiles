@@ -113,7 +113,7 @@ repo["airline"]="https://github.com/bling/vim-airline.git"
 repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
 repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 # repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
-repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
+# repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
 repo["surround"]="https://github.com/tpope/vim-surround.git"
 repo["gundo"]="http://github.com/sjl/gundo.vim.git"
 
