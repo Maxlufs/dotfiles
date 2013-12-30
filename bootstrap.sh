@@ -121,6 +121,7 @@ repo["gundo"]="http://github.com/sjl/gundo.vim.git"
 repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
 repo["tlib"]="https://github.com/tomtom/tlib_vim.git"
 repo["mwutils"]="https://github.com/MarcWeber/vim-addon-mw-utils.git"
+repo["snippets"]="https://github.com/honza/vim-snippets.git"
 ###########################################################################
 
 ###########################################################################
