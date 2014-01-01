@@ -232,3 +232,5 @@ hi Normal ctermbg=NONE " transparent background for vim
 hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space 
 hi SpecialKey ctermbg=NONE ctermfg=darkgray" eg. listchars, tabs 
 
+" Gvim settings
+" set guifont = Ubuntu\ Mono\ derivative\ Powerline.ttf
