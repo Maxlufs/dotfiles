@@ -164,6 +164,7 @@ let g:Tex_MultipleCompileFormats='pdf, aux'"
 let g:tex_flavor='latex'
 " """""""""""""""""""""
 " vim-airline 
+let g:airline_powerline_fonts = 1
 
 " Pathogen
 execute pathogen#infect()
