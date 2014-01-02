@@ -95,8 +95,8 @@ endif
 " 03. Theme/Colors                                                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256 " enable 256-color mode.
-syntax on
 " syntax highlighting[ON]
+syntax on
 " must put this before setting colorscheme otherwise it overwrites the theme
 
 " wombat256mod settings
@@ -154,7 +154,6 @@ set noruler    " use vim-airline plugin to handle this
 "  ^^^^^^^^^^^^                ^^^^^^^^^ ^^^^^^^^^^^^
 "   'showmode'                 'showcmd'   'ruler'
 
-
 set list " show invisible chars
 set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
 
@@ -177,15 +176,12 @@ set cinoptions=(0,u0,U0
 " int f(int x,
 "       int y)
 
-if has("vms")
+if has("vms")       " vms is an OS, Open Virtual Memory System
   set nobackup      " do not keep a backup file, use versions instead
 else
   set backup        " keep a backup file
 endif
 set noswapfile
-
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 06. Mapping                                                               "
@@ -259,3 +255,6 @@ let g:airline_powerline_fonts = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " if has("gui_running")
 " set guifont = Ubuntu\ Mono\ derivative\ Powerline.ttf
+
+" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
+" let &guioptions = substitute(&guioptions, "t", "", "g")
