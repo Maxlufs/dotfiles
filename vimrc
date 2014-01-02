@@ -49,13 +49,19 @@ autocmd FileType make setlocal noexpandtab
 " " Enable omnicompletion (to use, hold Ctrl+X then Ctrl+O while in Insert mode.
 " set ofu=syntaxcomplete#Complete
 
+" " Prettify JSON files
+" autocmd BufRead,BufNewFile *.json set filetype=json
+" autocmd Syntax json sou ~/.vim/syntax/json.vim
+"
+" " Prettify Vagrantfile
+" autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 03. Vim UI/Layout                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number " show line numbers
 " set cul " highlight current line
 set laststatus=2 " last window always has a statusline
-syntax on
 set hlsearch
 " set nohlsearch " Don't continue to highlight searched phrases.
 set incsearch " But do highlight as you type your search.
@@ -77,15 +83,10 @@ set colorcolumn=+1
 " 04. Theme/Colors                                                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256 " enable 256-color mode.
-" syntax enable " enable syntax highlighting (previously syntax on).
+syntax on
+" enable syntax highlighting (previously syntax on). must before colorscheme
+" otherwise it overwrites the theme
 
-" " Prettify JSON files
-" autocmd BufRead,BufNewFile *.json set filetype=json
-" autocmd Syntax json sou ~/.vim/syntax/json.vim
-"
-" " Prettify Vagrantfile
-" autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
-"
 
 " wombat256mod settings
 set background=dark
@@ -95,7 +96,6 @@ hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
 hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
 hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
 hi ColorColumn ctermbg=32
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                  "
