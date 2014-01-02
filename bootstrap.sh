@@ -125,7 +125,7 @@ repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 repo["surround"]="https://github.com/tpope/vim-surround.git"
 
 # vim ide plugins
-repo["cvim"]="https://github.com:Maxlufs/c.vim.git"
+repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
 # vim autocompletion plugin
 repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
 # vim snipmate dependecies
