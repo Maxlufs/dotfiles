@@ -1,43 +1,43 @@
 #!/usr/bin/env bash
-#=========================================================================#
-   # Filename: bootstrap.sh                                            #
-   # Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                #
-   # URL: https://github.com/Maxlufs/dotfiles                          #
-#=========================================================================#
-   # git clone                                                         #
-   # git clone git@github.com:Maxlufs/dotfiles.git .dotfiles           #
-   # cd dotfiles                                                       #
-#=========================================================================#
-   # Contents:                                                         #
-   # 00. Variables & Fuctions                                          #
-   # 01. Header                                                        #
-   # 02. Broken symlinks          -> ~/.dotfiles_old/                  #
-   # 03. Old dotfiles             -> ~/.dotfiles_old/                  #
-   # 04. Vim plugins                                                   #
-   # 05. Links                    -> ~/.dotfiles/                      #
-   # 06. AutoBackup                                                    #
-   # 07. Footer                                                        #
-#=========================================================================#
+#============================================================================#
+    # Filename: bootstrap.sh                                            #
+    # Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                #
+    # URL: https://github.com/Maxlufs/dotfiles                          #
+#============================================================================#
+    # git clone                                                         #
+    # git clone git@github.com:Maxlufs/dotfiles.git .dotfiles           #
+    # cd dotfiles                                                       #
+#============================================================================#
+    # Contents:                                                         #
+    # 00. Variables & Fuctions                                          #
+    # 01. Header                                                        #
+    # 02. Broken symlinks          -> ~/.dotfiles_old/                  #
+    # 03. Old dotfiles             -> ~/.dotfiles_old/                  #
+    # 04. Vim plugins                                                   #
+    # 05. Links                    -> ~/.dotfiles/                      #
+    # 06. AutoBackup                                                    #
+    # 07. Footer                                                        #
+#============================================================================#
 
-#=========================================================================#
-# TODO                                                                    #
-# M: add bash 3.00 support                                                #
-# M: prompt users and ask if they what to back up old files               #
-# S: add report of system default env, eg. uname,bash,etc                 #
-# S: git push backup (only when there is change in git diff)              #
-# S: git push backup (based on if ssh keys are generated)                 #
-# S: copy vim :helptags locations                                         #
-# S: only link files w/o extensions                                  [OK] #
-# C: add a Welcome title of script output                                 #
-# C: add progress bar while git clone/pull/push                           #
-#=========================================================================#
+#============================================================================#
+# TODO                                                                       #
+# M: add bash 3.00 support                                                   #
+# M: prompt users and ask if they what to back up old files                  #
+# S: add report of system default env, eg. uname,bash,etc                    #
+# S: git push backup (only when there is change in git diff)                 #
+# S: git push backup (based on if ssh keys are generated)                    #
+# S: copy vim :helptags locations                                            #
+# S: only link files w/o extensions                                     [OK] #
+# C: add a Welcome title of script output                                    #
+# C: add progress bar while git clone/pull/push                              #
+#============================================================================#
 
 
-###########################################################################
+##############################################################################
 # 00. Varibles & Functions
-#=========================================================================#
+#============================================================================#
 # Declare directory variables
-#=========================================================================#
+#============================================================================#
 DOTFILEDIR=~/.dotfiles          # dotfiles dir
 OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=vim                      # vim dir
@@ -46,47 +46,55 @@ BUNDLEDIR=vim/bundle            # vim plugin dir
 # log_msg() function
 # input  : (STATUS_MSG, COLOR, PREV_MSG)
 # output : colored status in the same line with MSG
-#=========================================================================#
+#============================================================================#
 log_msg() {
 	STATUS=$1
 	# tput setaf colors
 	case $2 in
-		BLACK ) COLOR=0 ;;
-		RED ) COLOR=1 ;;
-		GREEN ) COLOR=2 ;;
-		YELLOW ) COLOR=3 ;;
-		BLUE ) COLOR=4 ;;
-		MAGENTA ) COLOR=5 ;;
-		CYAN ) COLOR=6 ;;
-		WHITE ) COLOR=7 ;;
+		BLACK ) COLOR=0
+			;;
+		RED ) COLOR=1
+			;;
+		GREEN ) COLOR=2
+			;;
+		YELLOW ) COLOR=3
+			;;
+		BLUE ) COLOR=4
+			;;
+		MAGENTA ) COLOR=5
+			;;
+		CYAN ) COLOR=6
+			;;
+		WHITE ) COLOR=7
+			;;
 	esac
 	MSG=$3
 
 	MAXCOL=70                   # MAXCOL=$(tput cols)
-    OFFSET=4                    # This is for '<' or '<<<'
-    NORMAL=$(tput sgr0)         # Normal color mode
-    COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
+	OFFSET=4                    # This is for '<' or '<<<'
+	NORMAL=$(tput sgr0)         # Normal color mode
+	COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
 
-    let COL=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
-    # tput cols = terminal width
-    # 3 = <<<
-    # MSG = $1
-    # STATUS = text
-    # COLORSTATUS = wrapped text
+	let COL=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
+	# tput cols = terminal width
+	# 3 = <<<
+	# MSG = $1
+	# STATUS = text
+	# COLORSTATUS = wrapped text
 
-    if [[ ${#MSG} -ge ${COL} ]]
-        # if MSG length too long, then print in new line
-    then
-        let COLFORLONG=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#STATUS}
-        # new line, need a new COL, i.e. ${#MSG} = 0
-        printf "\n%${COLFORLONG}s"  "$COLORSTATUS"
-    else
-        printf "%${COL}s"  "$COLORSTATUS"
-    fi
+	if [[ ${#MSG} -ge ${COL} ]]
+		# if MSG length too long, then print in new line
+	then
+		let COLFORLONG=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#STATUS}
+		# new line, need a new COL, i.e. ${#MSG} = 0
+		printf "\n%${COLFORLONG}s"  "$COLORSTATUS"
+	else
+		printf "%${COL}s"  "$COLORSTATUS"
+	fi
 }
 
 # Declare vim plugin repo associate matrix
-#=========================================================================#
+#============================================================================#
 declare -A repo
 
 # vim pathogen plugin
@@ -127,29 +135,29 @@ repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
 repo["tlib"]="https://github.com/tomtom/tlib_vim.git"
 repo["mwutils"]="https://github.com/MarcWeber/vim-addon-mw-utils.git"
 repo["snippets"]="https://github.com/honza/vim-snippets.git"
-###########################################################################
+##############################################################################
 
-###########################################################################
+##############################################################################
 # 01. Header
-#=========================================================================#
+#============================================================================#
 echo "======================================================================"
 echo ">>>                      Starting bootstrap...                     <<<"
 echo ">>>         Your system envion :                                   <<<"
 echo ">>>         Your shell version :                                   <<<"
 echo "======================================================================"
-###########################################################################
+##############################################################################
 
-###########################################################################
+##############################################################################
 # 02. Cleanup directory
-#=========================================================================#
+#============================================================================#
 # Clean up vim backup files
-#=========================================================================#
+#============================================================================#
 cd $DOTFILEDIR
 shopt -s dotglob # list hidden files
 find $DOTFILEDIR -name '*~' -delete
 
 # Clean up broken symlinks
-#=========================================================================#
+#============================================================================#
 echo ">>> Cleaning up broken symlinks to dotfiles_old/..."
 shopt -s dotglob # list hidden files
 
@@ -173,13 +181,13 @@ log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
 
 # echo "                                                    done <<<"
-###########################################################################
+##############################################################################
 
 echo "----------------------------------------------------------------------"
 
-###########################################################################
+##############################################################################
 # 03. Backing up old dotfiles
-#=========================================================================#
+#============================================================================#
 echo ">>> Backing up old dotfiles to dotfiles_old/..."
 for f in $DOTFILEDIR/*
 do
@@ -200,15 +208,15 @@ printf " <<<\n"
 
 
 shopt -u dotglob # unlist hidden files
-###########################################################################
+##############################################################################
 
 echo "----------------------------------------------------------------------"
 
-###########################################################################
+##############################################################################
 # 04. Vim plugins
-#=========================================================================#
+#============================================================================#
 # Install pathogen
-#=========================================================================#
+#============================================================================#
 MSG=">>> Installing [Pathogen] for Vim..."
 printf "$MSG"
 
@@ -228,7 +236,7 @@ fi
 echo
 
 # Install vim plugins with git submodules
-#=========================================================================#
+#============================================================================#
 # cd .dotfiles/
 # echo ">>> Installing Submodule plugins for Vim... <<<"
 #
@@ -263,7 +271,7 @@ echo
 #
 
 # Install vim plugins
-#=========================================================================#
+#============================================================================#
 cd $BUNDLEDIR
 echo ">>> Installing Submodule plugins for Vim..."
 for i in "${!repo[@]}"
@@ -299,13 +307,13 @@ done
 
 log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
-###########################################################################
+##############################################################################
 
 echo "----------------------------------------------------------------------"
 
-###########################################################################
+##############################################################################
 # 05. Creating symlinks
-#=========================================================================#
+#============================================================================#
 echo ">>> Creating symbolic links..."
 
 shopt -s extglob
@@ -322,13 +330,13 @@ done
 
 log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
-###########################################################################
+##############################################################################
 
 echo "----------------------------------------------------------------------"
 
-###########################################################################
+##############################################################################
 # 06. Back up to github
-#=========================================================================#
+#============================================================================#
 cd $DOTFILEDIR
 defaultMsg="automatic backup"
 
@@ -373,14 +381,13 @@ else
     log_msg "[OK]" "GREEN" ""
     printf " <<<\n"
 fi
+##############################################################################
 
-###########################################################################
-
-###########################################################################
+##############################################################################
 # 07. Footer
-#=========================================================================#
+#============================================================================#
 echo "======================================================================"
 echo ">>>               Enjoy your new coding environment!               <<<"
 echo ">>>                                        --Maxlufs               <<<"
 echo "======================================================================"
-###########################################################################
+##############################################################################
