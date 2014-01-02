@@ -17,19 +17,23 @@
 " 01. General                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " get rid of Vi compatibility mode. SET FIRST!
-set nocompatible 
+set nocompatible
 
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 02. Events                                                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " filetype detection[ON] plugin[ON] indent[ON]
-filetype plugin indent on 
+filetype plugin indent on
 
 " Automatic update .vimrc on the fly
 if has("autocmd")
     autocmd bufwritepost .vimrc source $MYVIMRC
 endif
-   
+
 
 " In Makefiles DO NOT use spaces instead of tabs
 autocmd FileType make setlocal noexpandtab
@@ -65,15 +69,15 @@ set t_Co=256 " enable 256-color mode.
 set number " show line numbers
 " set cul " highlight current line
 set laststatus=2 " last window always has a statusline
-if &t_Co > 2 || has("gui_running")
-	syntax on
-	set hlsearch
-endif
+syntax on
+set hlsearch
 " set nohlsearch " Don't continue to highlight searched phrases.
 set incsearch " But do highlight as you type your search.
 set ignorecase " Make searches case-insensitive.
 " set ruler " Always show info along bottom.
 set showmatch " Show matching parenthesis
+
+set fillchars=vert:\|,fold:-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting/Layout                                           "
@@ -87,7 +91,7 @@ set smarttab " use shftwidth at the start of a line, spaces elsewhere
 set autoindent " auto-indent
 set copyindent
 set cindent " set c-style indent
-set cinoptions=(0,u0,U0 
+set cinoptions=(0,u0,U0
 " int f(int x,
 "       int y)
 
@@ -134,10 +138,6 @@ nnoremap O Ox<BS>
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 
-" In many terminal emulators the mouse works just fine, thus enable it.
-if has('mouse')
-  set mouse=a
-endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
@@ -163,7 +163,7 @@ let g:Tex_MultipleCompileFormats='pdf, aux'"
 " OPTIONAL
 let g:tex_flavor='latex'
 " """""""""""""""""""""
-" vim-airline 
+" vim-airline
 let g:airline_powerline_fonts = 1
 
 " Pathogen
@@ -205,7 +205,7 @@ endif " has("autocmd")
 " Only define it when not defined already.
 if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+  \ | wincmd p | diffthis
 endif
 
 "
@@ -226,12 +226,13 @@ set shellslash
 " program to always generate a file-name.
 set grepprg=grep\ -nH\ $*
 
-" wombat256mod settings 
+" wombat256mod settings
 set background=dark
-colorscheme wombat256mod 
+colorscheme wombat256mod
 hi Normal ctermbg=NONE " transparent background for vim
-hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space 
-hi SpecialKey ctermbg=NONE ctermfg=darkgray" eg. listchars, tabs 
+hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
+hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
+hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
 
 " Gvim settings
 " set guifont = Ubuntu\ Mono\ derivative\ Powerline.ttf
