@@ -23,6 +23,11 @@ set nocompatible
 if has('mouse')
   set mouse=a
 endif
+
+" Pathogen settings
+execute pathogen#infect()
+Helptags " call :helptags on every dir in runtimepath
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 02. Events                                                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -59,12 +64,22 @@ set t_Co=256 " enable 256-color mode.
 " " Prettify Vagrantfile
 " autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
 "
-" " Highlight characters that go over 80 columns
+" Highlight characters that go over 80 columns, works only for gvim
+" may use if has("gui_running") to config
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
-"
+
+" wombat256mod settings
+set background=dark
+colorscheme wombat256mod
+hi Normal ctermbg=NONE " transparent background for vim
+hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
+hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
+hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
+hi ColorColumn ctermbg=32
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 04. Vim UI                                                                "
+" 04. Vim UI/Layout                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number " show line numbers
 " set cul " highlight current line
@@ -79,8 +94,11 @@ set showmatch " Show matching parenthesis
 
 set fillchars=vert:\|,fold:-
 
+set textwidth=78
+set colorcolumn=+1
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 05. Text Font/Formatting/Layout                                           "
+" 05. Text Font/Formatting                                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set tabstop=4 " tab columns
 set softtabstop=0 " how many columns when hit Tab in insert mode, unify this
@@ -101,6 +119,7 @@ set cinoptions=(0,u0,U0
 if v:progname =~? "evim"
   finish
 endif
+
 
 set list " show invisible chars
 set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
@@ -166,9 +185,6 @@ let g:tex_flavor='latex'
 " vim-airline
 let g:airline_powerline_fonts = 1
 
-" Pathogen
-execute pathogen#infect()
-Helptags " call :helptags on every dir in runtimepath
 
 
 " Only do this part when compiled with support for autocommands.
@@ -226,13 +242,8 @@ set shellslash
 " program to always generate a file-name.
 set grepprg=grep\ -nH\ $*
 
-" wombat256mod settings
-set background=dark
-colorscheme wombat256mod
-hi Normal ctermbg=NONE " transparent background for vim
-hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
-hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
-hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
+
+
 
 " Gvim settings
 " set guifont = Ubuntu\ Mono\ derivative\ Powerline.ttf
