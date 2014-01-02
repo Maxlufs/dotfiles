@@ -109,7 +109,6 @@ hi VertSplit ctermbg=none ctermfg=lightgray " for fillchars, boarder btw panes
 hi ColorColumn ctermbg=32 " glowing blue
 hi CursorLineNr cterm=bold ctermbg=none ctermfg=11 " bold yellow
 hi CursorLine ctermbg=none
-
 hi MatchParen cterm=bold ctermbg=none ctermfg=228
 " hi ctermbg=236 " dark grey
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -125,10 +124,12 @@ set hlsearch
 " set nohlsearch " Don't continue to highlight searched phrases.
 set incsearch " But do highlight as you type your search.
 set ignorecase " Make searches case-insensitive.
-" set ruler " Always show info along bottom.
+
 set showmatch " Show matching parenthesis
 
-set fillchars=vert:\|,fold:-
+set fillchars=fold:\ ,vert:\|
+" vert = bolder character btw panes
+" fold = folded chunck of code, the char in the first line
 
 
 " Highlight characters that go over 80 columns, works only for gvim
@@ -238,7 +239,7 @@ set grepprg=grep\ -nH\ $*
 
 " vim-airline
 " ===========
-let g:airline_powerline_fonts = 1 
+let g:airline_powerline_fonts = 1
 " use powerline bespoke fonts to print our little triangles on the bar
 
 "
