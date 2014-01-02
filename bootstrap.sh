@@ -130,10 +130,12 @@ repo["vim-latex"]="https://github.com/Maxlufs/vim-latex.git"
 # vim autocompletion plugin
 # repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
 
+# vim ultisnips
+repo["ultisnips"]="https://github.com/SirVer/ultisnips.git"
 # vim snipmate dependecies
-repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
-repo["tlib"]="https://github.com/tomtom/tlib_vim.git"
-repo["mwutils"]="https://github.com/MarcWeber/vim-addon-mw-utils.git"
+# repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
+# repo["tlib"]="https://github.com/tomtom/tlib_vim.git"
+# repo["mwutils"]="https://github.com/MarcWeber/vim-addon-mw-utils.git"
 repo["snippets"]="https://github.com/honza/vim-snippets.git"
 ##############################################################################
 
