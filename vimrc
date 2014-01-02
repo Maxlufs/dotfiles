@@ -168,6 +168,7 @@ let g:airline_powerline_fonts = 1
 
 " Pathogen
 execute pathogen#infect()
+Helptags " call :helptags on every dir in runtimepath
 
 
 " Only do this part when compiled with support for autocommands.
