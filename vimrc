@@ -57,7 +57,23 @@ autocmd FileType make setlocal noexpandtab
 " autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 03. Vim UI/Layout                                                         "
+" 03. Theme/Colors                                                          "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set t_Co=256 " enable 256-color mode.
+syntax on
+" enable syntax highlighting. must put this before setting colorscheme
+" otherwise it overwrites the theme
+
+" wombat256mod settings
+set background=dark
+colorscheme wombat256mod
+hi Normal ctermbg=NONE " transparent background for vim
+hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
+hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
+hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
+hi ColorColumn ctermbg=32
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 04. Vim UI/Layout                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number " show line numbers
 " set cul " highlight current line
@@ -79,23 +95,6 @@ set colorcolumn=+1
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 04. Theme/Colors                                                          "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_Co=256 " enable 256-color mode.
-syntax on
-" enable syntax highlighting (previously syntax on). must before colorscheme
-" otherwise it overwrites the theme
-
-
-" wombat256mod settings
-set background=dark
-colorscheme wombat256mod
-hi Normal ctermbg=NONE " transparent background for vim
-hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
-hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
-hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
-hi ColorColumn ctermbg=32
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                  "
