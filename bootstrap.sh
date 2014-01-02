@@ -121,15 +121,14 @@ repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 # repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
 # use listchars instead
 repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
-# has conflict with listchars
 repo["surround"]="https://github.com/tpope/vim-surround.git"
 
 # vim ide plugins
 # repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
-# too giant
+# cvim is too giant
 
 # vim autocompletion plugin
-repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
+# repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
 # vim snipmate dependecies
 repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
 repo["tlib"]="https://github.com/tomtom/tlib_vim.git"
