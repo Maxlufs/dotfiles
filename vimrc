@@ -50,36 +50,7 @@ autocmd FileType make setlocal noexpandtab
 " set ofu=syntaxcomplete#Complete
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 03. Theme/Colors                                                          "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_Co=256 " enable 256-color mode.
-" syntax enable " enable syntax highlighting (previously syntax on).
-" colorscheme wombat256mod " set colorscheme
-" colorscheme wombat
-
-" " Prettify JSON files
-" autocmd BufRead,BufNewFile *.json set filetype=json
-" autocmd Syntax json sou ~/.vim/syntax/json.vim
-"
-" " Prettify Vagrantfile
-" autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
-"
-" Highlight characters that go over 80 columns, works only for gvim
-" may use if has("gui_running") to config
-" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-" match OverLength /\%81v.\+/
-
-" wombat256mod settings
-set background=dark
-colorscheme wombat256mod
-hi Normal ctermbg=NONE " transparent background for vim
-hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
-hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
-hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
-hi ColorColumn ctermbg=32
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 04. Vim UI/Layout                                                         "
+" 03. Vim UI/Layout                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set number " show line numbers
 " set cul " highlight current line
@@ -96,6 +67,35 @@ set fillchars=vert:\|,fold:-
 
 set textwidth=78
 set colorcolumn=+1
+
+" Highlight characters that go over 80 columns, works only for gvim
+" may use if has("gui_running") to config
+" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+" match OverLength /\%81v.\+/
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 04. Theme/Colors                                                          "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set t_Co=256 " enable 256-color mode.
+" syntax enable " enable syntax highlighting (previously syntax on).
+
+" " Prettify JSON files
+" autocmd BufRead,BufNewFile *.json set filetype=json
+" autocmd Syntax json sou ~/.vim/syntax/json.vim
+"
+" " Prettify Vagrantfile
+" autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
+"
+
+" wombat256mod settings
+set background=dark
+colorscheme wombat256mod
+hi Normal ctermbg=NONE " transparent background for vim
+hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
+hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
+hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
+hi ColorColumn ctermbg=32
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                  "
