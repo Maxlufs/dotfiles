@@ -1,15 +1,16 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " Filename: .vimrc                                                      "
+    " Filename: .vimrc                                                  "
     " Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                "
     " URL: https://github.com/Maxlufs/dotfiles.git                      "
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Contents:                                                         "
-    " 00. Custom .................. Custom Vim settings                 "
-    " 01. General ................. General Vim behavior                "
-    " 02. Events .................. General autocmd events              "
-    " 03. Theme/Colors ............ Colors, fonts, etc.                 "
-    " 04. Vim UI .................. User interface behavior             "
-    " 05. Text Formatting/Layout .. Text, tab, indentation related      "
+    " 00. Researved ...................                                 "
+    " 01. General ..................... General Vim behavior            "
+    " 02. Events ...................... Vim autocmd events              "
+    " 03. Theme/Colors ................ Colors, fonts, etc.             "
+    " 04. Vim UI/Layout ............... User interface behavior         "
+    " 05. Text Formatting ............. Text, tab, indentation related  "
+    " 05. Mapping ..................... Key mappings                    "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
@@ -43,10 +44,10 @@ endif
 " In Makefiles DO NOT use spaces instead of tabs
 autocmd FileType make setlocal noexpandtab
 
-" " In Ruby files, use 2 spaces instead of 4 for tabs
+" In Ruby files, use 2 spaces instead of 4 for tabs
 " autocmd FileType ruby setlocal sw=2 ts=2 sts=2
 
-" " Enable omnicompletion (to use, hold Ctrl+X then Ctrl+O while in Insert mode.
+" Enable omnicompletion (to use, hold Ctrl+X then Ctrl+O while in Insert mode.
 " set ofu=syntaxcomplete#Complete
 
 " " Prettify JSON files
@@ -55,136 +56,6 @@ autocmd FileType make setlocal noexpandtab
 "
 " " Prettify Vagrantfile
 " autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 03. Theme/Colors                                                          "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_Co=256 " enable 256-color mode.
-syntax on
-" enable syntax highlighting. must put this before setting colorscheme
-" otherwise it overwrites the theme
-
-" wombat256mod settings
-set background=dark
-colorscheme wombat256mod
-hi Normal ctermbg=NONE " transparent background for vim
-hi NonText ctermbg=NONE ctermfg=gray " end of line char and unused space
-hi SpecialKey ctermbg=NONE ctermfg=darkgray " eg. listchars, tabs
-hi VertSplit ctermbg=NONE ctermfg=lightgray " for fillchars, boarder btw buffers
-hi ColorColumn ctermbg=32
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 04. Vim UI/Layout                                                         "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set number " show line numbers
-" set cul " highlight current line
-set laststatus=2 " last window always has a statusline
-set hlsearch
-" set nohlsearch " Don't continue to highlight searched phrases.
-set incsearch " But do highlight as you type your search.
-set ignorecase " Make searches case-insensitive.
-" set ruler " Always show info along bottom.
-set showmatch " Show matching parenthesis
-
-set fillchars=vert:\|,fold:-
-
-set textwidth=78
-set colorcolumn=+1
-
-" Highlight characters that go over 80 columns, works only for gvim
-" may use if has("gui_running") to config
-" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-" match OverLength /\%81v.\+/
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 05. Text Font/Formatting                                                  "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabstop=4 " tab columns
-set softtabstop=0 " how many columns when hit Tab in insert mode, unify this
-set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
-set shiftround " always indent/outdent to the nearest tabstop
-set noexpandtab " do not use spaces instead of tabs
-set smarttab " use shftwidth at the start of a line, spaces elsewhere
-set autoindent " auto-indent
-set copyindent
-set cindent " set c-style indent
-set cinoptions=(0,u0,U0
-" int f(int x,
-"       int y)
-
-" set nowrap " don't wrap text
-
-" When started as "evim", evim.vim will already have done these settings.
-if v:progname =~? "evim"
-  finish
-endif
-
-
-set list " show invisible chars
-set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
-
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-if has("vms")
-  set nobackup      " do not keep a backup file, use versions instead
-else
-  set backup        " keep a backup file
-endif
-set history=500     " keep 50 lines of command line history
-set ruler           " show the cursor position all the time
-set showcmd         " display incomplete commands
-set noswapfile
-
-" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
-" let &guioptions = substitute(&guioptions, "t", "", "g")
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 06. Mapping                                                               "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Leader key, default is fine
-" let mapleader = ","
-" Don't use Ex mode, use Q for formatting hard returns
-map Q gq
-
-" cursor stays at current position when inserting new lines, either <CR> or O
-inoremap <CR> <CR>x<BS>
-nnoremap o ox<BS>
-nnoremap O Ox<BS>
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
-
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-
-" Plugin mappings
-" Toggle the undo graph from Gundo
-nnoremap <F5> :GundoToggle<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 07. Plugins                                                               "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" indent-guides (deprecated)
-" let g:indent_guides_enable_on_vim_startup = 1 "default 0
-" let g:indent_guides_guide_size = 0 "default 0, equal to shiftwidth
-" let g:indent_guides_start_level = 1 "default 1
-" let g:indent_guides_space_guides = 1 "default 1, consider space as indent
-
-
-
-" Latex-Suite
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_MultipleCompileFormats='pdf, aux'"
-" OPTIONAL
-let g:tex_flavor='latex'
-" """""""""""""""""""""
-" vim-airline
-let g:airline_powerline_fonts = 1
-
-
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -211,8 +82,6 @@ if has("autocmd")
 
 else
 
-  "set autoindent		" always set autoindenting on
-
 endif " has("autocmd")
 
 " Convenient command to see the difference between the current buffer and the
@@ -222,6 +91,159 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
 endif
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 03. Theme/Colors                                                          "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set t_Co=256 " enable 256-color mode.
+syntax on
+" syntax highlighting[ON]
+" must put this before setting colorscheme otherwise it overwrites the theme
+
+" wombat256mod settings
+set background=dark
+colorscheme wombat256mod
+hi Normal ctermbg=none " transparent background for vim
+hi NonText ctermbg=none ctermfg=gray " end of line char and unused space
+hi SpecialKey ctermbg=none ctermfg=darkgray " eg. listchars, tabs
+hi VertSplit ctermbg=none ctermfg=lightgray " for fillchars, boarder btw panes
+hi ColorColumn ctermbg=32 " glowing blue
+hi CursorLineNr cterm=bold ctermbg=none ctermfg=11 " bold yellow
+hi CursorLine ctermbg=none
+
+hi MatchParen cterm=bold ctermbg=none ctermfg=228
+" hi ctermbg=236 " dark grey
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 04. Vim UI/Layout                                                         "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set textwidth=78
+set colorcolumn=+1
+
+set number " show line numbers
+set cursorline " highlight current line
+set laststatus=2 " last window always has a statusline
+set hlsearch
+" set nohlsearch " Don't continue to highlight searched phrases.
+set incsearch " But do highlight as you type your search.
+set ignorecase " Make searches case-insensitive.
+" set ruler " Always show info along bottom.
+set showmatch " Show matching parenthesis
+
+set fillchars=vert:\|,fold:-
+
+
+" Highlight characters that go over 80 columns, works only for gvim
+" may use if has("gui_running") to config
+" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+" match OverLength /\%81v.\+/
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 05. Text Font/Formatting                                                  "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" General settings
+set history=500     " keep 50 lines of command line history
+set wrap " wrap text
+
+set noshowmode " use vim-airline plugin to handle this
+set showcmd
+set noruler    " use vim-airline plugin to handle this
+" +-------------------------------------------------+
+" |text in the Vim window                           |
+" |~                                                |
+" |~                                                |
+" |-- VISUAL --                   2f     43,8   17% |
+" +-------------------------------------------------+
+"  ^^^^^^^^^^^^                ^^^^^^^^^ ^^^^^^^^^^^^
+"   'showmode'                 'showcmd'   'ruler'
+
+
+set list " show invisible chars
+set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" TAB settings
+set tabstop=4 " tab columns
+set softtabstop=0 " how many columns when hit Tab in insert mode, unify this
+set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
+set shiftround " always indent/outdent to the nearest tabstop
+set noexpandtab " do not use spaces instead of tabs
+set smarttab " use shftwidth at the start of a line
+
+" indentation
+set autoindent " auto-indent
+set copyindent
+set cindent " set c-style indent
+set cinoptions=(0,u0,U0
+" int f(int x,
+"       int y)
+
+if has("vms")
+  set nobackup      " do not keep a backup file, use versions instead
+else
+  set backup        " keep a backup file
+endif
+set noswapfile
+
+" For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
+" let &guioptions = substitute(&guioptions, "t", "", "g")
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 06. Mapping                                                               "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Leader key, default is fine
+" let mapleader = ","
+" Don't use Ex mode, use Q for formatting hard returns
+map Q gq
+
+" Navigation
+" cursor stays at current position when inserting new lines, either <CR> or O
+inoremap <CR> <CR>x<BS>
+nnoremap o ox<BS>
+nnoremap O Ox<BS>
+
+nmap j gj
+nmap k gk
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+
+" Plugin mappings
+" Toggle the undo graph from Gundo
+nnoremap <F5> :GundoToggle<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 07. Plugins                                                               "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" indent-guides (deprecated)
+" ==========================
+" let g:indent_guides_enable_on_vim_startup = 1 "default 0
+" let g:indent_guides_guide_size = 0 "default 0, equal to shiftwidth
+" let g:indent_guides_start_level = 1 "default 1
+" let g:indent_guides_space_guides = 1 "default 1, consider space as indent
+
+" Latex-Suite
+" ===========
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_MultipleCompileFormats='pdf, aux'"
+" OPTIONAL
+let g:tex_flavor='latex'
+" IMPORTANT: win32 users will need to have 'shellslash' set so that latex can
+" be called correctly.
+set shellslash
+" IMPORTANT: grep will sometims skip displaying the file name if you search in
+" a single file. This will confuse Latex-Suite. Set your grep program to
+" always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" vim-airline
+" ===========
+let g:airline_powerline_fonts = 1 
+" use powerline bespoke fonts to print our little triangles on the bar
 
 "
 " Load custom settings (deprecated)
@@ -232,17 +254,8 @@ endif
 " source ~/.vim/custom/settings.vim
 " source ~/.vim/custom/plugins.vim
 "
-" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
-" can be called correctly.
-set shellslash
-
-" IMPORTANT: grep will sometims skip displaying the file name if you
-" search in a single file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
-
-
-
-
-" Gvim settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 08. Gvim Settings                                                         "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" if has("gui_running")
 " set guifont = Ubuntu\ Mono\ derivative\ Powerline.ttf
