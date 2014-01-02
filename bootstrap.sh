@@ -126,9 +126,11 @@ repo["surround"]="https://github.com/tpope/vim-surround.git"
 # vim ide plugins
 # repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
 # cvim is too giant
+repo["vim-latex"]="https://github.com/Maxlufs/vim-latex.git"
 
 # vim autocompletion plugin
 # repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
+
 # vim snipmate dependecies
 repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
 repo["tlib"]="https://github.com/tomtom/tlib_vim.git"
