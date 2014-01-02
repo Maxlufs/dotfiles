@@ -113,9 +113,12 @@ repo["airline"]="https://github.com/bling/vim-airline.git"
 repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
 repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 # repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
+# use listchars instead
 # repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
+# has conflict with listchars
 repo["surround"]="https://github.com/tpope/vim-surround.git"
 repo["gundo"]="http://github.com/sjl/gundo.vim.git"
+repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
 
 # vim snipmate dependecies
 repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
