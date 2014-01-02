@@ -48,30 +48,21 @@ BUNDLEDIR=vim/bundle            # vim plugin dir
 # output : colored status in the same line with MSG
 #=========================================================================#
 log_msg() {
+	STATUS=$1
+	# tput setaf colors
+	case $2 in
+		BLACK ) COLOR=0 ;;
+		RED ) COLOR=1 ;;
+		GREEN ) COLOR=2 ;;
+		YELLOW ) COLOR=3 ;;
+		BLUE ) COLOR=4 ;;
+		MAGENTA ) COLOR=5 ;;
+		CYAN ) COLOR=6 ;;
+		WHITE ) COLOR=7 ;;
+	esac
+	MSG=$3
 
-    STATUS=$1
-    # tput setaf colors
-    case $2 in
-        BLACK ) COLOR=0
-            ;;
-        RED ) COLOR=1
-            ;;
-        GREEN ) COLOR=2
-            ;;
-        YELLOW ) COLOR=3
-            ;;
-        BLUE ) COLOR=4
-            ;;
-        MAGENTA ) COLOR=5
-            ;;
-        CYAN ) COLOR=6
-            ;;
-        WHITE ) COLOR=7
-            ;;
-    esac
-    MSG=$3
-
-    MAXCOL=70                   # MAXCOL=$(tput cols)
+	MAXCOL=70                   # MAXCOL=$(tput cols)
     OFFSET=4                    # This is for '<' or '<<<'
     NORMAL=$(tput sgr0)         # Normal color mode
     COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
