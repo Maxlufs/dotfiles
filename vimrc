@@ -126,6 +126,7 @@ set incsearch " But do highlight as you type your search.
 set ignorecase " Make searches case-insensitive.
 
 set showmatch " Show matching parenthesis
+set matchpairs=(:),{:},[:],<:> " ,':',":"
 
 set fillchars=fold:\ ,vert:\|
 " vert = bolder character btw panes
@@ -207,9 +208,12 @@ nnoremap O Ox<BS>
 nnoremap j gj
 nnoremap k gk
 
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
+" CTRL-U in insert mode deletes current line.
+" CTRL-W in insert mode deletes last word.
+" Use CTRL-G u to first break undo, so the insertion consists of more than a
+" single modification. Use u to undo.
 inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
 
 
 " Switch syntax highlighting on, when the terminal has colors
@@ -218,6 +222,7 @@ inoremap <C-U> <C-G>u<C-U>
 " Plugin mappings
 " Toggle the undo graph from Gundo
 autocmd VimEnter * nnoremap <F6> :GundoToggle<CR>
+autocmd VimEnter * inoremap <F6> <Esc>:GundoToggle<CR>
 
 " Toggle the undo graph from Gundo
 autocmd VimEnter * nnoremap <F3> :NERDTreeToggle<CR>
@@ -250,7 +255,27 @@ set grepprg=grep\ -nH\ $*
 let g:airline_powerline_fonts = 1
 " use powerline bespoke fonts to print our little triangles on the bar
 
-"
+
+" Ultisnips
+" =========
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsListSnippets="<c-tab>" "this invokes quickfix to list choices
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+
+function! g:Space_Mapping()
+	call UltiSnips_ExpandSnippet() "This returns g:ulti_expand_res
+	if g:ulti_expand_res == 0
+		return "\<Space>"
+	else
+		return ""
+	endif
+endfunction
+
+autocmd VimEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
+autocmd VimEnter * inoremap <Tab> pumvisible() ? "\<C-N>" : <C-R>=<SNR>37_InsertSmartTab()<CR>
+
+
 " Load custom settings (deprecated)
 " source ~/.vim/custom/color.vim
 " source ~/.vim/custom/font.vim
@@ -258,7 +283,7 @@ let g:airline_powerline_fonts = 1
 " source ~/.vim/custom/mappings.vim
 " source ~/.vim/custom/settings.vim
 " source ~/.vim/custom/plugins.vim
-"
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 08. Gvim Settings                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
