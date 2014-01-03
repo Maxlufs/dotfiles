@@ -272,8 +272,9 @@ function! g:Space_Mapping()
 	endif
 endfunction
 
-autocmd VimEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
-autocmd VimEnter * inoremap <Tab> pumvisible() ? "\<C-N>" : <C-R>=<SNR>37_InsertSmartTab()<CR>
+autocmd BufEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
+" autocmd BufEnter * inoremap <Tab> pumvisible() ? "\<C-N>" : <C-R>=<SNR>37_InsertSmartTab()<CR>
+exe 'inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"'
 
 
 " Load custom settings (deprecated)
