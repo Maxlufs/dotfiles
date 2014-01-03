@@ -355,7 +355,7 @@ git status -s | sed 's/^/    /'
 if [[ $(git diff HEAD) ]]; then
     n=1
     while [ $n -le 3 ]; do
-        read -p "  > Do you wish to back up to GitHub this time? [Y/n] " yn
+        read -p "  > Do you wish to commit this time? [Y/n] " yn
         case $yn in
             [Yy]*|"" )
                 echo "  > Please type in your commit message:"
