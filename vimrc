@@ -189,6 +189,11 @@ set noswapfile
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Leader key, default is fine
 " let mapleader = ","
+
+" Disabling default <F1> to invoke help, use :h instead
+map <F1> <Nop>
+imap <F1> <Nop>
+
 " Don't use Ex mode, use Q for formatting hard returns
 map Q gq
 
