@@ -263,6 +263,7 @@ let g:airline_powerline_fonts = 1
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
+" Space mapping func, if there's drop-down list, use <Space> to expand
 function! g:Space_Mapping()
 	call UltiSnips_ExpandSnippet() "This returns g:ulti_expand_res
 	if g:ulti_expand_res == 0
@@ -273,8 +274,13 @@ function! g:Space_Mapping()
 endfunction
 
 autocmd BufEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
-" autocmd BufEnter * inoremap <Tab> pumvisible() ? "\<C-N>" : <C-R>=<SNR>37_InsertSmartTab()<CR>
-exe 'inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"'
+
+" YouCompleteMe
+" =============
+let g:ycm_key_list_select_completion = ['<Down>'] "deafult += <TAB>
+
+autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"
+" exe 'inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"'
 
 
 " Load custom settings (deprecated)
@@ -293,3 +299,4 @@ exe 'inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmart
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
+" hi Overlength
