@@ -194,12 +194,13 @@ map Q gq
 
 " Navigation
 " cursor stays at current position when inserting new lines, either <CR> or O
+" This is overridden by Smartab
 inoremap <CR> <CR>x<BS>
 nnoremap o ox<BS>
 nnoremap O Ox<BS>
 
-nmap j gj
-nmap k gk
+nnoremap j gj
+nnoremap k gk
 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
@@ -211,8 +212,10 @@ inoremap <C-U> <C-G>u<C-U>
 
 " Plugin mappings
 " Toggle the undo graph from Gundo
-nnoremap <F5> :GundoToggle<CR>
+autocmd VimEnter * nnoremap <F6> :GundoToggle<CR>
 
+" Toggle the undo graph from Gundo
+autocmd VimEnter * nnoremap <F3> :NERDTreeToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 07. Plugins                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
