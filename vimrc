@@ -17,8 +17,13 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 01. General                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" get rid of Vi compatibility mode. SET FIRST!
+" Get rid of Vi compatibility mode. SET FIRST!
 set nocompatible
+" Hides buffers instead of closing them.
+" This means that you can have unwritten changes to a file and open a new file
+" using :e, without being forced to write or undo your changes first.
+" Also, undo buffers and marks are preserved while the buffer is open
+set hidden
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -114,6 +119,18 @@ hi MatchParen cterm=bold ctermbg=none ctermfg=228
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 04. Vim UI/Layout                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set noshowmode " use vim-airline plugin to handle this
+set showcmd
+set noruler    " use vim-airline plugin to handle this
+" +-------------------------------------------------+
+" |text in the Vim window                           |
+" |~                                                |
+" |~                                                |
+" |-- VISUAL --                   2f     43,8   17% |
+" +-------------------------------------------------+
+"  ^^^^^^^^^^^^                ^^^^^^^^^ ^^^^^^^^^^^^
+"   'showmode'                 'showcmd'   'ruler'
+
 set textwidth=78
 set colorcolumn=+1
 
@@ -143,18 +160,6 @@ set fillchars=fold:\ ,vert:\|
 " General settings
 set history=500     " keep 50 lines of command line history
 set wrap " wrap text
-
-set noshowmode " use vim-airline plugin to handle this
-set showcmd
-set noruler    " use vim-airline plugin to handle this
-" +-------------------------------------------------+
-" |text in the Vim window                           |
-" |~                                                |
-" |~                                                |
-" |-- VISUAL --                   2f     43,8   17% |
-" +-------------------------------------------------+
-"  ^^^^^^^^^^^^                ^^^^^^^^^ ^^^^^^^^^^^^
-"   'showmode'                 'showcmd'   'ruler'
 
 set list " show invisible chars
 set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
