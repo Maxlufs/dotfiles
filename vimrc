@@ -10,7 +10,7 @@
     " 03. Theme/Colors ................ Colors, fonts, etc.             "
     " 04. Vim UI/Layout ............... User interface behavior         "
     " 05. Text Formatting ............. Text, tab, indentation related  "
-    " 05. Mapping ..................... Key mappings                    "
+    " 06. Mapping ..................... Key mappings                    "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " TODO """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -138,8 +138,6 @@ set noruler    " use vim-airline plugin to handle this
 "  ^^^^^^^^^^^^                ^^^^^^^^^ ^^^^^^^^^^^^
 "   'showmode'                 'showcmd'   'ruler'
 
-set textwidth=78
-set colorcolumn=+1
 
 set number " show line numbers
 set cursorline " highlight current line
@@ -165,12 +163,13 @@ set fillchars=fold:\ ,vert:\|
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" This need to set ~/.viminfo 's owner to $USER
-set history=1000     " keep 500 lines of command line history
+" General settings
+" command line history, this need to set ~/.viminfo 's owner to $USER
+set history=1000
 
 set list " show invisible chars
 set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
-" General settings
+
 set wrap " wrap text
 
 " " Soft wrapping text settings
@@ -181,7 +180,31 @@ set wrap " wrap text
 " " If set nonumber, then showbreak can be used to indicate wrapped lines
 " set showbreak=…
 
-" " Hard wrapping text settings
+" Hard wrapping text settings
+" use gq and gw, see mapping section
+" There's 2 options to configure hard wrapping, textwidth(tw) and
+" wrapmargin(wm)
+" 1. textwidth when set to 0, use max(screen width, 79)
+set textwidth=78
+" 2. wrapmargin is to solve the screen width less than 80, but it only works
+" when 'set textwidth=0'
+" the final wrapping width = screen width - wrapmargin, regardless of how big
+" the screen is. wrapmargin is used to compensate the width if 'set number' is
+" on.
+" set wrapmargin=5
+
+" When formatoptions = empty, it does not autoformat at all untill gq or gw
+" Add option 'a' and 'n' here, autoformat when inseting text and recognize
+" numbered lists. 
+" When 'a' is on, better turn off 'r', and 'o', otherwise pressing <CR> or 'o'
+" or 'O' will always re-format paragraph, which means you can't insert newline
+" normaly. However, leave the 'c' flag on, this only happens for recognized
+" comments.
+" When 'a' is on, also turn 'w' on,so that a non-white char ends a paragraph.
+" see ':help fo-table'
+set formatoptions=tcqnaw
+
+set colorcolumn=+1
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -219,8 +242,11 @@ set noswapfile
 map <F1> <Nop>
 imap <F1> <Nop>
 
-" Don't use Ex mode, use Q for formatting hard returns
-map Q gq
+
+" Don't use Ex mode, use Q for formatting hard wrapping
+" gq moves cursor to the last line, eg. gqip (gq in paragraph)
+" gw keeps cursor at the same place
+nnoremap Q gq
 
 " Navigation
 " cursor stays at current position when inserting new lines, either <CR> or O
