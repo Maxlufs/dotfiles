@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " Filename: .vimrc                                                  "
     " Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                "
     " URL: https://github.com/Maxlufs/dotfiles.git                      "
@@ -11,12 +11,18 @@
     " 04. Vim UI/Layout ............... User interface behavior         "
     " 05. Text Formatting ............. Text, tab, indentation related  "
     " 05. Mapping ..................... Key mappings                    "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO                                                                       "
+"                                                                            "
+"                                                                            "
+"                                                                            "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 01. General                                                               "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 01. General                                                                "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Get rid of Vi compatibility mode. SET FIRST!
 set nocompatible
 " Hides buffers instead of closing them.
@@ -96,6 +102,7 @@ if !exists(":DiffOrig")
   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
   \ | wincmd p | diffthis
 endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 03. Theme/Colors                                                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -116,6 +123,7 @@ hi CursorLineNr cterm=bold ctermbg=none ctermfg=11 " bold yellow
 hi CursorLine ctermbg=none
 hi MatchParen cterm=bold ctermbg=none ctermfg=228
 " hi ctermbg=236 " dark grey
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 04. Vim UI/Layout                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -154,6 +162,7 @@ set fillchars=fold:\ ,vert:\|
 " may use if has("gui_running") to config
 " highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 " match OverLength /\%81v.\+/
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -243,6 +252,7 @@ autocmd VimEnter * inoremap <F6> <Esc>:GundoToggle<CR>
 
 " Toggle the undo graph from Gundo
 autocmd VimEnter * nnoremap <F3> :NERDTreeToggle<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 07. Plugins                                                               "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
