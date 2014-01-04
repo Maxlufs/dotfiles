@@ -160,11 +160,19 @@ set fillchars=fold:\ ,vert:\|
 " This need to set ~/.viminfo 's owner to $USER
 set history=1000     " keep 500 lines of command line history
 
+set list " show invisible chars
+set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
 " General settings
 set wrap " wrap text
 
-set list " show invisible chars
-set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
+" " Soft wrapping text settings
+" set wrap " vim by default breaks a new line within a word
+" set linebreak " use linebreak to disable breaking within a word
+" " However, linebreak won't work if set wrap is off or set list is on
+" " In short: set wrap linebreak nolist
+" " If set nonumber, then showbreak can be used to indicate wrapped lines
+" set showbreak=…
+
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
