@@ -27,13 +27,14 @@ set nocompatible
 " Hides buffers instead of closing them.
 " This means that you can have unwritten changes to a file and open a new file
 " using :e, without being forced to write or undo your changes first.
-
+set encoding=utf-8
 set title " change the terminal's title to [NAME] - VIM
 " Also, undo buffers and marks are preserved while the buffer is open
 set hidden
 
 " command line history, this need to set ~/.viminfo 's owner to $USER
 set history=1000
+set undofile " creat <FILE>.un~ file when editting, contain undo info
 set undolevels=1000
 
 " In many terminal emulators the mouse works just fine, thus enable it.
@@ -154,10 +155,15 @@ set noruler    " use vim-airline plugin to handle this
 "  ^^^^^^^^^^^^                ^^^^^^^^^ ^^^^^^^^^^^^
 "   'showmode'                 'showcmd'   'ruler'
 
+set wildmenu " commandline popup bar
+set wildmode=full " commandline popup bar
+
 set fillchars=fold:\ ,vert:\|
 " vert = bolder character btw panes
 " fold = folded chunck of code, the char in the first line
 set number " show line numbers
+set relativenumber " show line numbers relative to the current line
+
 set cursorline " highlight current line
 set scrolloff=4 " keep 4 lines off the edges of the screen when scrolling
 set textwidth=78
@@ -252,6 +258,34 @@ set cinoptions=(0,u0,U0
 " Leader key, default is fine
 " let mapleader = ","
 
+" Insert mode
+" ===========
+" imitating shell operations
+inoremap <C-A> <Esc>^i
+inoremap <C-E> <End>
+inoremap <C-B> <Left>
+inoremap <C-F> <Right>
+" <C-H> backspace <BS>
+" <C-D> default del indent, use <C-H> instead
+inoremap <C-D> <Del>
+" <C-W> delete last word
+" <C-U> delete till begining of current line
+inoremap <C-K> <Esc>l<S-C>
+
+" <C-I> <Tab>
+" <C-J> <NL> different from <CR>
+" <C-M> <CR>
+" <C-R> registers
+" <C-E> insert char which is below the cursor..this is stupid
+" <C-Y> insert char which is above the cursor..this is stupid
+
+" Search mappings
+" use Perl/Python regex instead of Vim's regex
+" nnoremap / /\v
+" vnoremap / /\v
+
+" UI panels
+" =========
 " Disabling default <F1> to invoke help, use :h instead
 map <F1> <Nop>
 imap <F1> <Nop>
