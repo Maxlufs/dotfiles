@@ -157,8 +157,10 @@ set fillchars=fold:\ ,vert:\|
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" This need to set ~/.viminfo 's owner to $USER
+set history=1000     " keep 500 lines of command line history
+
 " General settings
-set history=500     " keep 50 lines of command line history
 set wrap " wrap text
 
 set list " show invisible chars
@@ -220,9 +222,10 @@ nnoremap k gk
 inoremap <C-U> <C-G>u<C-U>
 inoremap <C-W> <C-G>u<C-W>
 
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
+" command line window
+" nnoremap : q:i
+" nnoremap / q/i
+" nnoremap ? q?i
 
 " Plugin mappings
 " Toggle the undo graph from Gundo
