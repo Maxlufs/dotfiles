@@ -23,7 +23,7 @@
 # TODO                                                                       #
 # [ ] M: add bash 3.00 support                                               #
 # [ ] M: prompt users and ask if they what to back up old files              #
-# [ ] S: add report of system default env, eg. uname,bash,etc                #
+# [ ] S: add a list of system default env, eg. uname,bash,etc                #
 # [*] S: git push backup (only when there is change in git diff)             #
 # [ ] S: git push backup (based on if ssh keys are generated)                #
 # [*] S: copy vim :helptags locations                                        #
@@ -126,6 +126,7 @@ repo["surround"]="https://github.com/tpope/vim-surround.git"
 # repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
 # cvim is too giant
 repo["vim-latex"]="https://github.com/Maxlufs/vim-latex.git"
+repo["syntastic"]="https://github.com/scrooloose/syntastic.git"
 
 # vim autocompletion plugin
 repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
