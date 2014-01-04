@@ -216,13 +216,14 @@ set wrap
 " When formatoptions = empty, it does not autoformat at all until gq or gw
 " 'a': autoformat when inserting text
 " 'n': recognize numbered lists
+" '1': don't end lines with 1-letter words
 " When 'a' is on, better turn off 'r', and 'o', otherwise pressing <CR> or 'o'
 " or 'O' will always re-format paragraph, which means you can't insert newline
 " normaly. However, leave the 'c' flag on, this only happens for recognized
 " comments.
 " When 'a' is on, also turn 'w' on,so that a non-white char ends a paragraph.
 " see ':help fo-table'
-set formatoptions=tcqn "aw, this messes with gq and gw..not good
+set formatoptions=tcqn1 "aw, this messes with gq and gw..not good
 
 " use par to outsource formating when using gq
 " -r: handle empty lines to format as well, repeat chars in bodiless lines
