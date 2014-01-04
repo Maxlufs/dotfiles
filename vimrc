@@ -124,16 +124,16 @@ if !exists(":DiffOrig")
   \ | wincmd p | diffthis
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 03. Theme/Colors                                                          "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 03. Theme/Colors                                                           "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256 " enable 256-color mode.
 " syntax highlighting[ON]
 syntax on
 " must put this before setting colorscheme otherwise it overwrites the theme
 
-" wombat256mod settings
 set background=dark
+" wombat256mod settings
 colorscheme wombat256mod
 hi Normal ctermbg=none " transparent background for vim
 hi NonText ctermbg=none ctermfg=gray " end of line char and unused space
@@ -164,7 +164,7 @@ set noruler    " use vim-airline plugin to handle this
 "   'showmode'                 'showcmd'   'ruler'
 
 set wildmenu " commandline popup bar
-set wildmode=full " commandline popup bar
+set wildmode=full " commandline popup bar style, show all choice in a line
 
 set fillchars=fold:\ ,vert:\|
 " vert = bolder character btw panes
@@ -189,9 +189,9 @@ set smartcase " ignore case if search pattern is all lowercase, sensitive otherw
 set showmatch " Show matching parenthesis
 set matchpairs=(:),{:},[:],<:> " ,':',":"
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 05. Text Font/Formatting                                                  "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 05. Text Font/Formatting                                                   "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Invisible chars settings
 " ========================
 set list
@@ -261,9 +261,9 @@ set cinoptions=(0,u0,U0
 " int f(int x,
 "       int y)
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 06. Mapping                                                               "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 06. Mapping                                                                "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Leader key, default is fine
 " let mapleader = ","
 
@@ -348,9 +348,9 @@ autocmd VimEnter * inoremap <F6> <Esc>:GundoToggle<CR>
 " Toggle the undo graph from Gundo
 autocmd VimEnter * nnoremap <F3> :NERDTreeToggle<CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 07. Plugins                                                               "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 07. Plugins                                                                "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " indent-guides (deprecated)
 " ==========================
 " let g:indent_guides_enable_on_vim_startup = 1 "default 0
@@ -419,9 +419,9 @@ autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>
 " source ~/.vim/custom/settings.vim
 " source ~/.vim/custom/plugins.vim
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 08. Gvim Settings                                                         "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 08. Gvim Settings                                                          "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " if has("gui_running")
 " set guifont = Ubuntu\ Mono\ derivative\ Powerline.ttf
 
