@@ -35,13 +35,20 @@ if has('mouse')
   set mouse=a
 endif
 
+if has("vms")         " vms is an OS, Open Virtual Memory System
+	set nobackup      " do not keep a backup file, use versions instead
+else
+	set backup        " keep a backup file
+endif
+set noswapfile
+
 " Pathogen settings
 execute pathogen#infect()
 Helptags " call :helptags on every dir in runtimepath
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 02. Events                                                                "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 02. Events                                                                 "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " filetype detection[ON] plugin[ON] indent[ON]
 filetype plugin indent on
 
@@ -155,9 +162,7 @@ set fillchars=fold:\ ,vert:\|
 
 
 " Highlight characters that go over 80 columns, works only for gvim
-" may use if has("gui_running") to config
-" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-" match OverLength /\%81v.\+/
+" See Gvim settings
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                  "
@@ -205,7 +210,9 @@ set textwidth=78
 " When 'a' is on, also turn 'w' on,so that a non-white char ends a paragraph.
 " see ':help fo-table'
 set formatoptions=tcqn "aw, this messes with gq and gw..not good
+
 " nnoremap gw <Esc>set formatoptions-=w<CR>gw<Esc>set formatoptions+=w<CR>
+
 " use par to outsource formating when using gq
 " -r: handle empty lines to format as well, repeat chars in bodiless lines
 " -q: handle nested indentation and quotations
@@ -225,20 +232,13 @@ set shiftround " always indent/outdent to the nearest tabstop
 set noexpandtab " do not use spaces instead of tabs
 set smarttab " use shftwidth at the start of a line
 
-" indentation
+" Indentation
 set autoindent " auto-indent
 set copyindent
 set cindent " set c-style indent
 set cinoptions=(0,u0,U0
 " int f(int x,
 "       int y)
-
-if has("vms")         " vms is an OS, Open Virtual Memory System
-	set nobackup      " do not keep a backup file, use versions instead
-else
-	set backup        " keep a backup file
-endif
-set noswapfile
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 06. Mapping                                                               "
@@ -368,3 +368,6 @@ autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
 " hi Overlength
+" may use if has("gui_running") to config
+" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+" match OverLength /\%81v.\+/
