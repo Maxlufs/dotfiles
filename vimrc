@@ -173,6 +173,7 @@ set wrap " wrap text
 " " If set nonumber, then showbreak can be used to indicate wrapped lines
 " set showbreak=…
 
+" " Hard wrapping text settings
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -275,9 +276,15 @@ let g:airline_powerline_fonts = 1
 " Ultisnips
 " =========
 " let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsListSnippets="<c-tab>" "this invokes quickfix to list choices
+let g:UltiSnipsListSnippets="<c-tab>" "this invokes quickfix to list all choices
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" ${VISUAL} mode of UltiSnips. Trying to put everything in reg " into
+" UltiSnips_SaveLastVisualSelection()
+xnoremap x :call UltiSnips_SaveLastVisualSelection()<CR>gvx
+xnoremap d :call UltiSnips_SaveLastVisualSelection()<CR>gvd
+xnoremap s :call UltiSnips_SaveLastVisualSelection()<CR>gvs
+
 
 " Space mapping func, if there's drop-down list, use <Space> to expand
 function! g:Space_Mapping()
