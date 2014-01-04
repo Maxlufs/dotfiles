@@ -280,10 +280,14 @@ inoremap <C-K> <Esc>l<S-C>
 " <C-E> insert char which is below the cursor..this is stupid
 " <C-Y> insert char which is above the cursor..this is stupid
 
-" Search mappings
+" Search mode
 " use Perl/Python regex instead of Vim's regex
 " nnoremap / /\v
 " vnoremap / /\v
+
+" Command mode
+nnoremap ; :
+nnoremap : ;
 
 " UI panels
 " =========
