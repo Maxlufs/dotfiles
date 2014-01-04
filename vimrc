@@ -24,17 +24,19 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Get rid of Vi compatibility mode. SET FIRST!
 set nocompatible
+
+set encoding=utf-8
+set title " change the terminal's title to [NAME] - VIM
 " Hides buffers instead of closing them.
 " This means that you can have unwritten changes to a file and open a new file
 " using :e, without being forced to write or undo your changes first.
-set encoding=utf-8
-set title " change the terminal's title to [NAME] - VIM
 " Also, undo buffers and marks are preserved while the buffer is open
 set hidden
 
 " command line history, this need to set ~/.viminfo 's owner to $USER
 set history=1000
-set undofile " creat <FILE>.un~ file when editting, contain undo info
+" creat <FILE>.un~ file when editting, contain undo info
+set undofile
 set undolevels=1000
 
 " In many terminal emulators the mouse works just fine, thus enable it.
@@ -42,11 +44,12 @@ if has('mouse')
   set mouse=a
 endif
 
-if has("vms")         " vms is an OS, Open Virtual Memory System
-	set nobackup      " do not keep a backup file, use versions instead
-else
-	set backup        " keep a backup file
-endif
+" if has("vms")         " vms is an OS, Open Virtual Memory System
+" 	set nobackup      " do not keep a backup file, use versions instead
+" else
+" 	set backup        " keep a backup file
+" endif
+set nobackup
 set noswapfile
 
 " Pathogen settings
@@ -65,6 +68,11 @@ if has("autocmd")
 endif
 
 
+" auto save file when lose focus
+autocmd FocusLost * :wa
+
+" FileType events
+" ===============
 " In Makefiles DO NOT use spaces instead of tabs
 autocmd FileType make setlocal noexpandtab
 
@@ -272,7 +280,12 @@ inoremap <C-D> <Del>
 " <C-W> delete last word
 " <C-U> delete till begining of current line
 inoremap <C-K> <Esc>l<S-C>
-
+" CTRL-U in insert mode deletes current line.
+" CTRL-W in insert mode deletes last word.
+" Use CTRL-G u to first break undo, so the insertion consists of more than a
+" single modification. Use u to undo.
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
 " <C-I> <Tab>
 " <C-J> <NL> different from <CR>
 " <C-M> <CR>
@@ -281,11 +294,14 @@ inoremap <C-K> <Esc>l<S-C>
 " <C-Y> insert char which is above the cursor..this is stupid
 
 " Search mode
+" ===========
 " use Perl/Python regex instead of Vim's regex
 " nnoremap / /\v
 " vnoremap / /\v
 
-" Command mode
+" Normal mode
+" ===========
+" swap : and ;
 nnoremap ; :
 nnoremap : ;
 
@@ -305,8 +321,8 @@ imap <F1> <Nop>
 " nnoremap gw <Esc>set formatoptions-=w<CR>gw<Esc>set formatoptions+=w<CR>
 
 " Navigation
-" cursor stays at current position when inserting new lines, either <CR> or O
-" This is overridden by Smartab
+" cursor stays at current indentation when inserting new lines, either <CR> or O
+" This is overridden by Smart-tabs
 inoremap <CR> <CR>x<BS>
 nnoremap o ox<BS>
 nnoremap O Ox<BS>
@@ -314,12 +330,10 @@ nnoremap O Ox<BS>
 nnoremap j gj
 nnoremap k gk
 
-" CTRL-U in insert mode deletes current line.
-" CTRL-W in insert mode deletes last word.
-" Use CTRL-G u to first break undo, so the insertion consists of more than a
-" single modification. Use u to undo.
-inoremap <C-U> <C-G>u<C-U>
-inoremap <C-W> <C-G>u<C-W>
+" select the last changed or pasted text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]<BS>'
+" nnoremap <expr> gp '`[' . getregtype()[0] . '`]'
+
 
 " command line window
 " nnoremap : q:i
