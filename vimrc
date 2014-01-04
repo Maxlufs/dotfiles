@@ -75,6 +75,21 @@ autocmd FocusLost * :silent! wall
 " Resize splits when the window is resized
 autocmd VimResized * :wincmd =
 
+" Make sure Vim returns to the same line when you reopen a file.
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+" Also don't do it when the mark is in the first line, that is the default
+" position when opening a file.
+
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
 " FileType events
 " ===============
 " In Makefiles DO NOT use spaces instead of tabs
@@ -103,21 +118,8 @@ if has("autocmd")
 
   " For all text files set 'textwidth' to 78 characters.
   autocmd FileType text setlocal textwidth=78
-
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  " Also don't do it when the mark is in the first line, that is the default
-  " position when opening a file.
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
-
-  augroup END
-
 else
-
+augroup END
 endif " has("autocmd")
 
 " Convenient command to see the difference between the current buffer and the
@@ -188,6 +190,7 @@ set hlsearch " set nohlsearch " Don't continue to highlight searched phrases.
 set incsearch " But do highlight as you type your search.
 set ignorecase " Make searches case-insensitive.
 set smartcase " ignore case if search pattern is all lowercase, sensitive otherwise
+" set gdefault " omit /g in regex
 
 " Paranthesis settings
 " ====================
@@ -328,6 +331,7 @@ imap <F1> <Nop>
 " nnoremap gw <Esc>set formatoptions-=w<CR>gw<Esc>set formatoptions+=w<CR>
 
 " Navigation
+" ==========
 " cursor stays at current indentation when inserting new lines, either <CR> or O
 " This is overridden by Smart-tabs
 inoremap <CR> <CR>x<BS>
@@ -336,6 +340,12 @@ nnoremap O Ox<BS>
 
 nnoremap j gj
 nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+
+noremap H ^
+noremap L $
+vnoremap L g_
 
 " select the last changed or pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]<BS>'
