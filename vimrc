@@ -138,7 +138,6 @@ set noruler    " use vim-airline plugin to handle this
 "  ^^^^^^^^^^^^                ^^^^^^^^^ ^^^^^^^^^^^^
 "   'showmode'                 'showcmd'   'ruler'
 
-
 set number " show line numbers
 set cursorline " highlight current line
 set laststatus=2 " last window always has a statusline
@@ -167,10 +166,12 @@ set fillchars=fold:\ ,vert:\|
 " command line history, this need to set ~/.viminfo 's owner to $USER
 set history=1000
 
-set list " show invisible chars
+" show invisible chars
+set list
 set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
 
-set wrap " wrap text
+" wrap text
+set wrap
 
 " " Soft wrapping text settings
 " set wrap " vim by default breaks a new line within a word
@@ -181,28 +182,35 @@ set wrap " wrap text
 " set showbreak=…
 
 " Hard wrapping text settings
-" use gq and gw, see mapping section
 " There's 2 options to configure hard wrapping, textwidth(tw) and
 " wrapmargin(wm)
 " 1. textwidth when set to 0, use max(screen width, 79)
 set textwidth=78
 " 2. wrapmargin is to solve the screen width less than 80, but it only works
-" when 'set textwidth=0'
+" when 'set textwidth=0'.
 " the final wrapping width = screen width - wrapmargin, regardless of how big
 " the screen is. wrapmargin is used to compensate the width if 'set number' is
 " on.
 " set wrapmargin=5
 
-" When formatoptions = empty, it does not autoformat at all untill gq or gw
-" Add option 'a' and 'n' here, autoformat when inseting text and recognize
-" numbered lists. 
+" use gq and gw, see mapping section
+
+" When formatoptions = empty, it does not autoformat at all until gq or gw
+" 'a': autoformat when inserting text
+" 'n': recognize numbered lists
 " When 'a' is on, better turn off 'r', and 'o', otherwise pressing <CR> or 'o'
 " or 'O' will always re-format paragraph, which means you can't insert newline
 " normaly. However, leave the 'c' flag on, this only happens for recognized
 " comments.
 " When 'a' is on, also turn 'w' on,so that a non-white char ends a paragraph.
 " see ':help fo-table'
-set formatoptions=tcqnaw
+set formatoptions=tcqn "aw, this messes with gq and gw..not good
+" nnoremap gw <Esc>set formatoptions-=w<CR>gw<Esc>set formatoptions+=w<CR>
+" use par to outsource formating when using gq
+" -r: handle empty lines to format as well, repeat chars in bodiless lines
+" -q: handle nested indentation and quotations
+" -e: remove superflous empty lines
+set formatprg=par\ -rq
 
 set colorcolumn=+1
 
@@ -225,10 +233,10 @@ set cinoptions=(0,u0,U0
 " int f(int x,
 "       int y)
 
-if has("vms")       " vms is an OS, Open Virtual Memory System
-  set nobackup      " do not keep a backup file, use versions instead
+if has("vms")         " vms is an OS, Open Virtual Memory System
+	set nobackup      " do not keep a backup file, use versions instead
 else
-  set backup        " keep a backup file
+	set backup        " keep a backup file
 endif
 set noswapfile
 
@@ -245,7 +253,9 @@ imap <F1> <Nop>
 
 " Don't use Ex mode, use Q for formatting hard wrapping
 " gq moves cursor to the last line, eg. gqip (gq in paragraph)
-" gw keeps cursor at the same place
+" gw keeps cursor at the same place eg. gwip
+" gq uses external format program if there is one, gw uses vim internal format
+" Vim's internal formatting uses a greedy algorithm
 nnoremap Q gq
 
 " Navigation
