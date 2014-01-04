@@ -52,6 +52,7 @@ endif
 set nobackup
 set noswapfile
 
+filetype off
 " Pathogen settings
 execute pathogen#infect()
 Helptags " call :helptags on every dir in runtimepath
@@ -64,12 +65,15 @@ filetype plugin indent on
 
 if has("autocmd")
 	" Automatic update .vimrc on the fly
-	autocmd bufwritepost .vimrc source $MYVIMRC
+	autocmd BufWritePost .vimrc source $MYVIMRC
 endif
 
 
-" auto save file when lose focus
-autocmd FocusLost * :wa
+" Save when losing focus
+autocmd FocusLost * :silent! wall
+
+" Resize splits when the window is resized
+autocmd VimResized * :wincmd =
 
 " FileType events
 " ===============
@@ -145,9 +149,10 @@ hi CursorLine ctermbg=none
 hi MatchParen cterm=bold ctermbg=none ctermfg=228
 " hi ctermbg=236 " dark grey
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 04. Vim UI/Layout                                                         "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 04. Vim UI/Layout--------------------------------------------------------{{{
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 04. Vim UI/Layout                                                          "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Main UI settings
 " ================
 set laststatus=2 " last window always has a statusline
@@ -188,13 +193,15 @@ set smartcase " ignore case if search pattern is all lowercase, sensitive otherw
 " ====================
 set showmatch " Show matching parenthesis
 set matchpairs=(:),{:},[:],<:> " ,':',":"
-
+" }}}
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Invisible chars settings
 " ========================
 set list
+" extends and precedes are the chars when window squeezes and set nowrap,
+" these chars indicating there's more text on the line
 set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
 
 " Wrap settings
