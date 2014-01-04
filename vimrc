@@ -27,8 +27,14 @@ set nocompatible
 " Hides buffers instead of closing them.
 " This means that you can have unwritten changes to a file and open a new file
 " using :e, without being forced to write or undo your changes first.
+
+set title " change the terminal's title to [NAME] - VIM
 " Also, undo buffers and marks are preserved while the buffer is open
 set hidden
+
+" command line history, this need to set ~/.viminfo 's owner to $USER
+set history=1000
+set undolevels=1000
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -52,9 +58,9 @@ Helptags " call :helptags on every dir in runtimepath
 " filetype detection[ON] plugin[ON] indent[ON]
 filetype plugin indent on
 
-" Automatic update .vimrc on the fly
 if has("autocmd")
-    autocmd bufwritepost .vimrc source $MYVIMRC
+	" Automatic update .vimrc on the fly
+	autocmd bufwritepost .vimrc source $MYVIMRC
 endif
 
 
@@ -133,6 +139,9 @@ hi MatchParen cterm=bold ctermbg=none ctermfg=228
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 04. Vim UI/Layout                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Main UI settings
+" ================
+set laststatus=2 " last window always has a statusline
 set noshowmode " use vim-airline plugin to handle this
 set showcmd
 set noruler    " use vim-airline plugin to handle this
@@ -145,37 +154,37 @@ set noruler    " use vim-airline plugin to handle this
 "  ^^^^^^^^^^^^                ^^^^^^^^^ ^^^^^^^^^^^^
 "   'showmode'                 'showcmd'   'ruler'
 
-set number " show line numbers
-set cursorline " highlight current line
-set laststatus=2 " last window always has a statusline
-set hlsearch
-" set nohlsearch " Don't continue to highlight searched phrases.
-set incsearch " But do highlight as you type your search.
-set ignorecase " Make searches case-insensitive.
-
-set showmatch " Show matching parenthesis
-set matchpairs=(:),{:},[:],<:> " ,':',":"
-
 set fillchars=fold:\ ,vert:\|
 " vert = bolder character btw panes
 " fold = folded chunck of code, the char in the first line
+set number " show line numbers
+set cursorline " highlight current line
+set scrolloff=4 " keep 4 lines off the edges of the screen when scrolling
+set textwidth=78
+set colorcolumn=+1 " = textwidth + 1
 
+" Search settings
+" ===============
+set hlsearch " set nohlsearch " Don't continue to highlight searched phrases.
+set incsearch " But do highlight as you type your search.
+set ignorecase " Make searches case-insensitive.
+set smartcase " ignore case if search pattern is all lowercase, sensitive otherwise
 
-" Highlight characters that go over 80 columns, works only for gvim
-" See Gvim settings
+" Paranthesis settings
+" ====================
+set showmatch " Show matching parenthesis
+set matchpairs=(:),{:},[:],<:> " ,':',":"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                  "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" General settings
-" command line history, this need to set ~/.viminfo 's owner to $USER
-set history=1000
-
-" show invisible chars
+" Invisible chars settings
+" ========================
 set list
 set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
 
-" wrap text
+" Wrap settings
+" =============
 set wrap
 
 " " Soft wrapping text settings
@@ -186,19 +195,17 @@ set wrap
 " " If set nonumber, then showbreak can be used to indicate wrapped lines
 " set showbreak=…
 
-" Hard wrapping text settings
+" Hard wrapping text settings (use gq and gw, see mapping section)
 " There's 2 options to configure hard wrapping, textwidth(tw) and
 " wrapmargin(wm)
-" 1. textwidth when set to 0, use max(screen width, 79)
-set textwidth=78
+" 1. textwidth when set to 0, use max{screen width, 79}
+"    textwidth is set in the UI section.
+" set textwidth=78
 " 2. wrapmargin is to solve the screen width less than 80, but it only works
-" when 'set textwidth=0'.
-" the final wrapping width = screen width - wrapmargin, regardless of how big
-" the screen is. wrapmargin is used to compensate the width if 'set number' is
-" on.
+"    when 'set textwidth=0'. the final wrapping width = screen width -
+"    wrapmargin, regardless of how big the screen is. wrapmargin is used to
+"    compensate the width if 'set number' is on.
 " set wrapmargin=5
-
-" use gq and gw, see mapping section
 
 " When formatoptions = empty, it does not autoformat at all until gq or gw
 " 'a': autoformat when inserting text
@@ -211,28 +218,27 @@ set textwidth=78
 " see ':help fo-table'
 set formatoptions=tcqn "aw, this messes with gq and gw..not good
 
-" nnoremap gw <Esc>set formatoptions-=w<CR>gw<Esc>set formatoptions+=w<CR>
-
 " use par to outsource formating when using gq
 " -r: handle empty lines to format as well, repeat chars in bodiless lines
 " -q: handle nested indentation and quotations
 " -e: remove superflous empty lines
 set formatprg=par\ -rq
 
-set colorcolumn=+1
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
 " TAB settings
-set tabstop=4 " tab columns
-set softtabstop=0 " how many columns when hit Tab in insert mode, unify this
+" ============
+set tabstop=4 " tab = 4 columns
+set softtabstop=0 " how many columns when hit Tab in insert mode, 0 uses tabstop
 set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
-set shiftround " always indent/outdent to the nearest tabstop
+set shiftround " always indent/outdent to the nearest tabstop, (multiples of 4)
 set noexpandtab " do not use spaces instead of tabs
 set smarttab " use shftwidth at the start of a line
 
-" Indentation
+" Indentation settings
+" ====================
 set autoindent " auto-indent
 set copyindent
 set cindent " set c-style indent
@@ -256,7 +262,8 @@ imap <F1> <Nop>
 " gw keeps cursor at the same place eg. gwip
 " gq uses external format program if there is one, gw uses vim internal format
 " Vim's internal formatting uses a greedy algorithm
-nnoremap Q gq
+" nnoremap Q gq
+" nnoremap gw <Esc>set formatoptions-=w<CR>gw<Esc>set formatoptions+=w<CR>
 
 " Navigation
 " cursor stays at current position when inserting new lines, either <CR> or O
