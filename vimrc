@@ -157,6 +157,7 @@ hi ColorColumn ctermbg=32 " glowing blue
 hi CursorLineNr cterm=bold ctermbg=none ctermfg=11 " bold yellow
 hi CursorLine ctermbg=none
 hi MatchParen cterm=bold ctermbg=none ctermfg=228
+match ErrorMsg '\s\+$'
 " hi ctermbg=236 " dark grey
 
 " 04. Vim UI/Layout--------------------------------------------------------{{{
@@ -399,6 +400,7 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]<BS>'
 
 " Splits switching
 " ================
+" Meta-keys are mapped as <Esc> + key, this may exit to normal mode
 nnoremap h <C-W>h
 nnoremap j <C-W>j
 nnoremap k <C-W>k
