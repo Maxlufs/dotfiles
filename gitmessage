@@ -2,13 +2,13 @@ subject line
 
 # NAME
 #     gitmessage - template for git commit messages
-# 
+#
 # SYNOPSIS
 #     FILE OPTION: @DIR
 #     CODE OPTION: Contents @FILE
 #     [ticketId][test|part|fix][OPTION] Contents @FILE
-# 
-# 
+#
+#
 # DESCRIPTION
 #     A systematic way of mangaing git commit messages.
 #     Use git verbs, which is an alias, to see a list of commit verbs
@@ -17,7 +17,7 @@ subject line
 #     INC = include
 #         Inc @newfiles
 #         Inc @newdir/
-#     REN = rename 
+#     REN = rename
 #         Ren @oldfile -> @newfile
 #         Ren @olddir/ -> @newdir/
 #     COP = copy
@@ -26,10 +26,10 @@ subject line
 #     MOV = move
 #         Mov @oldfile -> @newfile
 #         Mov @olddir/ -> @newdir/
-#     DEL = delete 
+#     DEL = delete
 #         Del @oldfiles
 #         Del @olddir/
-# 
+#
 # CODE OPTION
 #     Add = add new functions
 #         Add myFunc() @file
@@ -43,14 +43,14 @@ subject line
 #     Com = comment
 #         Com myFunc() @file
 #         Com TODO @file
-# 
+#
 # BUG HANDLING
 #     [ticketId][new|test|part|fix][Add|Rem|Mod|Ref]Contents @files
 #         [#250001][new]Rem buggyFunc() @file
 #         [#253012][fix]Rem buggyFunc() @file
 #         [#254238][part]Rem buggyFunc() @file
 #         [#259492][test]Add magicFunc(); Rem maybeBuggyFunc() @file
-# 
+#
 # Bug = bug
 #     Bug #253012
 #
@@ -59,4 +59,4 @@ subject line
 #
 # GIT DEFAULTS
 #     Merge
-# 
+#
