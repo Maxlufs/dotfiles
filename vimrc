@@ -10,7 +10,9 @@
     " 03. Theme/Colors ................ Colors, fonts, etc.             "
     " 04. Vim UI/Layout ............... User interface behavior         "
     " 05. Text Formatting ............. Text, tab, indentation related  "
-    " 06. Mapping ..................... Key mappings                    "
+    " 06. Plugins ..................... Vim plugin configuration        "
+    " 07. Mapping ..................... Key mappings                    "
+    " 08. Gvim ........................ GUI vim settings                "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " TODO """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -73,6 +75,10 @@ autocmd FocusLost * :silent! wall
 
 " Resize splits when the window is resized
 autocmd VimResized * :wincmd =
+
+" Save and restore folds
+autocmd BufWinLeave ?* mkview
+autocmd BufWinEnter ?* silent loadview " ?* handles vanila vim
 
 " Make sure Vim returns to the same line when you reopen a file.
 " When editing a file, always jump to the last known cursor position.
@@ -199,15 +205,30 @@ set smartcase " ignore case if search pattern is all lowercase, sensitive otherw
 set showmatch " Show matching parenthesis
 set matchpairs=(:),{:},[:],<:> " ,':',":"
 " }}}
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 05. Text Font/Formatting                                                   "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Invisible chars settings
+" Whitespace settings
 " ========================
 set list
 " extends and precedes are the chars when window squeezes and set nowrap,
 " these chars indicating there's more text on the line
 set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
+
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " Wrap settings
 " =============
@@ -305,11 +326,32 @@ inoremap <C-W> <C-G>u<C-W>
 " <C-E> insert char which is below the cursor..this is stupid
 " <C-Y> insert char which is above the cursor..this is stupid
 
+" Command mode
+" ============
+" <C-B> <Home> by default
+cnoremap <C-A> <Home>
+" <C-E> <End> by default
+cnoremap <C-B> <Left>
+cnoremap <C-F> <Right>
+cnoremap <C-D> <Del>
+" <C-D> by default is command-line completion
+" <C-H> <BS>
+" <C-W> delete last word
+" <C-U> delete till beginning of current line
+" cnoremap <C-K> delete till end of current line
+" <C-J> <NL> = <CR>
+" <C-M> <CR>
+" <C-I> <Tab>
+" <C-R> registers
+" cnoremap <C-T> swap cursor's last 2 letters
+
 " Search mode
 " ===========
 " use Perl/Python regex instead of Vim's regex
-" nnoremap / /\v
-" vnoremap / /\v
+nnoremap / /\v
+vnoremap / /\v
+
+" http://vim.wikia.com/wiki/VimTip738
 
 " Normal mode
 " ===========
