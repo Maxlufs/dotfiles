@@ -99,6 +99,7 @@ declare -A repo
 
 # vim pathogen plugin
 PATHOGENREPO="https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim"
+# repo["vundle"]="https://github.com/gmarik/vundle.git"
 
 # vim colorschemes
 repo["jellybeans"]="https://github.com/nanotech/jellybeans.vim.git"
@@ -121,6 +122,7 @@ repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 # use listchars instead
 repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
 repo["surround"]="https://github.com/tpope/vim-surround.git"
+repo["nerdcommenter"]="https://github.com/scrooloose/nerdcommenter.git"
 
 # vim ide plugins
 # repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
