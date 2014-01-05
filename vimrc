@@ -427,13 +427,46 @@ autocmd BufEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
 
 " YouCompleteMe
 " =============
+" Unmap <Tab> from iterating drop-down list
 let g:ycm_key_list_select_completion = ['<Down>'] "deafult += <TAB>
 
+" Map <Tab>, if drop-down list, then <C-N>, else use smart tabs
 autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"
 " exe 'inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"'
+" Do not make YCM register the default syntastic check for c, cpp, objc,
+" objcpp let g:ycm_register_as_syntastic_checker = 0 " default 1
 
 
-" Load custom settings (deprecated)
+" Syntastic
+" =========
+" Check syntax on both loading and saving buffers
+let g:syntastic_check_on_open = 1
+" " Run all checkers combined one by one, and label checker id to errors.
+" let g:syntastic_aggregate_errors = 1 " default 1
+" let g:syntastic_id_checkers = 1 " default 1
+" Use :sign interface (the panel left to line numbers) to mark syntax errors
+let g:syntastic_enable_signs = 1 "default 1
+" Syntax and style errors, default '>>' and 'S>'
+let g:syntastic_error_symbol = '✗' " default '>>'
+" let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠' " default '>>'
+" let g:syntastic_style_warning_symbol = '⚠'
+" Display error msg in ballon when mouse hovers, need vim +ballon_eval
+" let g:syntastic_enable_balloons = 1 " default 1
+" Update location-list when run checkers, by default use :Errors
+let g:syntastic_always_populate_loc_list = 1 " default 0
+" " Auto jump to the first detected error when saving or opening a file
+" let g:syntastic_auto_jump = 1 " default 0
+" Error window auto open when errors detected, and auto close when no errors
+let g:syntastic_auto_loc_list = 1 " deafault 2
+" " Height of location-list
+" let g:syntastic_loc_list_height = 5 " default 10
+" " Never check these ignore files
+" let g: syntastic_ignore_files
+" let g:syntastic_c_checkers = ['gcc'] " default 'ycm' is fine
+
+" Custom settings (deprecated)
+" ============================
 " source ~/.vim/custom/color.vim
 " source ~/.vim/custom/font.vim
 " source ~/.vim/custom/functions.vim
