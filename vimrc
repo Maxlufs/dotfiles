@@ -64,8 +64,8 @@ Helptags " call :helptags on every dir in runtimepath
 filetype plugin indent on
 
 if has("autocmd")
-	" Automatic update .vimrc on the fly
-	autocmd BufWritePost .vimrc source $MYVIMRC
+    " Automatic update .vimrc on the fly
+    autocmd BufWritePost .vimrc source $MYVIMRC
 endif
 
 " Save when losing focus
@@ -93,6 +93,9 @@ augroup END
 " ===============
 " In Makefiles DO NOT use spaces instead of tabs
 autocmd FileType make setlocal noexpandtab
+
+" In vimrc, expandtab to spaces
+autocmd FileType vim setlocal expandtab
 
 " In Ruby files, use 2 spaces instead of 4 for tabs
 " autocmd FileType ruby setlocal sw=2 ts=2 sts=2
@@ -313,6 +316,8 @@ inoremap <C-W> <C-G>u<C-W>
 " swap : and ;
 nnoremap ; :
 nnoremap : ;
+xnoremap ; :
+xnoremap : ;
 
 " UI panels
 " =========
@@ -415,18 +420,18 @@ xnoremap s :call UltiSnips_SaveLastVisualSelection()<CR>gvs
 
 " Space mapping func, if there's drop-down list, use <Space> to expand
 function! g:Space_Mapping()
-	call UltiSnips_ExpandSnippet() "This returns g:ulti_expand_res
-	if g:ulti_expand_res == 0
-		return "\<Space>"
-	else
-		return ""
-	endif
+    call UltiSnips_ExpandSnippet() "This returns g:ulti_expand_res
+    if g:ulti_expand_res == 0
+        return "\<Space>"
+    else
+        return ""
+    endif
 endfunction
 
 autocmd BufEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
 
-" YouCompleteMe
-" =============
+" YouCompleteMe(YCM)
+" ==================
 " Unmap <Tab> from iterating drop-down list
 let g:ycm_key_list_select_completion = ['<Down>'] "deafult += <TAB>
 
@@ -434,8 +439,9 @@ let g:ycm_key_list_select_completion = ['<Down>'] "deafult += <TAB>
 autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"
 " exe 'inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"'
 " Do not make YCM register the default syntastic check for c, cpp, objc,
-" objcpp let g:ycm_register_as_syntastic_checker = 0 " default 1
-
+" objcpp
+" let g:ycm_register_as_syntastic_checker = 0 " default 1
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/cpp/ycm/.ycm_extra_conf.py'
 
 " Syntastic
 " =========
@@ -446,7 +452,7 @@ let g:syntastic_check_on_open = 1
 " let g:syntastic_id_checkers = 1 " default 1
 " Use :sign interface (the panel left to line numbers) to mark syntax errors
 let g:syntastic_enable_signs = 1 "default 1
-" Syntax and style errors, default '>>' and 'S>'
+" Syntax and style errors
 let g:syntastic_error_symbol = '✗' " default '>>'
 " let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠' " default '>>'
@@ -477,8 +483,9 @@ let g:syntastic_auto_loc_list = 1 " deafault 2
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 08. Gvim Settings                                                          "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" if has("gui_running")
-" set guifont = Ubuntu\ Mono\ derivative\ Powerline.ttf
+if has("gui_running")
+    set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 12
+endif
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
 " let &guioptions = substitute(&guioptions, "t", "", "g")
