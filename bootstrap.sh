@@ -102,12 +102,14 @@ PATHOGENREPO="https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen
 # repo["vundle"]="https://github.com/gmarik/vundle.git"
 
 # vim colorschemes
+# ================
 repo["jellybeans"]="https://github.com/nanotech/jellybeans.vim.git"
 repo["molokai"]="https://github.com/tomasr/molokai.git"
 repo["wombat"]="https://github.com/vim-scripts/Wombat.git "
 repo["wombat256"]="https://github.com/vim-scripts/wombat256.vim.git"
 
 # vim ui plugins
+# ==============
 repo["nerdtree"]="https://github.com/scrooloose/nerdtree.git"
 repo["gundo"]="http://github.com/sjl/gundo.vim.git"
 # repo["powerline"]="https://github.com/Lokaltog/powerline.git"
@@ -116,19 +118,20 @@ repo["airline"]="https://github.com/bling/vim-airline.git"
 
 # vim plugins
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
-repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
-repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 # repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
 # use listchars instead
 repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
 repo["surround"]="https://github.com/tpope/vim-surround.git"
 repo["nerdcommenter"]="https://github.com/scrooloose/nerdcommenter.git"
+repo["tabular"]="https://github.com/godlygeek/tabular.git"
 
 # vim ide plugins
 # repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
 # cvim is too giant
 repo["vim-latex"]="https://github.com/Maxlufs/vim-latex.git"
 repo["syntastic"]="https://github.com/scrooloose/syntastic.git"
+repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
+repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 
 # vim autocompletion plugin
 repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
