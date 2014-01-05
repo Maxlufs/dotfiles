@@ -68,7 +68,6 @@ if has("autocmd")
 	autocmd BufWritePost .vimrc source $MYVIMRC
 endif
 
-
 " Save when losing focus
 autocmd FocusLost * :silent! wall
 
@@ -351,6 +350,12 @@ vnoremap L g_
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]<BS>'
 " nnoremap <expr> gp '`[' . getregtype()[0] . '`]'
 
+" Splits switching
+" ================
+nnoremap h <C-W>h
+nnoremap j <C-W>j
+nnoremap k <C-W>k
+nnoremap l <C-W>l
 
 " command line window
 " nnoremap : q:i
