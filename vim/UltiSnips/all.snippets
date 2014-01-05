@@ -1,0 +1,6 @@
+snippet sec "Section" !b
+\section{${1:section name}}
+\label{sec:${2:${1/\\\w+\{(.*?)\}|\\(.)|(\w+)|([^\w\\]+)/(?4:_:\L$1$2$3\E)/g}}}
+${VISUAL}$0
+%section $2 (end)
+endsnippet
