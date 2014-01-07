@@ -1,5 +1,9 @@
-set convert-meta on
-set meta-flag on
+# This is fun.
+# set editing-mode vi
+# set keymap vi-command
+# set convert-meta on
+# set meta-flag on
+
 # tpope's inputrc
 # ===============
 # set keymap vi-insert
