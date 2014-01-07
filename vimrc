@@ -17,7 +17,7 @@
 
 " TODO """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " [ ] Auto folding                                                           "
-"                                                                            "
+" [ ] Showmatch for quotes                                                   "
 "                                                                            "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -385,10 +385,10 @@ inoremap <CR> <CR>x<BS>
 nnoremap o ox<BS>
 nnoremap O Ox<BS>
 
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
 
 noremap H ^
 noremap L $
@@ -451,16 +451,21 @@ let g:airline_powerline_fonts = 1
 
 " Ultisnips
 " =========
-" let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-tab>" "this invokes quickfix to list all choices
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsListSnippets="<Leader>ls" "this invokes quickfix to list all choices
+" <c-tab> only works in Gvim, cuz <c-tab> won't be sent into the terminal
+" <tab> is rendered as Ctrl-I, so <c-tab> is rendered as Ctrl-Ctrl-I. which is impossible
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-" ${VISUAL} mode of UltiSnips. Trying to put everything in reg " into
+" ${VISUAL} mode of UltiSnips. Trying to put everything in register " into
 " UltiSnips_SaveLastVisualSelection()
 xnoremap x :call UltiSnips_SaveLastVisualSelection()<CR>gvx
 xnoremap d :call UltiSnips_SaveLastVisualSelection()<CR>gvd
 xnoremap s :call UltiSnips_SaveLastVisualSelection()<CR>gvs
 
+let g:UltiSnipsEditSplit = 'vertical'
+autocmd BufEnter *.rails UltiSnipsAddFiletypes rails.ruby
+" Priority rails -> ruby -> all
 
 " Space mapping func, if there's drop-down list, use <Space> to expand
 function! g:Space_Mapping()
@@ -480,7 +485,7 @@ autocmd BufEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
 let g:ycm_key_list_select_completion = ['<Down>'] "deafult += <TAB>
 
 " Map <Tab>, if drop-down list, then <C-N>, else use smart tabs
-autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"
+" autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"
 " exe 'inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"'
 " Do not make YCM register the default syntastic check for c, cpp, objc,
 " objcpp
