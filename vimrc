@@ -467,6 +467,11 @@ let g:UltiSnipsEditSplit = 'vertical'
 autocmd BufEnter *.rails UltiSnipsAddFiletypes rails.ruby
 " Priority rails -> ruby -> all
 
+" :call UltisnipsEdit will open the following dir
+let g:UltiSnipsSnippetDir=["~/.vim/snippets"]
+" Default snippets
+let g:UltiSnipsSnippetDirectories=["snippets"]
+
 " Space mapping func, if there's drop-down list, use <Space> to expand
 function! g:Space_Mapping()
     call UltiSnips_ExpandSnippet() "This returns g:ulti_expand_res

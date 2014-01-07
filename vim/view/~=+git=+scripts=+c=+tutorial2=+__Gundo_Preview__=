@@ -5,9 +5,9 @@ setlocal noarabic
 setlocal autoindent
 setlocal balloonexpr=
 setlocal nobinary
-setlocal bufhidden=wipe
-setlocal buflisted
-setlocal buftype=
+setlocal bufhidden=hide
+setlocal nobuflisted
+setlocal buftype=nofile
 setlocal cindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=(0,u0,U0
@@ -30,49 +30,49 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal noexpandtab
-if &filetype != 'gitcommit'
-setlocal filetype=gitcommit
+if &filetype != 'diff'
+setlocal filetype=diff
 endif
 setlocal foldcolumn=0
 setlocal foldenable
 setlocal foldexpr=0
 setlocal foldignore=#
-setlocal foldlevel=0
+setlocal foldlevel=20
 setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
+setlocal foldmethod=diff
 setlocal foldminlines=1
 setlocal foldnestmax=20
-setlocal foldtext=fugitive#foldtext()
+setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=cqn1tl
+setlocal formatoptions=tcqn1
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=2
 setlocal imsearch=2
 setlocal include=
-setlocal includeexpr=substitute(v:fname,'^[^/]\\+/','','')
+setlocal includeexpr=
 setlocal indentexpr=
 setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
 setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=git\ --git-dir='/home/ubuntu/maxlufs/.dotfiles/.git'\ show
+setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal list
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:],<:>
 setlocal nomodeline
-setlocal modifiable
+setlocal nomodifiable
 setlocal nrformats=octal,hex
-setlocal number
+setlocal nonumber
 setlocal numberwidth=4
-setlocal omnifunc=
-setlocal path=~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,
+setlocal omnifunc=youcompleteme#OmniComplete
+setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
 setlocal quoteescape=\\
 setlocal noreadonly
-setlocal relativenumber
+setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
 setlocal noscrollbind
@@ -88,25 +88,24 @@ setlocal statusline=%!airline#statusline(1)
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != 'gitcommit'
-setlocal syntax=gitcommit
+if &syntax != 'diff'
+setlocal syntax=diff
 endif
-setlocal tabstop=8
-setlocal tags=~/.dotfiles/.git/gitcommit.tags,~/.dotfiles/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal tabstop=4
+setlocal tags=~/git/scripts/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=78
 setlocal thesaurus=
 setlocal undofile
-setlocal winfixheight
+setlocal nowinfixheight
 setlocal nowinfixwidth
-setlocal wrap
+setlocal nowrap
 setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 8) / 17)
+let s:l = 1 - ((0 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 022|
+1
+normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :
