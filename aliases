@@ -14,7 +14,7 @@
    # 04. Installing vim plugins                                        #
    # 03. Create symlinks to ~/.dotfiles/                               #
 #=========================================================================#
- 
+
 #=========================================================================#
 # TODO                                                                    #
 # S: Test OS version, use dpkg or rpm                                     #
@@ -26,7 +26,7 @@
 # 00. System checking
 #=========================================================================#
 # PKG should not reuturn an '-a' list. Time effiency
-DISTRO=$(lsb_release -i | cut -f2)  
+DISTRO=$(lsb_release -i | cut -f2)
 if [ $DISTRO == 'CentOS' ]; then PKG='rpm -q';fi
 if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
 
@@ -39,7 +39,7 @@ if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
 alias path='echo -e ${PATH//:/\\n}'
 ###########################################################################
 
- 
+
 ###########################################################################
 # 01. Navigation
 #=========================================================================#
@@ -84,6 +84,9 @@ alias fgrep='fgrep --colour=auto'
 if [ $(which colordiff) ]
 then alias diff='colordiff'
 fi
+
+# du
+# alias ds='du -sh'            # total size, human-readable
 ###########################################################################
 
 
@@ -141,7 +144,7 @@ alias tt='tree -Ch --du -L 2'
 alias ttt='tree -Ch --du -L 3'
 alias tttt='tree -Ch --du -L 4'
 # -C use system color
-# -h human readable 
+# -h human readable
 # --du all dirs
 # Note: earlier versions only has -s show size
 
