@@ -132,9 +132,11 @@ fi
 
 source ~/.aliases
 
+# Add RVM to PATH for scripting, the following line auto add ~/.rvm/bin though
+# PATH=$PATH:$HOME/.rvm/bin
 # For Ruby RVM
 [[ -s '/home/ubuntu/maxlufs/.rvm/scripts/rvm' ]] && source '/home/ubuntu/maxlufs/.rvm/scripts/rvm'
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+PATH="$HOME/.cabal/bin:$PATH"
 
 export TERM=xterm-256color
