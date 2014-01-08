@@ -524,6 +524,7 @@ let g:syntastic_auto_loc_list = 1 " deafault 2
 " " Never check these ignore files
 " let g: syntastic_ignore_files
 " let g:syntastic_c_checkers = ['gcc'] " default 'ycm' is fine
+let g:syntastic_haskell_checkers = ['ghc-mod']
 
 " Custom settings (deprecated)
 " ============================
