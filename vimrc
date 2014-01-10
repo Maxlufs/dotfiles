@@ -451,7 +451,7 @@ let g:airline_powerline_fonts = 1
 
 " Ultisnips
 " =========
-let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<space>"
 let g:UltiSnipsListSnippets="<Leader>ls" "this invokes quickfix to list all choices
 " <c-tab> only works in Gvim, cuz <c-tab> won't be sent into the terminal
 " <tab> is rendered as Ctrl-I, so <c-tab> is rendered as Ctrl-Ctrl-I. which is impossible
@@ -468,7 +468,7 @@ autocmd BufEnter *.rails UltiSnipsAddFiletypes rails.ruby
 " Priority rails -> ruby -> all
 
 " :call UltisnipsEdit will open the following dir
-let g:UltiSnipsSnippetDir=["~/.vim/snippets"]
+" let g:UltiSnipsSnippetsDir=["~/.vim/snippets"]
 " Default snippets
 let g:UltiSnipsSnippetDirectories=["snippets"]
 
@@ -490,10 +490,9 @@ autocmd BufEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
 let g:ycm_key_list_select_completion = ['<Down>'] "deafult += <TAB>
 
 " Map <Tab>, if drop-down list, then <C-N>, else use smart tabs
-" autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"
-" exe 'inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>37_InsertSmartTab()\<CR>"'
-" Do not make YCM register the default syntastic check for c, cpp, objc,
-" objcpp
+autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>38_InsertSmartTab()\<CR>"
+
+" Do not make YCM register the default syntastic check for c, cpp, objc,objcpp
 " let g:ycm_register_as_syntastic_checker = 0 " default 1
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/youcompleteme/cpp/ycm/.ycm_extra_conf.py'
 
