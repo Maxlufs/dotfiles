@@ -468,7 +468,7 @@ autocmd BufEnter *.rails UltiSnipsAddFiletypes rails.ruby
 " Priority rails -> ruby -> all
 
 " :call UltisnipsEdit will open the following dir
-" let g:UltiSnipsSnippetsDir=["~/.vim/snippets"]
+let g:UltiSnipsSnippetsDir=["~/.vim/snippets"]
 " Default snippets
 let g:UltiSnipsSnippetDirectories=["snippets"]
 

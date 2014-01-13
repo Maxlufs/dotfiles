@@ -92,7 +92,7 @@ if &syntax != 'snippets'
 setlocal syntax=snippets
 endif
 setlocal tabstop=4
-setlocal tags=~/git/scripts/.git/snippets.tags,~/git/scripts/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal tags=~/.dotfiles/.git/snippets.tags,~/.dotfiles/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=78
 setlocal thesaurus=
 setlocal undofile
@@ -100,11 +100,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 21 - ((20 * winheight(0) + 27) / 55)
+let s:l = 1 - ((0 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
+1
 normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

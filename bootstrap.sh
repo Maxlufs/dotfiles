@@ -120,7 +120,7 @@ repo["airline"]="https://github.com/bling/vim-airline.git"
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
 # repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
 # use listchars instead
-repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
+# repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
 repo["surround"]="https://github.com/tpope/vim-surround.git"
 repo["nerdcommenter"]="https://github.com/scrooloose/nerdcommenter.git"
 repo["tabular"]="https://github.com/godlygeek/tabular.git"
