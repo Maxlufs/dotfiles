@@ -112,32 +112,34 @@ repo["wombat256"]="https://github.com/vim-scripts/wombat256.vim.git"
 # ==============
 repo["nerdtree"]="https://github.com/scrooloose/nerdtree.git"
 repo["gundo"]="http://github.com/sjl/gundo.vim.git"
+repo["airline"]="https://github.com/bling/vim-airline.git"
 # repo["powerline"]="https://github.com/Lokaltog/powerline.git"
 # use airline instead
-repo["airline"]="https://github.com/bling/vim-airline.git"
 
-# vim plugins
+# vim text plugins
+# ================
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
-# repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
-# use listchars instead
-# repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
 repo["surround"]="https://github.com/tpope/vim-surround.git"
 repo["nerdcommenter"]="https://github.com/scrooloose/nerdcommenter.git"
 repo["tabular"]="https://github.com/godlygeek/tabular.git"
+# repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
+# use listchars instead
+# repo["smarttabs"]="https://github.com/vim-scripts/Smart-Tabs.git"
 
-# vim ide plugins
-# repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
-# cvim is too giant
+# vim IDE plugins
 repo["vim-latex"]="https://github.com/Maxlufs/vim-latex.git"
 repo["syntastic"]="https://github.com/scrooloose/syntastic.git"
 repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
 repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
+# repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
+# cvim is too giant
 
 # vim autocompletion plugin
 repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
 
 # vim ultisnips
 repo["ultisnips"]="https://github.com/SirVer/ultisnips.git"
+
 # vim snipmate dependecies
 # repo["snipmate"]="https://github.com/garbas/vim-snipmate.git"
 # repo["tlib"]="https://github.com/tomtom/tlib_vim.git"
@@ -295,7 +297,7 @@ do
     then
         cd $i
         git pull -q                 # quite mode
-        if [ "$(git diff HEAD)" ]; then
+        if [[ $(git diff HEAD) ]]; then
             git reset --hard -q origin/master
             # My misunderstanding of git pull.
             # need to use git reset in order to copy from commit to working dir
