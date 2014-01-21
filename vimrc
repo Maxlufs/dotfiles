@@ -311,12 +311,10 @@ inoremap <C-F> <Right>
 " <C-H> backspace <BS>
 " <C-D> default del indent, use <C-H> instead
 inoremap <C-D> <Del>
+inoremap <C-K> <Esc>l<S-C>
 " <C-W> delete last word
 " <C-U> delete till begining of current line
-inoremap <C-K> <Esc>l<S-C>
-" CTRL-U in insert mode deletes current line.
-" CTRL-W in insert mode deletes last word.
-" Use CTRL-G u to first break undo, so the insertion consists of more than a
+" Use <C-G>+u to first break undo, so the insertion consists of more than a
 " single modification. Use u to undo.
 inoremap <C-U> <C-G>u<C-U>
 inoremap <C-W> <C-G>u<C-W>
@@ -351,8 +349,6 @@ cnoremap <C-D> <Del>
 " use Perl/Python regex instead of Vim's regex
 nnoremap / /\v
 vnoremap / /\v
-
-" http://vim.wikia.com/wiki/VimTip738
 
 " Normal mode
 " ===========
@@ -390,6 +386,7 @@ noremap k gk
 noremap gj j
 noremap gk k
 
+" Quick navigation to home/end of line
 noremap H ^
 noremap L $
 vnoremap L g_
@@ -405,18 +402,23 @@ nnoremap h <C-W>h
 nnoremap j <C-W>j
 nnoremap k <C-W>k
 nnoremap l <C-W>l
+" Fix meta-keys that break out of Insert mode
+" http://vim.wikia.com/wiki/VimTip738
 
-" command line window
+
+" command line window, type into the window instead of using command line
+" This is awkward.
 " nnoremap : q:i
 " nnoremap / q/i
 " nnoremap ? q?i
 
 " Plugin mappings
-" Toggle the undo graph from Gundo
+" ===============
+" Toggle Gundo
 autocmd VimEnter * nnoremap <F6> :GundoToggle<CR>
 autocmd VimEnter * inoremap <F6> <Esc>:GundoToggle<CR>
 
-" Toggle the undo graph from Gundo
+" Toggle NERDTree
 autocmd VimEnter * nnoremap <F3> :NERDTreeToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -468,8 +470,8 @@ autocmd BufEnter *.rails UltiSnipsAddFiletypes rails.ruby
 " Priority rails -> ruby -> all
 
 " :call UltisnipsEdit will open the following dir
-let g:UltiSnipsSnippetsDir=["~/.vim/snippets"]
-" Default snippets
+let g:UltiSnipsSnippetsDir="~/.vim/snippets"
+" Default snippets, do not use Ultisnips' snippets
 let g:UltiSnipsSnippetDirectories=["snippets"]
 
 " Space mapping func, if there's drop-down list, use <Space> to expand
@@ -487,10 +489,10 @@ autocmd BufEnter * inoremap <silent> <Space> <C-R>=g:Space_Mapping()<CR>
 " YouCompleteMe(YCM)
 " ==================
 " Unmap <Tab> from iterating drop-down list
-let g:ycm_key_list_select_completion = ['<Down>'] "deafult += <TAB>
+let g:ycm_key_list_select_completion = ['<TAB>', '<Down>'] "deafult += <TAB>
 
 " Map <Tab>, if drop-down list, then <C-N>, else use smart tabs
-autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>38_InsertSmartTab()\<CR>"
+" autocmd BufEnter * inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-R>=<SNR>38_InsertSmartTab()\<CR>"
 
 " Do not make YCM register the default syntastic check for c, cpp, objc,objcpp
 " let g:ycm_register_as_syntastic_checker = 0 " default 1
