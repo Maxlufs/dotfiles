@@ -14,11 +14,11 @@ setlocal cinoptions=(0,u0,U0
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=+1
 setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
-setlocal commentstring=#%s
+setlocal commentstring=/*%s*/
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
-setlocal completefunc=youcompleteme#Complete
+setlocal completefunc=
 setlocal copyindent
 setlocal cryptmethod=
 setlocal nocursorbind
@@ -30,8 +30,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal noexpandtab
-if &filetype != 'sh'
-setlocal filetype=sh
+if &filetype != ''
+setlocal filetype=
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -51,17 +51,17 @@ setlocal iminsert=2
 setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
-setlocal indentexpr=GetShIndent()
-setlocal indentkeys=0{,0},!^F,o,O,e,0=then,0=do,0=else,0=elif,0=fi,0=esac,0=done,),0=;;,0=;&,0=fin,0=fil,0=fip,0=fir,0=fix
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255,.
+setlocal iskeyword=@,48-57,_,192-255
 setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
 setlocal list
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:],<:>
-setlocal modeline
+setlocal nomodeline
 setlocal modifiable
 setlocal nrformats=octal,hex
 setlocal number
@@ -88,11 +88,11 @@ setlocal statusline=%!airline#statusline(1)
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != 'sh'
-setlocal syntax=sh
+if &syntax != ''
+setlocal syntax=
 endif
 setlocal tabstop=4
-setlocal tags=~/.dotfiles/.git/sh.tags,~/.dotfiles/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal tags=
 setlocal textwidth=78
 setlocal thesaurus=
 setlocal undofile
@@ -101,12 +101,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 301 - ((28 * winheight(0) + 27) / 55)
+let s:l = 2 - ((1 * winheight(0) + 17) / 35)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-301
-normal! 017|
+2
+normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

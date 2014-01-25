@@ -4,7 +4,7 @@ extends texmath
 #                             LATEX SNIPPETS                              #
 ###########################################################################
 
-snippet r "\\ref{}" w
+snippet ref "\\ref{}" w
 \ref{$1}
 endsnippet
 
@@ -59,10 +59,10 @@ endsnippet
 snippet part "Part" b
 \part{${1:part name}}
 \label{prt:${2:${1/(\w+)|\W+/(?1:\L$0\E:_)/ga}}}
-
+<++>
 ${0}
-
 % part $2 (end)
+<++>
 endsnippet
 
 snippet cha "Chapter" b
