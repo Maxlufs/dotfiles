@@ -271,7 +271,8 @@ set formatoptions=tcqn1 "aw, this messes with gq and gw..not good
 " -r: handle empty lines to format as well, repeat chars in bodiless lines
 " -q: handle nested indentation and quotations
 " -e: remove superflous empty lines
-set formatprg=par\ -rq
+" -w: width, default to 72. if given w/o a number, w = 79
+set formatprg=par\ -rqw\ 78
 
 
 " allow backspacing over everything in insert mode
