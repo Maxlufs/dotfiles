@@ -14,19 +14,11 @@
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	ad = add
 	cim = commit -m
+	verbs = git log --pretty=format:'%s' | cut -d \\  -f 1 | sort | uniq -c | sort -nr
 [core]
 	excludesfile = ~/.gitignore_global
-[color]
-	diff = auto
-	branch = auto
-	status = auto
-	ui = auto
-	interactive = auto
-[color "branch"]
-	local = yellow
-	remote = cyan
-	current = green bold
-[color "status"]
-	header = normal
+	pager = less -R
 [commit]
 	template = ~/.gitmessage
+[color]
+	ui = auto
