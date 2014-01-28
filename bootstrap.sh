@@ -133,6 +133,8 @@ repo["fugitive"]="https://github.com/tpope/vim-fugitive.git"
 repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 # repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
 # cvim is too giant
+repo["vim-hdevtools"]="https://github.com/bitc/vim-hdevtools.git"
+
 
 # vim autocompletion plugin
 repo["youcompleteme"]="https://github.com/Valloric/YouCompleteMe.git"
