@@ -18,7 +18,7 @@ setlocal commentstring=#\ %s
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
-setlocal completefunc=youcompleteme#Complete
+setlocal completefunc=
 setlocal copyindent
 setlocal cryptmethod=
 setlocal nocursorbind
@@ -92,7 +92,7 @@ if &syntax != 'conf'
 setlocal syntax=conf
 endif
 setlocal tabstop=4
-setlocal tags=
+setlocal tags=~/Documents/CSE221/.git/conf.tags,~/Documents/CSE221/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=78
 setlocal thesaurus=
 setlocal undofile
@@ -101,12 +101,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 89 - ((14 * winheight(0) + 11) / 22)
+let s:l = 1 - ((0 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-89
-normal! 039l
+1
+normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :
