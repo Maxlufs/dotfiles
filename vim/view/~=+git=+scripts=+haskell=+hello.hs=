@@ -1,5 +1,7 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
+nnoremap <buffer> <silent>  :call hdevtools#go_file("sp")
+nnoremap <buffer> <silent> gf :call hdevtools#go_file("e")
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -101,12 +103,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 21) / 43)
+let s:l = 24 - ((23 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+24
+normal! 07|
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

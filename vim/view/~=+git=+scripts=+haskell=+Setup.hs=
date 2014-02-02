@@ -1,5 +1,7 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
+nnoremap <buffer> <silent>  :call hdevtools#go_file("sp")
+nnoremap <buffer> <silent> gf :call hdevtools#go_file("e")
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -13,12 +15,12 @@ setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=(0,u0,U0
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=+1
-setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
-setlocal commentstring=/*%s*/
+setlocal comments=s1fl:{-,mb:-,ex:-},:--
+setlocal commentstring=--\ %s
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
-setlocal completefunc=
+setlocal completefunc=youcompleteme#Complete
 setlocal copyindent
 setlocal cryptmethod=
 setlocal nocursorbind
@@ -30,8 +32,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal noexpandtab
-if &filetype != ''
-setlocal filetype=
+if &filetype != 'haskell'
+setlocal filetype=haskell
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -44,7 +46,7 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=tcqn1
+setlocal formatoptions=n1croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=2
@@ -88,11 +90,11 @@ setlocal statusline=%!airline#statusline(1)
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != ''
-setlocal syntax=
+if &syntax != 'haskell'
+setlocal syntax=haskell
 endif
 setlocal tabstop=4
-setlocal tags=~/git/scripts/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal tags=~/git/scripts/.git/haskell.tags,~/git/scripts/.git/tags,./tags,./TAGS,tags,TAGS
 setlocal textwidth=78
 setlocal thesaurus=
 setlocal undofile
@@ -101,12 +103,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 11 - ((10 * winheight(0) + 27) / 55)
+let s:l = 1 - ((0 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-11
-normal! 039|
+1
+normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :
