@@ -462,9 +462,9 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " ${VISUAL} mode of UltiSnips. Trying to put everything in register " into
 " UltiSnips_SaveLastVisualSelection()
-xnoremap x :call UltiSnips_SaveLastVisualSelection()<CR>gvx
-xnoremap d :call UltiSnips_SaveLastVisualSelection()<CR>gvd
-xnoremap s :call UltiSnips_SaveLastVisualSelection()<CR>gvs
+xnoremap x :call UltiSnips#SaveLastVisualSelection()<CR>gvx
+xnoremap d :call UltiSnips#SaveLastVisualSelection()<CR>gvd
+xnoremap s :call UltiSnips#SaveLastVisualSelection()<CR>gvs
 
 let g:UltiSnipsEditSplit = 'vertical'
 autocmd BufEnter *.rails UltiSnipsAddFiletypes rails.ruby
