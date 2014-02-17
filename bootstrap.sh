@@ -115,6 +115,7 @@ repo["gundo"]="http://github.com/sjl/gundo.vim.git"
 repo["airline"]="https://github.com/bling/vim-airline.git"
 # repo["powerline"]="https://github.com/Lokaltog/powerline.git"
 # use airline instead
+repo["gitgutter"]="https://github.com/airblade/vim-gitgutter.git"
 
 # vim text plugins
 # ================
