@@ -17,7 +17,9 @@
 
 " TODO """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " [ ] Auto folding                                                           "
-" [ ] Showmatch for quotes                                                   "
+" [ ] Folding formats                                                        "
+" [ ] Plugin: detect encoding, eg. Chinese from windows                      "
+" [ ] Showmatch for quotes, might not be possible...                         "
 " [ ] Auto re-align on save                                                  "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
