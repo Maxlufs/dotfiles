@@ -193,8 +193,14 @@ set relativenumber " show line numbers relative to the current line
 
 set cursorline " highlight current line
 set scrolloff=4 " keep 4 lines off the edges of the screen when scrolling
+set scrolljump=1 " jump 1 line when scroll to edge of screen, 1 line is smooth
 set textwidth=78
 set colorcolumn=+1 " = textwidth + 1
+
+" Splits settings
+" ===============
+set splitright " open new vsp on right
+" set splitbelow " open new sp below
 
 " Search settings
 " ===============
@@ -218,7 +224,7 @@ set matchpairs=(:),{:},[:],<:> " ,':',":"
 set list
 " extends and precedes are the chars when window squeezes and set nowrap,
 " these chars indicating there's more text on the line
-set listchars=eol:¬,tab:┆\ ,trail:·,extends:>,precedes:<
+set listchars=eol:¬,tab:┆\ ,trail:•,extends:>,precedes:<
 
 function! <SID>StripTrailingWhitespaces()
     " Preparation: save last search, and cursor position.
