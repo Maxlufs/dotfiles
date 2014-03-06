@@ -29,9 +29,9 @@ setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
-setlocal expandtab
-if &filetype != 'lhaskell'
-setlocal filetype=lhaskell
+setlocal noexpandtab
+if &filetype != 'radiance'
+setlocal filetype=radiance
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -54,7 +54,7 @@ setlocal includeexpr=
 setlocal indentexpr=
 setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
+setlocal iskeyword=\",$-~
 setlocal keywordprg=
 setlocal nolinebreak
 setlocal nolisp
@@ -88,11 +88,11 @@ setlocal statusline=%!airline#statusline(1)
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != 'lhaskell'
-setlocal syntax=lhaskell
+if &syntax != 'radiance'
+setlocal syntax=radiance
 endif
 setlocal tabstop=4
-setlocal tags=~/git/scripts/.git/lhaskell.tags,~/git/scripts/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal tags=
 setlocal textwidth=78
 setlocal thesaurus=
 setlocal undofile
@@ -101,12 +101,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 15 - ((10 * winheight(0) + 27) / 55)
+let s:l = 1 - ((0 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-15
-normal! 0
+1
+normal! 0246|
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

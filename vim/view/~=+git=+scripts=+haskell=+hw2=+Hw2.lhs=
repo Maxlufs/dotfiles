@@ -2,7 +2,7 @@ let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
 setlocal keymap=
 setlocal noarabic
-setlocal autoindent
+setlocal noautoindent
 setlocal balloonexpr=
 setlocal nobinary
 setlocal bufhidden=
@@ -29,7 +29,7 @@ setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
-setlocal expandtab
+setlocal noexpandtab
 if &filetype != 'lhaskell'
 setlocal filetype=lhaskell
 endif
@@ -93,7 +93,7 @@ setlocal syntax=lhaskell
 endif
 setlocal tabstop=4
 setlocal tags=~/git/scripts/.git/lhaskell.tags,~/git/scripts/.git/tags,./tags,./TAGS,tags,TAGS
-setlocal textwidth=78
+setlocal textwidth=0
 setlocal thesaurus=
 setlocal undofile
 setlocal nowinfixheight
@@ -101,12 +101,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 15 - ((10 * winheight(0) + 27) / 55)
+let s:l = 372 - ((30 * winheight(0) + 22) / 44)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-15
-normal! 0
+372
+normal! 030|
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

@@ -490,7 +490,7 @@ let g:UltiSnipsSnippetDirectories=["snippets"]
 
 " Space mapping func, if there's drop-down list, use <Space> to expand
 function! g:Space_Mapping()
-    call UltiSnips_ExpandSnippet() "This returns g:ulti_expand_res
+    call UltiSnips#ExpandSnippet() "This returns g:ulti_expand_res
     if g:ulti_expand_res == 0
         return "\<Space>"
     else
