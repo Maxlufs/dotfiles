@@ -451,6 +451,10 @@ let g:Tex_DefaultTargetFormat = 'pdf'
 let g:Tex_MultipleCompileFormats='pdf, aux'"
 " OPTIONAL
 let g:tex_flavor='latex'
+
+let g:Tex_CompileRule_pdf='pdflatex -interaction=nonstopmode --shell-escape $*'
+" Add --shell-escape flag to enable eps pictures
+
 " IMPORTANT: win32 users will need to have 'shellslash' set so that latex can
 " be called correctly.
 set shellslash
