@@ -479,18 +479,19 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " ${VISUAL} mode of UltiSnips. Trying to put everything in register " into
 " UltiSnips_SaveLastVisualSelection()
-xnoremap x :call UltiSnips#SaveLastVisualSelection()<CR>gvx
-xnoremap d :call UltiSnips#SaveLastVisualSelection()<CR>gvd
-xnoremap s :call UltiSnips#SaveLastVisualSelection()<CR>gvs
+" xnoremap x :call UltiSnips#SaveLastVisualSelection()<CR>gvx
+" xnoremap d :call UltiSnips#SaveLastVisualSelection()<CR>gvd
+" xnoremap s :call UltiSnips#SaveLastVisualSelection()<CR>gvs
 
 let g:UltiSnipsEditSplit = 'vertical'
 autocmd BufEnter *.rails UltiSnipsAddFiletypes rails.ruby
 " Priority rails -> ruby -> all
 
-" :call UltisnipsEdit will open the following dir
-let g:UltiSnipsSnippetsDir="~/.vim/snippets"
-" Default snippets, do not use Ultisnips' snippets
-let g:UltiSnipsSnippetDirectories=["snippets"]
+" :call UltisnipsEdit will open the following dir, which contains private snippets
+" Do not use "snippets" for name, this is reserved for snipMate
+let g:UltiSnipsSnippetsDir="~/.vim/ultisnips"
+" load personal snippets, do not use Ultisnips' default snippets "UltiSnips"
+let g:UltiSnipsSnippetDirectories=["ultisnips"]
 
 " Space mapping func, if there's drop-down list, use <Space> to expand
 function! g:Space_Mapping()
