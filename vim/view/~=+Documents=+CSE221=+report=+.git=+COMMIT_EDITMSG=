@@ -67,7 +67,7 @@ setlocal nrformats=octal,hex
 setlocal number
 setlocal numberwidth=4
 setlocal omnifunc=
-setlocal path=~/Documents/CSE221/report/.git,~/Documents/CSE221/report,~/Documents/CSE221/report/.git,~/Documents/CSE221/report,~/Documents/CSE221/report/.git,~/Documents/CSE221/report,
+setlocal path=~/Documents/CSE221/report/.git,~/Documents/CSE221/report,~/Documents/CSE221/report/.git,~/Documents/CSE221/report,~/Documents/CSE221/report/.git,~/Documents/CSE221/report,~/Documents/CSE221/report/.git,~/Documents/CSE221/report,~/Documents/CSE221/report/.git,~/Documents/CSE221/report,
 setlocal nopreserveindent
 setlocal nopreviewwindow
 setlocal quoteescape=\\
@@ -101,12 +101,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 3 - ((2 * winheight(0) + 8) / 16)
+let s:l = 1 - ((0 * winheight(0) + 8) / 17)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 041|
+1
+normal! 060|
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :
