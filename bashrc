@@ -139,4 +139,9 @@ source ~/.aliases
 
 PATH="$HOME/.cabal/bin:$PATH"
 
+# include user's private bin dir if exists
+if [ -d ~/bin ]; then
+	PATH=~/bin:"${PATH}"
+fi
+
 export TERM=xterm-256color
