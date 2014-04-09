@@ -468,7 +468,6 @@ set grepprg=grep\ -nH\ $*
 let g:airline_powerline_fonts = 1
 " use powerline bespoke fonts to print our little triangles on the bar
 
-
 " Ultisnips
 " =========
 let g:UltiSnipsExpandTrigger="<space>"
