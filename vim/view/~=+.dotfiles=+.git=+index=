@@ -7,7 +7,13 @@ nnoremap <buffer> <silent> cva :Gcommit --amend --verbose
 nnoremap <buffer> <silent> ca :Gcommit --amend
 nnoremap <buffer> <silent> cA :Gcommit --amend --reuse-message=HEAD
 nnoremap <buffer> <silent> cc :Gcommit
+nnoremap <buffer> <silent> g? :help fugitive-:Gstatus
 nnoremap <buffer> <silent> q :bdelete
+let s:cpo_save=&cpo
+set cpo&vim
+nnoremap <buffer> <silent> <F1> :help fugitive-:Gstatus
+let &cpo=s:cpo_save
+unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -108,11 +114,11 @@ setlocal winfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 13 - ((7 * winheight(0) + 6) / 12)
+let s:l = 7 - ((6 * winheight(0) + 6) / 12)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-13
+7
 normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

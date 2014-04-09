@@ -67,7 +67,7 @@ setlocal nrformats=octal,hex
 setlocal number
 setlocal numberwidth=4
 setlocal omnifunc=
-setlocal path=~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,
+setlocal path=~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,~/.dotfiles/.git,~/.dotfiles,
 setlocal nopreserveindent
 setlocal nopreviewwindow
 setlocal quoteescape=\\
@@ -93,7 +93,7 @@ setlocal syntax=gitcommit
 endif
 setlocal tabstop=8
 setlocal tags=~/.dotfiles/.git/gitcommit.tags,~/.dotfiles/.git/tags,./tags,./TAGS,tags,TAGS
-setlocal textwidth=0
+setlocal textwidth=72
 setlocal thesaurus=
 setlocal undofile
 setlocal winfixheight
@@ -101,11 +101,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 34 - ((33 * winheight(0) + 27) / 55)
+let s:l = 2 - ((1 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-34
+2
 normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
