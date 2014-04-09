@@ -86,7 +86,10 @@ then alias diff='colordiff'
 fi
 
 # du
-# alias ds='du -sh'            # total size, human-readable
+# alias
+# alias ds='du -sh'            # total size of dir, human-readable
+# df
+alias dfh='df -h'
 ###########################################################################
 
 
