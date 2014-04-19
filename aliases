@@ -21,6 +21,16 @@
 # S: Test OS version, tree --du or -s                                     #
 #=========================================================================#
 
+# POSIX
+# if command -v <app> >/dev/null; then echo <app> exists; fi
+# Problem: <app> may be defined in bash scripts such as aliases, which is
+# useless.
+#
+# hash
+# type
+# Problem: type also shows <app> is aliased to <some_alias>
+# Use -P to force a PATH search
+# if type -P <app> >/dev/null; then echo <app> exists; fi
 
 ###########################################################################
 # 00. System checking
