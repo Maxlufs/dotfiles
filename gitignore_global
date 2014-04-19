@@ -427,6 +427,7 @@ tmtags
 Session.vim
 .netrwhist
 *~
+view/
 
 # >>> VirtualEnv.gitignore
 #===========================================================================#
