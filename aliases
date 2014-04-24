@@ -142,6 +142,7 @@ alias afu='sudo apt-file update'
 # calculator
 alias calc='bc -l'
 
+# if type -P tree
 # tree Version 1.6.0
 alias tr='tree -Ch --du'
 alias tree='tree -Ch --du'
