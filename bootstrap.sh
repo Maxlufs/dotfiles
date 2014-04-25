@@ -21,7 +21,7 @@
 
 #============================================================================#
 # TODO                                                                       #
-# [ ] M: add bash 3.00 support                                               #
+# [ ] M: add bash 3.00 support: user `echo $0` and `echo $BASH_VERSION`      #
 # [ ] M: prompt users and ask if they what to back up old files              #
 # [ ] S: add a list of system default env, eg. uname,bash,etc                #
 # [*] S: git push backup (only when there is change in git diff)             #
