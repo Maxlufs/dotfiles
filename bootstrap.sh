@@ -42,6 +42,20 @@ OLDDIR=~/.dotfiles_old          # dotfiles backup dir
 VIMDIR=vim                      # vim dir
 BUNDLEDIR=vim/bundle            # vim plugin dir
 
+if [ -n "$BASH_VERSION" ]; then
+	echo "Bash version: $BASH_VERSION"
+	bash=${BASH_VERSION%.*}; bmajor=${bash%.*}; bminor=${bash#*.}
+	# bmajor=${BASH_VERSINFO[0]}
+	# bminor=${BASH_VERSINFO[1]}
+	if [ $bmajor -lt 4 ]; then
+		echo "Your shell is bash3, need add compatibility"
+		exit
+	fi
+else
+	echo "You're using $0. This script is only bash compatible."
+	exit
+fi
+
 # log_msg() function
 # input  : (STATUS_MSG, COLOR, PREV_MSG)
 # output : colored status in the same line with MSG
@@ -90,6 +104,14 @@ log_msg() {
 	else
 		printf "%${COL}s"  "$COLORSTATUS"
 	fi
+
+    # if [ "${EXITSTATUS}" -eq 0 ]
+    # then
+    #    printf "\e[1;32m%$(($COLUMNS))s\e[m" "[  OK  ] "
+    # else
+    #    printf "\e[1;31m%$(($COLUMNS))s\e[m" "[ERRORS] "
+    # fi
+
 }
 
 # Declare vim plugin repo associate matrix
