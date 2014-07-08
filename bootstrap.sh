@@ -144,6 +144,7 @@ repo["gitgutter"]="https://github.com/airblade/vim-gitgutter.git"
 # ================
 repo["easymotion"]="https://github.com/Lokaltog/vim-easymotion.git"
 repo["surround"]="https://github.com/tpope/vim-surround.git"
+repo["matchit"]="https://github.com/vim-scripts/matchit.zip.git"
 repo["nerdcommenter"]="https://github.com/scrooloose/nerdcommenter.git"
 repo["tabular"]="https://github.com/godlygeek/tabular.git"
 # repo["indentguides"]="https://github.com/nathanaelkane/vim-indent-guides.git"
