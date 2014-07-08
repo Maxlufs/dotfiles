@@ -10,8 +10,11 @@
 	br = branch
 	bra = branch -a
 	ci = commit
+	type = cat-file -t
+	dump = cat-file -p
 	ls = ls-files
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg = log --color --graph --date=short --pretty=format:'[%C(bold cyan)%h%Creset] - %Cgreen%cd%Creset |%Cred%d%Creset %s %C(yellow)<%an>%Creset' --abbrev-commit
+	lga = log --color --graph --date=short --pretty=format:'[%C(bold cyan)%h%Creset] - %Cgreen%cd%Creset |%Cred%d%Creset %s %C(yellow)<%an>%Creset' --abbrev-commit --all
 	ad = add
 	cim = commit -m
 	verbs = git log --pretty=format:'%s' | cut -d \\  -f 1 | sort | uniq -c | sort -nr

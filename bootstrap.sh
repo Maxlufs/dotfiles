@@ -51,8 +51,10 @@ if [ -n "$BASH_VERSION" ]; then
 		echo "Your shell is bash3, need add compatibility"
 		exit
 	fi
+	#exit
 else
 	echo "You're using $0. This script is only bash compatible."
+	# need to figure out rbash compatibility problem, cuz rbash also has $BASH_VERSION
 	exit
 fi
 
