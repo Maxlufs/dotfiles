@@ -158,6 +158,7 @@ repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 # repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
 # cvim is too giant
 repo["vim-hdevtools"]="https://github.com/bitc/vim-hdevtools.git"
+repo["sparkup"]="https://github.com/rstacruz/sparkup.git"
 
 
 # vim autocompletion plugin
