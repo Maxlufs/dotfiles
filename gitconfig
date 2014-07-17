@@ -26,8 +26,5 @@
 	template = ~/.gitmessage
 [color]
 	ui = auto
-[branch "master"]
-	remote = origin
-	merge = refs/heads/master
 [push]
 	default = simple

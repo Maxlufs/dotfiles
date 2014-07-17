@@ -221,8 +221,6 @@ slprj/
 *.psm
 *.bak
 *.cmp
-*.jpg
-*.html
 *.bsf
 
 # ignore simulation output of ModelSim
@@ -324,8 +322,6 @@ Icon
 *.qws
 *.cmp
 *.eqn
-*.html
-*.jpg
 *.bak
 *.qar
 *.sopc_builder
