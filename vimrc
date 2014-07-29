@@ -409,6 +409,11 @@ vnoremap L g_
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]<BS>'
 " nnoremap <expr> gp '`[' . getregtype()[0] . '`]'
 
+" gf = goto file, open file under cursor in current window
+" CTRL-W CTRL-F, split file == :spilt gf if file exits
+nnoremap <leader>gf :edit <cfile><CR>
+nnoremap <leader><C-W><C-F> :split <cfile><CR>
+
 " Splits switching
 " ================
 " Meta-keys are mapped as <Esc> + key, this may exit to normal mode

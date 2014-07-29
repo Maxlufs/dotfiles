@@ -80,11 +80,11 @@ alias open="xdg-open"
 #=========================================================================#
 # ls
 alias ls='ls --color=auto' # normal files
-alias ll='ls -l -h -p --group-directories-first'         # normal files long format
-alias la='ls -A -h -p'        # All files
-alias lla='ls -l -A -h -p --group-directories-first'        # All files long format
-alias l.='ls -d .[^.]*'        # hidden files, exclude . and ..
-alias ll.='ls -l -h -d -p .[^.]* --group-directories-first'     # hidden files long format
+alias ll='ls -l -h -p --group-directories-first --color=auto'         # normal files long format
+alias la='ls -A -h --color=auto'        # All files
+alias lla='ls -l -A -h -p --group-directories-first --color=auto'        # All files long format
+alias l.='ls -d .[^.]* --color=auto'        # hidden files, exclude . and ..
+alias ll.='ls -l -h -d -p .[^.]* --group-directories-first --color=auto'     # hidden files long format
 
 # grep
 alias grep='grep --colour=auto'
