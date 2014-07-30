@@ -159,7 +159,10 @@ repo["ctrlp"]="https://github.com/kien/ctrlp.vim.git"
 # repo["cvim"]="https://github.com/Maxlufs/c.vim.git"
 # cvim is too giant
 repo["vim-hdevtools"]="https://github.com/bitc/vim-hdevtools.git"
+# zen coding
 repo["sparkup"]="https://github.com/rstacruz/sparkup.git"
+# JavaScript indent
+repo["jsindent"]="https://github.com/vim-scripts/JavaScript-Indent.git"
 
 
 # vim autocompletion plugin
