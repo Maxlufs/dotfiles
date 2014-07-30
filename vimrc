@@ -301,10 +301,10 @@ set smarttab " use shftwidth at the start of a line
 " Indentation settings
 " ====================
 set autoindent " use indent from the previous line
-" set smartindent " like autoindent, also recognizes some C syntax
+set smartindent " like autoindent, also recognizes some C syntax
 set copyindent
-set cindent " set c-style indent
-set cinoptions=(0,u0,U0
+autocmd FileType c,cpp set cindent " set c-style indent
+autocmd FileType c,cpp set cinoptions=(0,u0,U0
 " if type '(' as the first char in a line
 " int f(int x,
 "       int y)
