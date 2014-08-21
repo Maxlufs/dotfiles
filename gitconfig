@@ -6,6 +6,8 @@
 [alias]
 	unstage = reset HEAD --
 	st = status
+	man = help
+	sm = submodule
 	co = checkout
 	br = branch
 	bra = branch -a

@@ -79,6 +79,7 @@ alias open="xdg-open"
 # 0. Highlight
 #=========================================================================#
 # ls
+alias l='ls --color=auto' # normal files
 alias ls='ls --color=auto' # normal files
 alias ll='ls -l -h -p --group-directories-first --color=auto'         # normal files long format
 alias la='ls -A -h --color=auto'        # All files
