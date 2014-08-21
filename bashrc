@@ -123,7 +123,9 @@ fi
 if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
-
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
 # Auto-completion
 # already sourced in /etc/bash.bashrc and /etc/profile
 # if ! shopt -oq posix; then
