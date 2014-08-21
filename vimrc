@@ -12,7 +12,8 @@
     " 05. Text Formatting ............. Text, tab, indentation related  "
     " 06. Plugins ..................... Vim plugin configuration        "
     " 07. Mapping ..................... Key mappings                    "
-    " 08. Gvim ........................ GUI vim settings                "
+    " 08. Command ..................... User-defined commands           "
+    " 09. Gvim ........................ GUI vim settings                "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " TODO """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -297,6 +298,7 @@ set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
 set shiftround " always indent/outdent to the nearest tabstop, (multiples of 4)
 set noexpandtab " do not use spaces instead of tabs
 set smarttab " use shftwidth at the start of a line
+autocmd FileType html,javascript set tabstop=2 shiftwidth=2
 
 " Indentation settings
 " ====================
@@ -559,6 +561,11 @@ let g:syntastic_auto_loc_list = 1 " deafault 2
 " source ~/.vim/custom/mappings.vim
 " source ~/.vim/custom/settings.vim
 " source ~/.vim/custom/plugins.vim
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 08. Commands                                                                "
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+command! Wsudo :w !sudo tee > /dev/null %
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 08. Gvim Settings                                                          "
