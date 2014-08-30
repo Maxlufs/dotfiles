@@ -135,7 +135,7 @@ if [ $(which trash-put) ]
 then alias rm='trash-put'
 fi
 
-# apt-get
+# apt-get / apt-cache
 alias apt-get='sudo apt-get'
 alias update='sudo apt-get update && sudo apt-get dist-upgrade'
 # alias update='sudo apt-get update'
@@ -156,6 +156,8 @@ alias agsh='sudo apt-cache show'
 alias afs='sudo apt-file search'
 alias afsh='sudo apt-file show'
 alias afu='sudo apt-file update'
+
+alias acs='sudo apt-cache search'
 
 
 # calculator
