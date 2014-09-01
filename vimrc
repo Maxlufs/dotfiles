@@ -27,32 +27,32 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 01. General                                                                "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Get rid of Vi compatibility mode. SET FIRST!
+" get rid of vi compatibility mode. set first!
 set nocompatible
 
 set encoding=utf-8
-set title " change the terminal's title to [NAME] - VIM
-" Hides buffers instead of closing them.
-" This means that you can have unwritten changes to a file and open a new file
+set title " change the terminal's title to [name] - vim
+" hides buffers instead of closing them.
+" this means that you can have unwritten changes to a file and open a new file
 " using :e, without being forced to write or undo your changes first.
-" Also, undo buffers and marks are preserved while the buffer is open
+" also, undo buffers and marks are preserved while the buffer is open
 set hidden
 
-" command line history, this need to set ~/.viminfo 's owner to $USER
+" command line history, this need to set ~/.viminfo 's owner to $user
 set history=1000
-" creat <FILE>.un~ file when editting, contain undo info
+" creat <file>.un~ file when editting, contain undo info
 set undofile
 set undolevels=1000
 
-" Mouse behavior
+" mouse behavior
 " ==============
-" In many terminal emulators the mouse works just fine, thus enable it.
+" in many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set mouse=a       " normal+visual+insert+command-line
   set mousehide     " default on, hide mouse when type
 endif
 
-" if has("vms")         " vms is an OS, Open Virtual Memory System
+" if has("vms")         " vms is an os, open virtual memory system
 " 	set nobackup      " do not keep a backup file, use versions instead
 " else
 " 	set backup        " keep a backup file
@@ -61,7 +61,7 @@ set nobackup
 set noswapfile
 
 filetype off
-" Pathogen settings
+" pathogen settings
 execute pathogen#infect()
 Helptags " call :helptags on every dir in runtimepath
 
@@ -72,11 +72,12 @@ Helptags " call :helptags on every dir in runtimepath
 filetype plugin indent on
 
 if has("autocmd")
-    " Automatic update .vimrc on the fly
-    autocmd BufWritePost .vimrc source $MYVIMRC
+  " Automatic update .vimrc on the fly
+  autocmd BufWritePost .vimrc source $MYVIMRC
+  " \= -> 0 or 1, match vimrc whether it's hidden or not
 endif
 
-" Save when losing focus
+" Save (write all) when losing focus
 autocmd FocusLost * :silent! wall
 
 " Resize splits when the window is resized
@@ -94,8 +95,8 @@ autocmd BufWinEnter ?* silent loadview " ?* handles vanila vim
 " position when opening a file.
 
 augroup line_return
-    au!
-    au BufReadPost *
+  au!
+  au BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \     execute 'normal! g`"zvzz' |
         \ endif
@@ -103,11 +104,6 @@ augroup END
 
 " FileType events
 " ===============
-" In Makefiles DO NOT use spaces instead of tabs
-autocmd FileType make setlocal noexpandtab
-
-" In vimrc, expandtab to spaces
-autocmd FileType vim setlocal expandtab
 
 " In Ruby files, use 2 spaces instead of 4 for tabs
 " autocmd FileType ruby setlocal sw=2 ts=2 sts=2
@@ -123,18 +119,6 @@ autocmd FileType vim setlocal expandtab
 " autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
 
 " Only do this part when compiled with support for autocommands.
-if has("autocmd")
-
-
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
-  au!
-
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-else
-augroup END
-endif " has("autocmd")
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -163,7 +147,7 @@ hi ColorColumn ctermbg=32 " glowing blue
 hi CursorLineNr cterm=bold ctermbg=none ctermfg=11 " bold yellow
 hi CursorLine ctermbg=none
 hi MatchParen cterm=bold ctermbg=none ctermfg=228
-match ErrorMsg '\s\+$'
+match ErrorMsg '\s\+$' "Highlight trailing white spaces
 " hi ctermbg=236 " dark grey
 
 " 04. Vim UI/Layout--------------------------------------------------------{{{
@@ -189,8 +173,10 @@ set wildmenu " commandline popup bar
 set wildmode=full " commandline popup bar style, show all choice in a line
 
 set fillchars=fold:\ ,vert:\|
-" vert = bolder character btw panes
+" vert = bolder character between panes
 " fold = folded chunck of code, the char in the first line
+
+" vim 7.4 only, show both current line number and relative line number
 set number " show line numbers
 set relativenumber " show line numbers relative to the current line
 
@@ -213,8 +199,8 @@ set ignorecase " Make searches case-insensitive.
 set smartcase " ignore case if search pattern is all lowercase, sensitive otherwise
 " set gdefault " omit /g in regex
 
-" Paranthesis settings
-" ====================
+" Paranthesis highlight settings
+" ==============================
 set showmatch " Show matching parenthesis
 set matchpairs=(:),{:},[:],<:> " ,':',":"
 " }}}
@@ -230,21 +216,21 @@ set list
 set listchars=eol:¬,tab:┆\ ,trail:•,extends:>,precedes:<
 
 function! <SID>StripTrailingWhitespaces()
-    " Preparation: save last search, and cursor position.
-    let _s=@/
-    let l = line(".")
-    let c = col(".")
-    " Do the business:
-    %s/\s\+$//e
-    " Clean up: restore previous search history, and cursor position
-    let @/=_s
-    call cursor(l, c)
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
 endfunction
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-" Wrap settings
-" =============
+" Wrap (text) settings
+" ====================
 set wrap
 
 " " Soft wrapping text settings
@@ -298,7 +284,19 @@ set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
 set shiftround " always indent/outdent to the nearest tabstop, (multiples of 4)
 set noexpandtab " do not use spaces instead of tabs
 set smarttab " use shftwidth at the start of a line
-autocmd FileType html,javascript set tabstop=2 shiftwidth=2
+autocmd FileType html,javascript setlocal tabstop=2 shiftwidth=2
+" In Makefiles DO NOT use spaces instead of tabs
+autocmd FileType make setlocal noexpandtab
+" In vimrc, expandtab to spaces
+autocmd FileType vim setlocal expandtab
+if has("autocmd")
+    " Put these in an autocmd group, so that we can delete them easily.
+    augroup vimrcEx
+        au!
+        " For all text files set 'textwidth' to 78 characters.
+        autocmd FileType text setlocal textwidth=78
+    augroup END
+endif " has("autocmd")
 
 " Indentation settings
 " ====================
@@ -567,11 +565,13 @@ let g:syntastic_auto_loc_list = 1 " deafault 2
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 command! Wsudo :w !sudo tee > /dev/null %
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 08. Gvim Settings                                                          "
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 09. Gvim Settings                                                           "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has("gui_running")
     set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 12
+
+	hi NonText guifg=gray
 endif
 
 " For Win32 GUI: remove 't' flag from 'guioptions': no tearoff menu entries
