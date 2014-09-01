@@ -206,11 +206,11 @@ then
 	do
 		filename=$(basename "$f")
 		# backup the original actual file, even it's a symlink
-		if [ -f ~/.$filename ]
+		if [ -f $HOME/.$filename ]
 		then
 			MSG="  > Backing up original [$filename]..."
 			printf "$MSG"
-			mv ~/.$(basename "$f") $OLDDIR
+			mv $HOME/.$filename $OLDDIR
 			log_msg "[OK]" "GREEN" "$MSG"
 			printf " <\n"
 		fi
@@ -241,14 +241,14 @@ echo ">>> Cleaning up broken symlinks to dotfiles_old/..."
 # [[ -z $(find -L ~ -maxdepth 1 -type l 2> /dev/null) ]]
 
 # Find broken symlinks in $HOME directory and cleaning up to $OLDDIR
-for f in ~/*
+for f in $HOME/*
 do
 	if [ ! -e "$f" ] # check if the file a symlink points to exists
 	then
 		filename=$(basename "$f")
 		MSG="  > Cleaning up broken link [$filename]..."
 		printf "$MSG"
-		mv ~/$(basename "$f") $OLDDIR
+		mv $HOME/$filename $OLDDIR
 		log_msg "[OK]" "GREEN" "$MSG"
 		printf " <\n"
 	fi
