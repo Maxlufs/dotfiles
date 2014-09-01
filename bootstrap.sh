@@ -380,7 +380,8 @@ do
 	then
 		MSG="  > Linking file [$filename]..."
 		printf "$MSG"
-		ln -s $f $HOME/.$filename -f
+		rm $HOME/.$filename -rf # remove the old symlinks before linking
+		ln -s $f $HOME/.$filename
 		log_msg "[OK]" "GREEN" "$MSG"
 		printf " <\n"
 	fi
