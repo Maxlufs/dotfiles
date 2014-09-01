@@ -11,8 +11,8 @@
     # Contents:                                                         #
     # 00. Variables & Fuctions                                          #
     # 01. Header                                                        #
-    # 02. Broken symlinks          -> ~/.dotfiles_old/                  #
-    # 03. Old dotfiles             -> ~/.dotfiles_old/                  #
+    # 02. Old dotfiles             -> ~/.dotfiles_old/                  #
+    # 03. Broken symlinks          -> ~/.dotfiles_old/                  #
     # 04. Vim plugins                                                   #
     # 05. Links                    -> ~/.dotfiles/                      #
     # 06. AutoBackup                                                    #
@@ -37,10 +37,11 @@
 #============================================================================#
 # Declare directory variables
 #============================================================================#
-DOTFILEDIR=~/.dotfiles          # dotfiles dir
-OLDDIR=~/.dotfiles_old          # dotfiles backup dir
-VIMDIR=vim                      # vim dir
-BUNDLEDIR=vim/bundle            # vim plugin dir
+DOTFILEDIR="$HOME/.dotfiles"          # dotfiles dir
+OLDDIR="$HOME/.dotfiles_old"          # dotfiles backup dir
+# if using ~ within quotes, cd $DIR won't work, need to use eval cd "$DIR"
+VIMDIR="vim"                      # vim dir
+BUNDLEDIR="vim/bundle"            # vim plugin dir
 
 if [ -n "$BASH_VERSION" ]; then
 	echo "Bash version: $BASH_VERSION"
@@ -113,7 +114,6 @@ log_msg() {
     # else
     #    printf "\e[1;31m%$(($COLUMNS))s\e[m" "[ERRORS] "
     # fi
-
 }
 
 # Declare vim plugin repo associate matrix
@@ -189,64 +189,73 @@ echo "======================================================================"
 ##############################################################################
 
 ##############################################################################
-# 02. Cleanup directory
+# 02. Backing up old dotfiles
 #============================================================================#
-# Clean up vim backup files
-#============================================================================#
-cd $DOTFILEDIR
-shopt -s dotglob # list hidden files
-find $DOTFILEDIR -name '*~' -delete
+echo ">>> Backing up original dotfiles to dotfiles_old/..."
 
-# Clean up broken symlinks
-#============================================================================#
-echo ">>> Cleaning up broken symlinks to dotfiles_old/..."
-shopt -s dotglob # list hidden files
+# Only backup original dotfiles if .dotfiles_old dir doesn't exist
+if [ ! -d $OLDDIR ]
+then
 
-# if [ -L $OLDDIR ]; then rm $OLDDIR; fi
-# There's the problem of .dotfiles_old become a link
-if [ ! -d $OLDDIR ]; then mkdir -p $OLDDIR; fi
+	# There's the problem of .dotfiles_old become a symlink
+	if [ -L $OLDDIR ]; then rm $OLDDIR -f; fi
+	# create backup directory if not exist
+	mkdir -p $OLDDIR > /dev/null
 
-for f in ~/*
-do
-    if [ ! -e "$f" ]
-    then
-        MSG="  > Cleaning up broken link [$(basename "$f")]..."
-        printf "$MSG"
-        mv ~/$(basename "$f") $OLDDIR
-        log_msg "[OK]" "GREEN" "$MSG"
-        printf " <\n"
-    fi
-done
+	for f in $DOTFILEDIR/*
+	do
+		filename=$(basename "$f")
+		# backup the original actual file, even it's a symlink
+		if [ -f ~/.$filename ]
+		then
+			MSG="  > Backing up original [$filename]..."
+			printf "$MSG"
+			mv ~/.$(basename "$f") $OLDDIR
+			log_msg "[OK]" "GREEN" "$MSG"
+			printf " <\n"
+		fi
+	done
+fi
 
 log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
-
-# echo "                                                    done <<<"
 ##############################################################################
 
 echo "----------------------------------------------------------------------"
 
 ##############################################################################
-# 03. Backing up old dotfiles
+# 03. Cleanup directory
 #============================================================================#
-echo ">>> Backing up old dotfiles to dotfiles_old/..."
-for f in $DOTFILEDIR/*
+# Clean up vim backup files
+#============================================================================#
+cd $DOTFILEDIR
+shopt -s dotglob # list hidden files
+find $DOTFILEDIR -name '*~' -delete 2> /dev/null
+
+# Clean up broken symlinks
+#============================================================================#
+echo ">>> Cleaning up broken symlinks to dotfiles_old/..."
+# shopt -s dotglob # list hidden files
+
+# find under $HOME. if there is no broken symlink, skip to end, otherwise fix it.
+# [[ -z $(find -L ~ -maxdepth 1 -type l 2> /dev/null) ]]
+
+# Find broken symlinks in $HOME directory and cleaning up to $OLDDIR
+for f in ~/*
 do
-    # if [ \( -L $f \) -a \( ! -e $f \) ]
-    # if file is a symlink and its broken
-    if [ -e ~/.$(basename "$f") ]
-    then
-        MSG="  > Backing up old [$(basename "$f")]..."
-        printf "$MSG"
-        mv ~/.$(basename "$f") $OLDDIR
-        log_msg "[OK]" "GREEN" "$MSG"
-        printf " <\n"
-    fi
+	if [ ! -e "$f" ] # check if the file a symlink points to exists
+	then
+		filename=$(basename "$f")
+		MSG="  > Cleaning up broken link [$filename]..."
+		printf "$MSG"
+		mv ~/$(basename "$f") $OLDDIR
+		log_msg "[OK]" "GREEN" "$MSG"
+		printf " <\n"
+	fi
 done
 
 log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
-
 
 shopt -u dotglob # unlist hidden files
 ##############################################################################
@@ -264,7 +273,7 @@ printf "$MSG"
 mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
 if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]; then
-	if [ ! $(which curl) ]; then sudo apt-get install -y curl; fi
+	[[ $(command -v curl) ]] || sudo apt-get install -y curl
 	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
 	log_msg "[Installation completed.]" "YELLOW" "$MSG"
 	printf " <\n"
@@ -313,38 +322,39 @@ echo
 
 # Install vim plugins
 #============================================================================#
-cd $BUNDLEDIR
-echo ">>> Installing Submodule plugins for Vim..."
-for i in "${!repo[@]}"
-    # support quotes for repo names w/ space in it.
-do
-    MSG="  > Installing [$i]... "
-    printf "$MSG"
-    # if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]
-    # check if plugin dir exists
-    # and there is something inside the plugin dir
-    files=$(shopt -s nullglob dotglob; echo $i/*)
-    if (( ${#files} )) # if there is something inside $i dir
-    then
-        cd $i
-        git pull -q                 # quite mode
-        if [[ $(git diff HEAD) ]]; then
-            git reset --hard -q origin/master
-            # My misunderstanding of git pull.
-            # need to use git reset in order to copy from commit to working dir
-            log_msg "[Update done]" "YELLOW" "$MSG"
-            # echo "already up-to-date <"
-        else
-            log_msg "[Already up-to-date]" "GREEN" "$MSG"
-        fi
-        printf " <\n"
-        cd ..
-    else
-        git clone ${repo[$i]} $i -q # quite mode
-        log_msg "[Installation done]" "YELLOW" "$MSG"
-        printf " <\n"
-    fi
-done
+
+#cd $BUNDLEDIR
+#echo ">>> Installing Submodule plugins for Vim..."
+#for i in "${!repo[@]}"
+	## support quotes for repo names w/ space in it.
+#do
+	#MSG="  > Installing [$i]... "
+	#printf "$MSG"
+	## if [ \( -d $BUNDLEDIR/$i \) -a "$(ls -A $BUNDLEDIR/$i)" ]
+	## check if plugin dir exists
+	## and there is something inside the plugin dir
+	#files=$(shopt -s nullglob dotglob; echo $i/*)
+	#if (( ${#files} )) # if there is something inside $i dir
+	#then
+		#cd $i
+		#git pull -q                 # quite mode
+		#if [[ $(git diff HEAD) ]]; then
+			#git reset --hard -q origin/master
+			## My misunderstanding of git pull.
+			## need to use git reset in order to copy from commit to working dir
+			#log_msg "[Update done]" "YELLOW" "$MSG"
+			## echo "already up-to-date <"
+		#else
+			#log_msg "[Already up-to-date]" "GREEN" "$MSG"
+		#fi
+		#printf " <\n"
+		#cd ..
+	#else
+		#git clone ${repo[$i]} $i -q # quite mode
+		#log_msg "[Installation done]" "YELLOW" "$MSG"
+		#printf " <\n"
+	#fi
+#done
 
 log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
@@ -361,16 +371,19 @@ echo "----------------------------------------------------------------------"
 #============================================================================#
 echo ">>> Creating symbolic links..."
 
-shopt -s extglob
-# had to use extended pattern matching syntax in bash
-# looping over all files without extension, not yet perfect
-for f in $DOTFILEDIR/!(*.*)
+# looping over all files without extension
+# find . -maxdepth 1 -type f ! -name "*.*"
+for f in $DOTFILEDIR/*
 do
-    MSG="  > Linking file [$(basename "$f")]..."
-    printf "$MSG"
-    ln -s $f ~/.$(basename "$f")
-    log_msg "[OK]" "GREEN" "$MSG"
-    printf " <\n"
+	filename=$(basename "$f")
+	if [[ ! $filename == *.* ]]
+	then
+		MSG="  > Linking file [$filename]..."
+		printf "$MSG"
+		ln -s $f $HOME/.$filename -f
+		log_msg "[OK]" "GREEN" "$MSG"
+		printf " <\n"
+	fi
 done
 
 log_msg "[OK]" "GREEN" ""
