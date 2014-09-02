@@ -22,13 +22,13 @@
 #============================================================================#
 # TODO                                                                       #
 # [ ] M: add bash 3.00 support: user `echo $0` and `echo $BASH_VERSION`      #
-# [ ] M: prompt users and ask if they what to back up old files              #
+# [ ] M: hide useless info if the user is not a first-time user              #
 # [ ] S: add a list of system default env, eg. uname,bash,etc                #
-# [*] S: git push backup (only when there is change in git diff)             #
+# [x] S: git push backup (only when there is change in git diff)             #
 # [ ] S: git push backup (based on if ssh keys are generated)                #
-# [*] S: copy vim :helptags locations                                        #
-# [*] S: only link files w/o extensions                                      #
-# [ ] C: add a Welcome title of script output                                #
+# [x] S: copy vim :helptags locations                                        #
+# [x] S: only link files w/o extensions                                      #
+# [x] C: add a Welcome title of script output                                #
 # [ ] C: add progress bar while git clone/pull/push                          #
 #============================================================================#
 
@@ -142,7 +142,8 @@ center() {
 		printf "\n"
 		printf "%${right_start_pos}s" "$right"
 		printf "\n"
-		# else if middle msg > total_width
+		# else if middle msg > total_width, just print into 3 lines
+		# let the middle line wrap by default
 	else
 		let local right_start_pos=$total_width
 		printf "$left"
@@ -153,10 +154,6 @@ center() {
 		printf "\n"
 	fi
 }
-
-echo
-center $left_delimiter "This is a loooooooooooooooooooog test" $right_delimiter
-echo
 
 # println()
 # syntax: println "str1" "${fgyellow}str2" "str3"
@@ -329,7 +326,6 @@ echo ">>> Backing up original dotfiles to dotfiles_old/..."
 # Only backup original dotfiles if .dotfiles_old dir doesn't exist
 if [ ! -d $OLDDIR ]
 then
-
 	# There's the problem of .dotfiles_old become a symlink
 	if [ -L $OLDDIR ]; then rm $OLDDIR -f; fi
 	# create backup directory if not exist
