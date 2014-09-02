@@ -35,10 +35,11 @@
 ##############################################################################
 # 00. Varibles & Functions
 #============================================================================#
+[[ $1 == "-p" ]] && print_only=1
+[[ $1 == "--print-only" ]] && print_only=1
+
 # Declare directory variables
 #============================================================================#
-[[ $1 == "-p" ]] && print_only=1
-
 DOTFILEDIR="$HOME/.dotfiles"          # dotfiles dir
 OLDDIR="$HOME/.dotfiles_old"          # dotfiles backup dir
 # if using ~ within quotes, cd $DIR won't work, need to use eval cd "$DIR"
@@ -67,6 +68,10 @@ terminal_width=`tput cols`
 default_width=70
 total_width=$(($default_width < $terminal_width ? $default_width : $terminal_width))
 
+# delimiters
+left_delimiter=">>>"
+right_delimiter="<<<"
+
 fgred="$(tput setaf 1)"
 fggreen="$(tput setaf 2)"
 fgyellow="$(tput setaf 3)"
@@ -89,7 +94,8 @@ reset="$(tput sgr0)"
 
 
 # repeat()
-# syntax: repeat "char" 100
+# syntax: repeat "char" n
+# description: repeat a single charater n times, with a newline at the end
 #============================================================================#
 repeat() {
 	local c=$1
@@ -102,12 +108,62 @@ repeat() {
 }
 
 # repeat()
-# syntax: center "str" delimiter
+# syntax: center leftDelimiter "str" rightDelimiter
+# description: center "str" with delimiters on both side with a space
 #============================================================================#
 center() {
-local str=$1
-local delimiter=$2
+	local left="$1"
+	local middle="$2"
+	local right="$3"
+	local left_len=${#left}
+	local middle_len=${#middle}
+	local right_len=${#right}
+	let local sum_len=$left_len+$middle_len+$right_len+2
+	# if the entire printed message length <= total_width, then center as usual
+	if [ $sum_len -le $total_width ]
+	then
+		# floor if number if odd
+		let local middle_start_pos=($total_width-$left_len+$middle_len-$right_len)/2
+		#FIX the senario where number is odd
+		let local right_start_pos=($total_width-$left_len-$middle_len+$right_len)/2
+		printf "$left"
+		printf "%${middle_start_pos}s" "$middle"
+		printf "%${right_start_pos}s" "$right"
+		printf "\n"
+		# else if entire length > total width, but the middle msg <= total_width
+		# print into 3 lines, center the msg on the second line.
+	elif [ $middle_len -le $total_width ]
+	then
+		let local middle_start_pos=($total_width+$middle_len)/2
+		let local right_start_pos=$total_width
+		printf "$left"
+		printf "\n"
+		printf "%${middle_start_pos}s" "$middle"
+		printf "\n"
+		printf "%${right_start_pos}s" "$right"
+		printf "\n"
+		# else if middle msg > total_width
+	else
+		let local right_start_pos=$total_width
+		printf "$left"
+		printf "\n"
+		printf "$middle"
+		printf "\n"
+		printf "%${right_start_pos}s" "$right"
+		printf "\n"
+	fi
 }
+
+echo
+echo
+echo
+echo
+center $left_delimiter "This is a looooooooooooooooooooog test" $right_delimiter
+echo
+echo
+echo
+echo
+
 # println()
 # syntax: println "str1" "${fgyellow}str2" "str3"
 #============================================================================#
@@ -264,7 +320,8 @@ repo["ultisnips"]="https://github.com/SirVer/ultisnips.git"
 # 01. Header
 #============================================================================#
 repeat "=" $total_width
-echo ">>>                      Starting bootstrap...                     <<<"
+center $left_delimiter "Starting bootstrap..." $right_delimiter
+center $left_delimiter "Your system envion: $(uname -np)" $right_delimiter
 println ">>>         Your system envion: " "$(uname -np)" "<<<"
 echo ">>>         Your shell version :                                   <<<"
 repeat "=" $total_width
@@ -530,7 +587,7 @@ fi
 # 07. Footer
 #============================================================================#
 repeat "=" $total_width
-echo ">>>               Enjoy your new coding environment!               <<<"
-echo ">>>                                        --Maxlufs               <<<"
+center $left_delimiter "Enjoy your new coding environment!" $right_delimiter
+center $left_delimiter "                         --Maxlufs" $right_delimiter
 repeat "=" $total_width
 ##############################################################################
