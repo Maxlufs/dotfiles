@@ -165,7 +165,8 @@ alias calc='bc -l'
 
 # if type -P tree
 # tree Version 1.6.0
-alias tr='tree -Ch --du'
+# tr is taken
+# alias tr='tree -Ch --du'
 alias tree='tree -Ch --du'
 alias t1='tree -Ch --du -L 1'
 alias tree1='tree -Ch --du -L 1'

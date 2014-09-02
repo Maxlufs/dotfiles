@@ -37,6 +37,8 @@
 #============================================================================#
 # Declare directory variables
 #============================================================================#
+[[ $1 == "-p" ]] && print_only=1
+
 DOTFILEDIR="$HOME/.dotfiles"          # dotfiles dir
 OLDDIR="$HOME/.dotfiles_old"          # dotfiles backup dir
 # if using ~ within quotes, cd $DIR won't work, need to use eval cd "$DIR"
@@ -59,6 +61,86 @@ else
 	exit
 fi
 
+
+# total_width = min{70, terminal_width}
+terminal_width=`tput cols`
+default_width=70
+total_width=$(($default_width < $terminal_width ? $default_width : $terminal_width))
+
+fgred="$(tput setaf 1)"
+fggreen="$(tput setaf 2)"
+fgyellow="$(tput setaf 3)"
+fgblue="$(tput setaf 4)"
+fgpurple="$(tput setaf 5)"
+fgcyan="$(tput setaf 6)"
+fgwhite="$(tput setaf 7)"
+
+bgred="$(tput setab 1)"
+bggreen="$(tput setab 2)"
+bgyellow="$(tput setab 3)"
+bgblue="$(tput setab 4)"
+bgpurple="$(tput setab 5)"
+bgcyan="$(tput setab 6)"
+bgwhite="$(tput setab 7)"
+
+bold="$(tput bold)"
+underline="$(tput smul)"
+reset="$(tput sgr0)"
+
+
+# repeat()
+# syntax: repeat "char" 100
+#============================================================================#
+repeat() {
+	local c=$1
+	local n=$2
+	for i in $(seq $n)
+	do
+		printf "%s" "$c"
+	done
+	printf "\n"
+}
+
+# repeat()
+# syntax: center "str" delimiter
+#============================================================================#
+center() {
+local str=$1
+local delimiter=$2
+}
+# println()
+# syntax: println "str1" "${fgyellow}str2" "str3"
+#============================================================================#
+println() {
+# set counter of currently printed length to 0
+local curr_len=0
+
+# looping from the first paramter to the second last (ie. $#-1)
+for var in "${@:1:$#-1}"
+do
+	printf "$var"
+	# increment the curr_len by adding each parameter's length
+	let curr_len=$curr_len+${#var}
+done
+
+# special dealing with the last argument, typically for alignment
+last_arg="${!#}"
+last_arg_len=${#last_arg}
+
+# length of whitespaces left
+let rest_len=$total_width-$curr_len
+
+# if the length of rest whitespace is less than " <<<", print " <<<" in newline
+if [ $rest_len -lt $(($last_arg_len + 1)) ] # plus 1 is for the space before <
+then
+	let rest_len=$total_width
+	printf "\n"
+	printf "%${rest_len}s\n" $last_arg
+else
+	printf "%${rest_len}s\n" $last_arg
+fi
+
+}
 # log_msg() function
 # input  : (STATUS_MSG, COLOR, PREV_MSG)
 # output : colored status in the same line with MSG
@@ -86,12 +168,11 @@ log_msg() {
 	esac
 	MSG=$3
 
-	MAXCOL=70                   # MAXCOL=$(tput cols)
 	OFFSET=4                    # This is for '<' or '<<<'
 	NORMAL=$(tput sgr0)         # Normal color mode
 	COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
 
-	let COL=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
+	let COL=$total_width+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
 	# tput cols = terminal width
 	# 3 = <<<
 	# MSG = $1
@@ -101,13 +182,14 @@ log_msg() {
 	if [[ ${#MSG} -ge ${COL} ]]
 		# if MSG length too long, then print in new line
 	then
-		let COLFORLONG=$MAXCOL+${#COLORSTATUS}-$OFFSET-${#STATUS}
+		let COLFORLONG=$total_width+${#COLORSTATUS}-$OFFSET-${#STATUS}
 		# new line, need a new COL, i.e. ${#MSG} = 0
 		printf "\n%${COLFORLONG}s"  "$COLORSTATUS"
 	else
 		printf "%${COL}s"  "$COLORSTATUS"
 	fi
 
+	# This is an example to use printf to print out color directly
     # if [ "${EXITSTATUS}" -eq 0 ]
     # then
     #    printf "\e[1;32m%$(($COLUMNS))s\e[m" "[  OK  ] "
@@ -181,11 +263,11 @@ repo["ultisnips"]="https://github.com/SirVer/ultisnips.git"
 ##############################################################################
 # 01. Header
 #============================================================================#
-echo "======================================================================"
+repeat "=" $total_width
 echo ">>>                      Starting bootstrap...                     <<<"
-echo ">>>         Your system envion :                                   <<<"
+println ">>>         Your system envion: " "$(uname -np)" "<<<"
 echo ">>>         Your shell version :                                   <<<"
-echo "======================================================================"
+repeat "=" $total_width
 ##############################################################################
 
 ##############################################################################
@@ -200,7 +282,7 @@ then
 	# There's the problem of .dotfiles_old become a symlink
 	if [ -L $OLDDIR ]; then rm $OLDDIR -f; fi
 	# create backup directory if not exist
-	mkdir -p $OLDDIR > /dev/null
+	[[ $print_only ]]|| mkdir -p $OLDDIR > /dev/null
 
 	for f in $DOTFILEDIR/*
 	do
@@ -210,7 +292,7 @@ then
 		then
 			MSG="  > Backing up original [$filename]..."
 			printf "$MSG"
-			mv $HOME/.$filename $OLDDIR
+			[[$print_only ]] || mv $HOME/.$filename $OLDDIR
 			log_msg "[OK]" "GREEN" "$MSG"
 			printf " <\n"
 		fi
@@ -221,7 +303,7 @@ log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
 ##############################################################################
 
-echo "----------------------------------------------------------------------"
+repeat "-" $total_width
 
 ##############################################################################
 # 03. Cleanup directory
@@ -230,7 +312,7 @@ echo "----------------------------------------------------------------------"
 #============================================================================#
 cd $DOTFILEDIR
 shopt -s dotglob # list hidden files
-find $DOTFILEDIR -name '*~' -delete 2> /dev/null
+[[ $print_only ]] || find $DOTFILEDIR -name '*~' -delete 2> /dev/null
 
 # Clean up broken symlinks
 #============================================================================#
@@ -248,7 +330,7 @@ do
 		filename=$(basename "$f")
 		MSG="  > Cleaning up broken link [$filename]..."
 		printf "$MSG"
-		mv $HOME/$filename $OLDDIR
+		[[ $print_only ]] || mv $HOME/$filename $OLDDIR
 		log_msg "[OK]" "GREEN" "$MSG"
 		printf " <\n"
 	fi
@@ -260,7 +342,7 @@ printf " <<<\n"
 shopt -u dotglob # unlist hidden files
 ##############################################################################
 
-echo "----------------------------------------------------------------------"
+repeat "-" $total_width
 
 ##############################################################################
 # 04. VIM plugins
@@ -273,8 +355,8 @@ printf "$MSG"
 mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
 if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]; then
-	[[ $(command -v curl) ]] || sudo apt-get install -y curl
-	curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
+	[[ $print_only ]] || [[ $(command -v curl) ]] || sudo apt-get install -y curl
+	[[ $print_only ]] || curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
 	log_msg "[Installation completed.]" "YELLOW" "$MSG"
 	printf " <\n"
 	#echo "                      [Pathogen] installation completed. <<<"
@@ -364,7 +446,7 @@ printf " <<<\n"
 #============================================================================#
 ##############################################################################
 
-echo "----------------------------------------------------------------------"
+repeat "-" $total_width
 
 ##############################################################################
 # 05. Creating symlinks
@@ -380,8 +462,8 @@ do
 	then
 		MSG="  > Linking file [$filename]..."
 		printf "$MSG"
-		rm $HOME/.$filename -rf # remove the old symlinks before linking
-		ln -s $f $HOME/.$filename
+		[[ $print_only ]] || rm $HOME/.$filename -rf # remove the old symlinks before linking
+		[[ $print_only ]] || ln -s $f $HOME/.$filename
 		log_msg "[OK]" "GREEN" "$MSG"
 		printf " <\n"
 	fi
@@ -391,7 +473,7 @@ log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
 ##############################################################################
 
-echo "----------------------------------------------------------------------"
+repeat "-" $total_width
 
 ##############################################################################
 # 06. Back up to github
@@ -408,6 +490,8 @@ echo "  > Changes to be committed:"
 # need git config color.status always to pipe color to sed.
 # But may have problems with vim-fugitive
 git status -s | sed 's/^/    /'
+
+[[ $print_only ]] && exit
 
 if [[ $(git diff HEAD) ]]; then
     n=1
@@ -445,8 +529,8 @@ fi
 ##############################################################################
 # 07. Footer
 #============================================================================#
-echo "======================================================================"
+repeat "=" $total_width
 echo ">>>               Enjoy your new coding environment!               <<<"
 echo ">>>                                        --Maxlufs               <<<"
-echo "======================================================================"
+repeat "=" $total_width
 ##############################################################################
