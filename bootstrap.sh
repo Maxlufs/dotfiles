@@ -125,7 +125,7 @@ center() {
 		# floor if number if odd
 		let local middle_start_pos=($total_width-$left_len+$middle_len-$right_len)/2
 		#FIX the senario where number is odd
-		let local right_start_pos=($total_width-$left_len-$middle_len+$right_len)/2
+		let local right_start_pos=($total_width-$left_len-$middle_len+$right_len+1)/2
 		printf "$left"
 		printf "%${middle_start_pos}s" "$middle"
 		printf "%${right_start_pos}s" "$right"
@@ -155,13 +155,7 @@ center() {
 }
 
 echo
-echo
-echo
-echo
-center $left_delimiter "This is a looooooooooooooooooooog test" $right_delimiter
-echo
-echo
-echo
+center $left_delimiter "This is a loooooooooooooooooooog test" $right_delimiter
 echo
 
 # println()
