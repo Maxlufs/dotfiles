@@ -61,11 +61,18 @@ set nobackup
 set noswapfile
 
 filetype off
-" pathogen settings
-execute pathogen#infect()
-Helptags " call :helptags on every dir in runtimepath
-" Vundle settings
 
+" Pathogen settings
+"execute pathogen#infect()
+"Helptags " call :helptags on every dir in runtimepath
+
+" Vundle settings
+" add vundle to runtimepath
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+source vimrc.vundle
+call vundle#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 02. Events                                                                 "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

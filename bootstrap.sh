@@ -74,7 +74,8 @@ EOF
 [[ $1 == "-p" ]] && print_only=1
 [[ $1 == "--print-only" ]] && print_only=1
 [[ $1 == "--pathogen" ]] && pathogen=1
-[[ $1 == "--back-up" ]] && back_up=1
+[[ $1 == "--backup" ]] && back_up=1
+[[ $1 == "--uninstall" ]] && uninstall=1
 
 # Declare directory variables
 #============================================================================#
@@ -343,6 +344,42 @@ center $left_delimiter "Your shell version: ${BASH_VERSION}" $right_delimiter
 repeat "=" $total_width
 ##############################################################################
 
+if [[ $uninstall ]]; then
+	echo ">>> Uninstalling dotfiles..."
+	for f in $DOTFILEDIR/*; do
+		filename=$(basename "$f")
+		if [[ $filename != *.* && -f $HOME/.$filename ]]; then
+			MSG="  > Removing dotfile [.$filename]..."
+			printf "$MSG"
+			# remove the old symlinks before linking, deal with the case dotfile_old
+			# exists, but symlink is broken
+			[[ $print_only ]] || rm $HOME/.$filename -rf 2> /dev/null
+			log_msg "[OK]" "GREEN" "$MSG"
+			printf " <\n"
+		fi
+	done
+	# restore orginal dotfiles
+	shopt -s dotglob # list hidden files
+	shopt -s nullglob # suppress echo '*' when folder is empty
+	for f in $OLDDIR/*; do
+		filename=$(basename "$f")
+		MSG="  > Restoring original file [$filename]..."
+		printf "$MSG"
+		[[ $print_only ]] || mv $OLDDIR/* $HOME 2> /dev/null
+		log_msg "[OK]" "GREEN" "$MSG"
+		printf " <\n"
+	done
+	shopt -u dotglob # list hidden files
+	shopt -u nullglob # suppress echo '*' when folder is empty
+	log_msg "[OK]" "GREEN" ""
+
+
+	# remove dotfiles_old dir
+	rm $OLDDIR -rf 2> /dev/null
+	printf " <<<\n"
+	exit
+fi
+
 ##############################################################################
 # 02. Backing up old dotfiles
 #============================================================================#
@@ -397,7 +434,7 @@ if [[ $pathogen ]]; then
 	mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
 
 	if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]; then
-		[[ $print_only ]] || [[ $(command -v curl) ]] || sudo apt-get install -y curl
+		[[ $print_only ]] || [ -x $(command -v curl) ] || sudo apt-get install -y curl
 		[[ $print_only ]] || curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
 		log_msg "[Installation completed.]" "YELLOW" "$MSG"
 		printf " <\n"
@@ -492,7 +529,7 @@ fi
 ##############################################################################
 
 ##############################################################################
-# 05. Creating symlinks (main part)
+# 04. Creating symlinks (main part)
 #============================================================================#
 echo ">>> Creating symbolic links..."
 
@@ -527,7 +564,7 @@ printf " <<<\n"
 ##############################################################################
 
 ##############################################################################
-# 06. Back up to github
+# 05. Back up to github
 #============================================================================#
 if [[ $back_up ]]; then
 
@@ -584,13 +621,20 @@ fi
 ##############################################################################
 
 ##############################################################################
-# 07. Footer
+# 06. Footer
 #============================================================================#
 repeat "=" $total_width
+if [[ $uninstall ]]; then
+center $left_delimiter "   Clean leaving host environment!" $right_delimiter
+else
 center $left_delimiter "Enjoy your new coding environment!" $right_delimiter
+fi
 center $left_delimiter "                         --Maxlufs" $right_delimiter
 repeat "=" $total_width
 ##############################################################################
 if [[ $first_time ]]; then
 echo "original dotfiles can be found in $OLDDIR"
+fi
+if [[ $uninstall ]]; then
+echo "remove \$HOME/.dotfiles dir for complete removal"
 fi

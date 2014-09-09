@@ -1,6 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_cnt =6
 let g:netrw_dirhist_1='scp://104.131.195.50/'
 let g:netrw_dirhist_2='scp://104.131.195.50:2222/'
 let g:netrw_dirhist_3='scp://user@104.131.195.50:2222/'
 let g:netrw_dirhist_4='scp://user@104.131.195.50:2222/apache2-2.4.7/'
+let g:netrw_dirhist_5='/home/ubuntu/maxlufs/.dotfiles/vim/bundle/vundle'
+let g:netrw_dirhist_6='/home/ubuntu/maxlufs/.dotfiles/vim/bundle/Vundle.vim'
