@@ -138,6 +138,7 @@ fi
 # apt-get / apt-cache
 alias apt-get='sudo apt-get'
 alias update='sudo apt-get update && sudo apt-get dist-upgrade'
+alias udpate='sudo apt-get update && sudo apt-get dist-upgrade'
 # alias update='sudo apt-get update'
 # alias upgrade='sudo apt-get dist-upgrade'
 # alias install='sudo apt-get install' system already has install

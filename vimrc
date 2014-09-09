@@ -64,6 +64,7 @@ filetype off
 " pathogen settings
 execute pathogen#infect()
 Helptags " call :helptags on every dir in runtimepath
+" Vundle settings
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 02. Events                                                                 "
