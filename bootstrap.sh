@@ -10,12 +10,13 @@
 #============================================================================#
     # Contents:                                                         #
     # 00. Variables & Fuctions                                          #
-    # 01. Header                                                        #
-    # 02. Old dotfiles             -> ~/.dotfiles_old/                  #
-    # 03. Vim plugins                                                   #
+    # 01. Print Header                                                  #
+    # 02. Backup Old dotfiles      -> ~/.dotfiles_old/                  #
+    # 03. Vim plugins (Vundle|Pathogen)                                 #
     # 04. Create symlinks          -> ~/.dotfiles/                      #
-	# 05. AutoBackup (deprecated, invoke on flag)                       #
-    # 06. Footer                                                        #
+    # 05. Delete symlinks          -> ~/.dotfiles/                      #
+    # 06. Auto Backup to GitHub                                         #
+    # 07. Print Footer                                                  #
 #============================================================================#
 
 #============================================================================#
@@ -100,8 +101,9 @@ reset="$(tput sgr0)"
 print_usage() {
 cat << EOF
 Version: $VERSION
-Usage: $0 options [--pathogen] [--vundle] [--debug] [-f|-d] file
+Usage: $0 [file1 file2 ..] [--pathogen|--vundle] [--debug] [[-f|-d] file1 file2 ..]
 
+OPTIONS:
 	-f FILE		: install dotfile FILE
 	-d FILE		: uninstall dotfile FILE
 	-h --help	: show this message
@@ -346,7 +348,7 @@ print_header() {
 repeat "=" $total_width
 center $left_delimiter "Starting bootstrap..." $right_delimiter
 center $left_delimiter "Your system envion: $(uname -np)" $right_delimiter
-center $left_delimiter "Your shell version: ${BASH_VERSION}" $right_delimiter
+center $left_delimiter "Your shell version: BASH ${BASH_VERSION%.*}" $right_delimiter
 repeat "=" $total_width
 }
 ##############################################################################
