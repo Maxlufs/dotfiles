@@ -54,7 +54,6 @@ else
 fi
 unset bash bmajor bminor
 
-
 # Declare directory variables
 #============================================================================#
 DOTFILEDIR="$HOME/.dotfiles"          # dotfiles dir
@@ -103,15 +102,15 @@ cat << EOF
 Version: $VERSION
 Usage: $0 options [--pathogen] [--vundle] [--debug] [-f|-d] file
 
--f FILE		: install dotfile FILE
--d FILE		: uninstall dotfile FILE
--h --help	: show this message
---backup	: back up automatically to GitHub (not perfect)
---pathogen	: use pathogen to install vim plugins (not perfect)
---print-only	: dry run mode, only print out ui for debugging
---version	: show version only
---vundle	: use vundle to install vim plugins (not implemented)
---uninstall	: uninstall all dotfile
+	-f FILE		: install dotfile FILE
+	-d FILE		: uninstall dotfile FILE
+	-h --help	: show this message
+	--backup	: back up automatically to GitHub (not perfect)
+	--pathogen	: use pathogen to install vim plugins (not perfect)
+	--print-only	: dry run mode, only print out ui for debugging
+	--version	: show version only
+	--vundle	: use vundle to install vim plugins (not implemented)
+	--uninstall	: uninstall all dotfile
 EOF
 }
 
@@ -127,7 +126,10 @@ repeat() {
 		printf "%s" "$c"
 	done
 	printf "\n"
-	unset i
+	# if unset i here, if repeat is running inside another loop, i from the
+	# outer loop will be unset, will need to wrap repeat function within
+	# parantheses
+	#unset i
 }
 
 # center()
@@ -414,7 +416,7 @@ install_vundle() {
 			if [ -x $(command -v sudo) ]; then
 				(( $print_only_f )) || sudo apt-get install -qq -y git
 			else
-				log_msg "[Unauthorized]" "RED" "$MSG"; printf " <\n"
+				log_msg "[UNAUTHORIZED]" "RED" "$MSG"; printf " <\n"
 				return
 			fi
 		fi
@@ -428,7 +430,7 @@ install_vundle() {
 		#echo "                      [Pathogen] installation completed. <<<"
 	else
 		#echo "                           [Pathogen] already installed. <<<"
-		log_msg "[Not Modified]" "YELLOW" "$MSG"
+		log_msg "[NOT MODIFIED]" "YELLOW" "$MSG"
 		printf " <\n"
 	fi
 	log_msg "[OK]" "GREEN" ""
@@ -438,7 +440,6 @@ printf " <<<\n"
 # install_pathogen()
 # syntax: install_pathogen
 # description: download pathongen and use pathogen repo to install vim plugins
-
 install_pathogen() {
 
 	MSG=">>> Installing [Pathogen] for Vim..."
@@ -538,8 +539,8 @@ repeat "-" $total_width
 
 
 # Patching font
-# fc-cache -vf ~/.fonts
 #============================================================================#
+# fc-cache -vf ~/.fonts
 ##############################################################################
 
 ##############################################################################
@@ -550,18 +551,18 @@ repeat "-" $total_width
 # description: build symlink of dotfile "file_basename" to $HOME dir if any
 create_symlink() {
 	local filename=$1
-	if [[ ! $filename == *.* && -f $DOTFILEDIR/$filename ]]
+	if [[ ! $filename == *.* && -e $DOTFILEDIR/$filename ]]
 	then
 		MSG="  > Linking file [$filename]..."
 		printf "$MSG"
 		# remove the old symlinks before linking, deal with the case dotfile_old
 		# exists, but symlink is broken
 		(( $print_only_f )) || rm $HOME/.$filename -rf
-		(( $print_only_f )) || ln -s $f $HOME/.$filename
+		(( $print_only_f )) || ln -s $DOTFILEDIR/$filename $HOME/.$filename
 		log_msg "[OK]" "GREEN" "$MSG"
 		printf " <\n"
 	else
-		MSG="  > Cannot find [.$filename]..."
+		MSG="  > Cannot find [$filename]..."
 		printf "$MSG"
 		log_msg "[NOT FOUND]" "RED" "$MSG"
 		printf " <\n"
@@ -587,7 +588,7 @@ install_all() {
 	for f in $DOTFILEDIR/*
 	do
 		filename=$(basename "$f")
-		if [[ ! $filename == *.* && -f $DOTFILEDIR/$filename ]]; then
+		if [[ ! $filename == *.* && -e $DOTFILEDIR/$filename ]]; then
 			create_symlink $filename
 		fi
 	done
@@ -607,7 +608,7 @@ delete_symlink() {
 	local filename=$1
 	# if filename does not have an extension and it actually exists in $HOME
 	# then remove the symlink
-	if [[ $filename != *.* && -f $HOME/.$filename ]]; then
+	if [[ $filename != *.* && -e $HOME/.$filename ]]; then
 		MSG="  > Removing dotfile [.$filename]..."
 		printf "$MSG"
 		# remove the old symlinks before linking, deal with the case dotfile_old
@@ -621,8 +622,8 @@ delete_symlink() {
 		log_msg "[NOT FOUND]" "RED" "$MSG"
 		printf " <\n"
 	fi
-
 }
+
 # restore_oldfile()
 # syntax: restore_oldfile "file_basename"
 # description: restore old dotfile "file_basename" from $OLDDIR dir if any
@@ -674,8 +675,6 @@ uninstall_all() {
 # 06. Back up to github
 #============================================================================#
 backup_to_github() {
-
-	repeat "-" $total_width
 
 	echo ">>> Backing up to dotfiles.git..."
 	defaultMsg="automatic backup"
@@ -798,6 +797,7 @@ pathogen_f=0
 vundle_f=0
 backup_f=0
 uninstall_f=0
+file_arr=()
 # preceding : in args string sets getopts in silent error mode
 # invalid option -> ? (\?) and $OPTARG -> invalid option char
 # required argument not found -> : and $OPTARG -> the option char in question
@@ -816,12 +816,12 @@ while getopts ":hVptvbuf:d:" opt; do
 		f )
 			# install selected file(s)
 			install_file_f=1
-			echo "Installing file ${OPTARG}..."
+			file_arr+=("f" "${OPTARG}")
 			;;
 		d )
 			# uninstall selected file(s)
 			uninstall_file_f=1
-			echo "Uninstalling file ${OPTARG}..."
+			file_arr+=("d" "${OPTARG}")
 			;;
 		t )
 			pathogen_f=1
@@ -844,6 +844,7 @@ while getopts ":hVptvbuf:d:" opt; do
 			echo "Usage: option -$OPTARG requires an argument." >&2
 			echo "use -h or --help to show help"
 			exit 1
+			;;
 	esac
 done
 unset opt
@@ -854,28 +855,59 @@ unset opt
 # 2. multiple identical options are possible:
 # If you want to disallow these, you have to check manually (e.g. by setting a variable or so)
 
-# main script flow
+# set global flag for first-time users
+[ ! -d $OLDDIR ] && first_time=1
+
+# script flow
+# has -h flag
 (( $help_f )) && print_usage && exit 1
+# has -V flag
 (( $version_f )) && echo "Version: $VERSION" && exit 1
+# has --uninstall flag
 (( $uninstall_f )) && print_header && uninstall_all && print_footer && exit 1
-if (( ! $uninstall_f )) && (( $pathogen_f )) && (( $vundle_f )); then
+# has both --pathogen and --vundle flag
+if (( $pathogen_f )) && (( $vundle_f )); then
 	echo "Usage: select only one between Pathogen or Vundle"
 	echo "use -h or --help to show help"
 	exit 1
+fi
+
+#if [${#file_arr[@]} -eq 0 ] check if array empty. syntax too confusing
+if (( $install_file_f )) || (( $uninstall_file_f )); then
+	print_header
+	#backup_oldfiles
+	(( $pathogen_f )) && install_pathogen && repeat "-" $total_width
+	# vundle is installed by default
+	(( $vundle_f )) && install_vundle && repeat "-" $total_width
+	for (( i = 0; i < ${#file_arr[@]}; i+=2 )); do
+		flag=${file_arr[$i]}
+		filename=${file_arr[$i+1]}
+		if [[ "${flag}" == "f" ]]; then
+			create_symlink "$filename"
+		fi
+		if [[ "${flag}" == "d" ]]; then
+			delete_symlink "$filename"
+			restore_oldfile "$filename"
+			continue
+		fi
+	done
+	print_footer
+	exit;
 fi
 
 # main flow, run without any flags
 if (( ! $uninstall_f )); then
 	print_header
 	backup_oldfiles
-	(( $pathogen_f )) && install_pathogen
+	(( $pathogen_f )) && install_pathogen && repeat "-" $total_width
 	# vundle is installed by default
-	(( ! $pathogen_f )) && install_vundle
+	(( ! $pathogen_f )) && install_vundle && repeat "-" $total_width
 	install_all
-	(( $backup_f )) && backup_to_github
+	(( $backup_f )) && repeat "-" $total_width && backup_to_github
 	print_footer
 fi
 
+# clean variables
 unset VERSION
 unset DOTFILEDIR
 unset OLDDIR
