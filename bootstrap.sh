@@ -21,6 +21,7 @@
 #============================================================================#
 # TODO                                                                       #
 # [ ] M: add bash 3.00 support: user `echo $0` and `echo $BASH_VERSION`      #
+# [ ] M: use getopts to handle script flags                                  #
 # [x] M: hide useless info if the user is not a first-time user              #
 # [ ] S: add a list of system default env, eg. uname,bash,etc                #
 # [x] S: git push backup (only when there is change in git diff)             #
@@ -32,8 +33,10 @@
 #============================================================================#
 
 ##############################################################################
-# 00. Varibles & Functions
+# 00. Varibles & Helper Functions
 #============================================================================#
+VERSION="v1.2-Sep.9.2014"
+
 # exit if user is not using bash
 #============================================================================#
 if [ -n "$BASH_VERSION" ]; then
@@ -49,40 +52,15 @@ else
 	# need to figure out rbash compatibility problem, cuz rbash also has $BASH_VERSION
 	exit
 fi
+unset bash bmajor bminor
 
-# print_usage() function
-# syntax: print_usage
-# description: print out helper flags/options
-#============================================================================#
-print_usage() {
-cat << EOF
-usage: $0 options [-h]
-
--h		: Show this message
---pathogen	: Use pathogen to install vim plugins
---vundle	: Use vundel to install vim plugins
---print-only	: Dry run mode
---back-up	: Back up automatically to GitHub
---version	: Show version
-EOF
-}
-
-# Declare flags
-#============================================================================#
-[[ $1 == "-h" ]] && print_usage && exit
-[[ $1 == "--help" ]] && print_usage && exit
-[[ $1 == "-p" ]] && print_only=1
-[[ $1 == "--print-only" ]] && print_only=1
-[[ $1 == "--pathogen" ]] && pathogen=1
-[[ $1 == "--backup" ]] && back_up=1
-[[ $1 == "--uninstall" ]] && uninstall=1
 
 # Declare directory variables
 #============================================================================#
 DOTFILEDIR="$HOME/.dotfiles"          # dotfiles dir
 OLDDIR="$HOME/.dotfiles_old"          # dotfiles backup dir
 # if using ~ within quotes, cd $DIR won't work, need to use eval cd "$DIR"
-VIMDIR="vim"                      # vim dir
+VIMDIR="$DOTFILEDIR/vim"                      # vim dir
 BUNDLEDIR="vim/bundle"            # vim plugin dir (only used for git submodule)
 
 # Declare terminal/shell width and color
@@ -116,6 +94,27 @@ bold="$(tput bold)"
 underline="$(tput smul)"
 reset="$(tput sgr0)"
 
+# print_usage() function
+# syntax: print_usage
+# description: print out helper flags/options
+#============================================================================#
+print_usage() {
+cat << EOF
+Version: $VERSION
+Usage: $0 options [--pathogen] [--vundle] [--debug] [-f|-d] file
+
+-f FILE		: install dotfile FILE
+-d FILE		: uninstall dotfile FILE
+-h --help	: show this message
+--backup	: back up automatically to GitHub (not perfect)
+--pathogen	: use pathogen to install vim plugins (not perfect)
+--print-only	: dry run mode, only print out ui for debugging
+--version	: show version only
+--vundle	: use vundle to install vim plugins (not implemented)
+--uninstall	: uninstall all dotfile
+EOF
+}
+
 # repeat()
 # syntax: repeat "char" n
 # description: repeat a single charater n times, with a newline at the end
@@ -128,6 +127,7 @@ repeat() {
 		printf "%s" "$c"
 	done
 	printf "\n"
+	unset i
 }
 
 # center()
@@ -218,7 +218,7 @@ fi
 # output : colored status in the same line with MSG
 #============================================================================#
 log_msg() {
-	STATUS=$1
+	local STATUS=$1
 	# tput setaf colors
 	case $2 in
 		BLACK ) COLOR=0
@@ -238,13 +238,13 @@ log_msg() {
 		WHITE ) COLOR=7
 			;;
 	esac
-	MSG=$3
+	local MSG=$3
 
-	OFFSET=4                    # This is for '<' or '<<<'
-	NORMAL=$(tput sgr0)         # Normal color mode
-	COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
+	local OFFSET=4                    # This is for '<' or '<<<'
+	local NORMAL=$(tput sgr0)         # Normal color mode
+	local COLORSTATUS="$(tput setaf $COLOR)${STATUS}$NORMAL"
 
-	let COL=$total_width+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
+	let local COL=$total_width+${#COLORSTATUS}-$OFFSET-${#MSG}-${#STATUS}
 	# tput cols = terminal width
 	# 3 = <<<
 	# MSG = $1
@@ -254,7 +254,7 @@ log_msg() {
 	if [[ ${#MSG} -ge ${COL} ]]
 		# if MSG length too long, then print in new line
 	then
-		let COLFORLONG=$total_width+${#COLORSTATUS}-$OFFSET-${#STATUS}
+		let local COLFORLONG=$total_width+${#COLORSTATUS}-$OFFSET-${#STATUS}
 		# new line, need a new COL, i.e. ${#MSG} = 0
 		printf "\n%${COLFORLONG}s"  "$COLORSTATUS"
 	else
@@ -272,7 +272,7 @@ log_msg() {
 
 # Declare pathogen vim plugin repo associate matrix
 #============================================================================#
-if [[ $pathogen ]]; then
+if (( $pathogen_f )); then
 	declare -A repo
 
 	# vim pathogen plugin
@@ -337,105 +337,119 @@ fi
 ##############################################################################
 # 01. Header
 #============================================================================#
+# print_header()
+# syntax: print_header
+# description: print out welcome header, host system environ
+print_header() {
 repeat "=" $total_width
 center $left_delimiter "Starting bootstrap..." $right_delimiter
 center $left_delimiter "Your system envion: $(uname -np)" $right_delimiter
 center $left_delimiter "Your shell version: ${BASH_VERSION}" $right_delimiter
 repeat "=" $total_width
+}
 ##############################################################################
-
-if [[ $uninstall ]]; then
-	echo ">>> Uninstalling dotfiles..."
-	for f in $DOTFILEDIR/*; do
-		filename=$(basename "$f")
-		if [[ $filename != *.* && -f $HOME/.$filename ]]; then
-			MSG="  > Removing dotfile [.$filename]..."
-			printf "$MSG"
-			# remove the old symlinks before linking, deal with the case dotfile_old
-			# exists, but symlink is broken
-			[[ $print_only ]] || rm $HOME/.$filename -rf 2> /dev/null
-			log_msg "[OK]" "GREEN" "$MSG"
-			printf " <\n"
-		fi
-	done
-	# restore orginal dotfiles
-	shopt -s dotglob # list hidden files
-	shopt -s nullglob # suppress echo '*' when folder is empty
-	for f in $OLDDIR/*; do
-		filename=$(basename "$f")
-		MSG="  > Restoring original file [$filename]..."
-		printf "$MSG"
-		[[ $print_only ]] || mv $OLDDIR/* $HOME 2> /dev/null
-		log_msg "[OK]" "GREEN" "$MSG"
-		printf " <\n"
-	done
-	shopt -u dotglob # list hidden files
-	shopt -u nullglob # suppress echo '*' when folder is empty
-	log_msg "[OK]" "GREEN" ""
-
-
-	# remove dotfiles_old dir
-	rm $OLDDIR -rf 2> /dev/null
-	printf " <<<\n"
-	exit
-fi
 
 ##############################################################################
 # 02. Backing up old dotfiles
 #============================================================================#
-# Only backup original dotfiles if .dotfiles_old dir doesn't exist
-if [ ! -d $OLDDIR ]
-then
-	first_time=1
-	echo ">>> Backing up original dotfiles to dotfiles_old/..."
-	# There's the problem of .dotfiles_old become a symlink
-	# so if .dotfiles_old is a symlink, remove it
-	if [ -L $OLDDIR ]; then rm $OLDDIR -f; fi
-	# create backup directory if not existing
-	[[ $print_only ]] || mkdir -p $OLDDIR > /dev/null
+# backup_file()
+# syntax: backup_file "file_basename"
+# description: move single old dotfile "file_basename" to $OLDDIR if exists
+backup_file () {
+	local filename=$1
+	# backup the original actual file, even it's a symlink
+	if [ -f $HOME/.$filename ]
+	then
+		MSG="  > Backing up original [$filename]..."
+		printf "$MSG"
+		[[ $print_only_f ]] || mv $HOME/.$filename $OLDDIR
+		log_msg "[OK]" "GREEN" "$MSG"
+		printf " <\n"
+	fi
+}
 
-	for f in $DOTFILEDIR/*
-	do
-		filename=$(basename "$f")
-		# backup the original actual file, even it's a symlink
-		if [ -f $HOME/.$filename ]
-		then
-			MSG="  > Backing up original [$filename]..."
-			printf "$MSG"
-			[[ $print_only ]] || mv $HOME/.$filename $OLDDIR
-			log_msg "[OK]" "GREEN" "$MSG"
-			printf " <\n"
+# backup_oldfiles()
+# syntax: backup_oldfiles
+# description: move old dotfiles to $OLDDIR if any
+backup_oldfiles () {
+	# Only backup original dotfiles if .dotfiles_old dir doesn't exist
+	if [ ! -d $OLDDIR ]
+	then
+		# set global flag for first-time users
+		first_time=1
+		echo ">>> Backing up original dotfiles to dotfiles_old/..."
+		# There's the problem of .dotfiles_old become a symlink
+		# so if .dotfiles_old is a symlink, remove it
+		if [ -L $OLDDIR ]; then rm $OLDDIR -f; fi
+		# create backup directory if not existing
+		(( $print_only_f )) || mkdir -p $OLDDIR > /dev/null
+
+		for f in $DOTFILEDIR/*
+		do
+			filename=$(basename "$f")
+			backup_file $filename
+		done
+		log_msg "[OK]" "GREEN" ""
+		printf " <<<\n"
+
+		repeat "-" $total_width
+	fi
+}
+##############################################################################
+
+##############################################################################
+# 03. VIM plugins
+#============================================================================#
+
+# install_vundle()
+# syntax: install_vundle
+# description: download vundle only, use vim PluginInstall to get plugins
+install_vundle() {
+	MSG=">>> Installing [Vundle] for Vim..."
+	printf "$MSG"
+
+	if [ ! -d "$VIMDIR/bundle/Vundle.vim" ]; then
+		# if host doesn't have git, check if host user has sudo
+		if [ ! -x $(command -v git) ]; then
+			if [ -x $(command -v sudo) ]; then
+				(( $print_only_f )) || sudo apt-get install -qq -y git
+			else
+				log_msg "[Unauthorized]" "RED" "$MSG"; printf " <\n"
+				return
+			fi
 		fi
-	done
-log_msg "[OK]" "GREEN" ""
+		# fetch file quietly, suppress error output
+		(( $print_only_f )) || \
+			git clone \
+			https://github.com/gmarik/Vundle.vim.git $VIMDIR/bundle/Vundle.vim \
+			2> /dev/null
+		log_msg "[Created]" "GREEN" "$MSG"
+		printf " <\n"
+		#echo "                      [Pathogen] installation completed. <<<"
+	else
+		#echo "                           [Pathogen] already installed. <<<"
+		log_msg "[Not Modified]" "YELLOW" "$MSG"
+		printf " <\n"
+	fi
+	log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
+}
 
-# Clean up broken symlinks in home directory
-#============================================================================#
-# shopt -s dotglob # list hidden files
+# install_pathogen()
+# syntax: install_pathogen
+# description: download pathongen and use pathogen repo to install vim plugins
 
-# find under $HOME. if there is no broken symlink, skip to end, otherwise fix it.
-# [[ -z $(find -L ~ -maxdepth 1 -type l 2> /dev/null) ]]
-
-repeat "-" $total_width
-fi
-##############################################################################
-
-##############################################################################
-# 04. VIM plugins
-#============================================================================#
-# Install pathogen
-#============================================================================#
-if [[ $pathogen ]]; then
+install_pathogen() {
 
 	MSG=">>> Installing [Pathogen] for Vim..."
 	printf "$MSG"
 
-	mkdir -p $VIMDIR/autoload $VIMDIR/bundle;
+	(( $print_only_f )) || \
+	mkdir -p $VIMDIR/autoload $VIMDIR/bundle
 
 	if [ ! -f "$VIMDIR/autoload/pathogen.vim" ]; then
-		[[ $print_only ]] || [ -x $(command -v curl) ] || sudo apt-get install -y curl
-		[[ $print_only ]] || curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
+		(( $print_only_f )) || [ -x $(command -v curl) ] || sudo apt-get install -y curl
+		(( $print_only_f )) || curl -Sso $VIMDIR/autoload/pathogen.vim $PATHOGENREPO
 		log_msg "[Installation completed.]" "YELLOW" "$MSG"
 		printf " <\n"
 		#echo "                      [Pathogen] installation completed. <<<"
@@ -445,6 +459,11 @@ if [[ $pathogen ]]; then
 		printf " <\n"
 	fi
 	echo
+log_msg "[OK]" "GREEN" ""
+printf " <<<\n"
+
+repeat "-" $total_width
+}
 
 # Install vim plugins with git submodules
 #============================================================================#
@@ -517,11 +536,6 @@ if [[ $pathogen ]]; then
 	#fi
 #done
 
-log_msg "[OK]" "GREEN" ""
-printf " <<<\n"
-
-repeat "-" $total_width
-fi
 
 # Patching font
 # fc-cache -vf ~/.fonts
@@ -529,44 +543,137 @@ fi
 ##############################################################################
 
 ##############################################################################
-# 04. Creating symlinks (main part)
+# 04. Creating symlinks
 #============================================================================#
-echo ">>> Creating symbolic links..."
-
-# Clean up vim backup files in dotifiles_dir
-# user may change files and leave vim backup files
-# otherwise bootstrap.sh will create symlinks to these hidden files
-#============================================================================#
-shopt -s dotglob # list hidden files
-[[ $print_only ]] || find $DOTFILEDIR -name '*~' -delete 2> /dev/null
-shopt -u dotglob # unlist hidden files
-
-# looping over all files without extension
-# find . -maxdepth 1 -type f ! -name "*.*"
-for f in $DOTFILEDIR/*
-do
-	filename=$(basename "$f")
-	if [[ ! $filename == *.* ]]
+# create_symlink()
+# syntax: create_symlink "file_basename"
+# description: build symlink of dotfile "file_basename" to $HOME dir if any
+create_symlink() {
+	local filename=$1
+	if [[ ! $filename == *.* && -f $DOTFILEDIR/$filename ]]
 	then
 		MSG="  > Linking file [$filename]..."
 		printf "$MSG"
 		# remove the old symlinks before linking, deal with the case dotfile_old
 		# exists, but symlink is broken
-		[[ $print_only ]] || rm $HOME/.$filename -rf
-		[[ $print_only ]] || ln -s $f $HOME/.$filename
+		(( $print_only_f )) || rm $HOME/.$filename -rf
+		(( $print_only_f )) || ln -s $f $HOME/.$filename
 		log_msg "[OK]" "GREEN" "$MSG"
 		printf " <\n"
+	else
+		MSG="  > Cannot find [.$filename]..."
+		printf "$MSG"
+		log_msg "[NOT FOUND]" "RED" "$MSG"
+		printf " <\n"
 	fi
-done
+}
 
-log_msg "[OK]" "GREEN" ""
-printf " <<<\n"
+# install_all()
+# syntax: install_all
+# description: build up all symlinks of dotfiles to $HOME dir
+install_all() {
+	echo ">>> Creating symbolic links..."
+
+	# Clean up vim backup files in dotifiles_dir
+	# user may change files and leave vim backup files
+	# otherwise bootstrap.sh will create symlinks to these hidden files
+	#============================================================================#
+	shopt -s dotglob # list hidden files
+	(( $print_only_f )) || find $DOTFILEDIR -name '*~' -delete 2> /dev/null
+	shopt -u dotglob # unlist hidden files
+
+	# looping over all files without extension
+	# find . -maxdepth 1 -type f ! -name "*.*"
+	for f in $DOTFILEDIR/*
+	do
+		filename=$(basename "$f")
+		if [[ ! $filename == *.* && -f $DOTFILEDIR/$filename ]]; then
+			create_symlink $filename
+		fi
+	done
+
+	log_msg "[OK]" "GREEN" ""
+	printf " <<<\n"
+}
 ##############################################################################
 
 ##############################################################################
-# 05. Back up to github
+# 05. Deleting symlinks
 #============================================================================#
-if [[ $back_up ]]; then
+# delete_symlink()
+# syntax: delete_symlink "file_basename"
+# description: remove symlink of dotfile "file_basename" from $HOME dir if any
+delete_symlink() {
+	local filename=$1
+	# if filename does not have an extension and it actually exists in $HOME
+	# then remove the symlink
+	if [[ $filename != *.* && -f $HOME/.$filename ]]; then
+		MSG="  > Removing dotfile [.$filename]..."
+		printf "$MSG"
+		# remove the old symlinks before linking, deal with the case dotfile_old
+		# exists, but symlink is broken
+		(( $print_only_f )) || rm $HOME/.$filename -rf 2> /dev/null
+		log_msg "[OK]" "GREEN" "$MSG"
+		printf " <\n"
+	else
+		MSG="  > Cannot find \$HOME/ [.$filename]..."
+		printf "$MSG"
+		log_msg "[NOT FOUND]" "RED" "$MSG"
+		printf " <\n"
+	fi
+
+}
+# restore_oldfile()
+# syntax: restore_oldfile "file_basename"
+# description: restore old dotfile "file_basename" from $OLDDIR dir if any
+restore_oldfile() {
+	local filename=$1
+	if [ -f $OLDDIR/.$filename ]; then
+		MSG="  > Restoring original file [$filename]..."
+		printf "$MSG"
+		(( $print_only_f )) || mv $OLDDIR/* $HOME 2> /dev/null
+		log_msg "[OK]" "GREEN" "$MSG"
+		printf " <\n"
+	else
+		MSG="  > Cannot find original [.$filename]..."
+		printf "$MSG"
+		log_msg "[NOT FOUND]" "RED" "$MSG"
+		printf " <\n"
+	fi
+}
+
+# uninstall_all()
+# syntax: uninstall_all
+# description: remove all symlinks of dotfiles from $HOME dir
+uninstall_all() {
+	echo ">>> Uninstalling dotfiles..."
+	for f in $DOTFILEDIR/*; do
+		local filename=$(basename "$f")
+		if [[ $filename != *.* && -f $HOME/.$filename ]]; then
+			delete_symlink $filename
+		fi
+	done
+	# restore orginal dotfiles
+	shopt -s dotglob # list hidden files
+	shopt -s nullglob # suppress echo '*' when folder is empty
+	for f in $OLDDIR/*; do
+		local filename=$(basename "$f")
+		restore_oldfile $filename
+	done
+	shopt -u dotglob # list hidden files
+	shopt -u nullglob # suppress echo '*' when folder is empty
+
+	# remove dotfiles_old dir
+	(( $print_only_f )) || rm $OLDDIR -rf 2> /dev/null
+	log_msg "[OK]" "GREEN" ""
+	printf " <<<\n"
+}
+##############################################################################
+
+##############################################################################
+# 06. Back up to github
+#============================================================================#
+backup_to_github() {
 
 	repeat "-" $total_width
 
@@ -583,7 +690,7 @@ if [[ $back_up ]]; then
 	# But may have problems with vim-fugitive
 	git status -s | sed 's/^/    /'
 
-	[[ $print_only ]] && exit
+	(( $print_only_f )) && exit
 
 	if [[ $(git diff HEAD) ]]; then
 		n=1
@@ -616,25 +723,205 @@ if [[ $back_up ]]; then
 		log_msg "[OK]" "GREEN" ""
 		printf " <<<\n"
 	fi
-
-fi
+}
 ##############################################################################
 
 ##############################################################################
-# 06. Footer
+# 07. Footer
 #============================================================================#
-repeat "=" $total_width
-if [[ $uninstall ]]; then
-center $left_delimiter "   Clean leaving host environment!" $right_delimiter
-else
-center $left_delimiter "Enjoy your new coding environment!" $right_delimiter
-fi
-center $left_delimiter "                         --Maxlufs" $right_delimiter
-repeat "=" $total_width
+print_footer() {
+	repeat "=" $total_width
+	if (( $uninstall_f )); then
+		center $left_delimiter "   Clean leaving host environment!" $right_delimiter
+	else
+		center $left_delimiter "Enjoy your new coding environment!" $right_delimiter
+	fi
+	center $left_delimiter "                         --Maxlufs" $right_delimiter
+	repeat "=" $total_width
+
+	if (( $first_time )); then
+		echo "original dotfiles can be found in $OLDDIR"
+	fi
+	if (( $uninstall_f )); then
+		echo "remove \$HOME/.dotfiles dir for complete removal"
+	fi
+	if (( $print_only_f )); then
+		center "#####" "${fgyellow}THIS IS DEBUGGING MODE: PRINTING ONLY{}${reset}" "#####"
+	fi
+}
 ##############################################################################
-if [[ $first_time ]]; then
-echo "original dotfiles can be found in $OLDDIR"
+
+##############################################################################
+# 99. Main
+#============================================================================#
+# Declare flags using getopts
+#============================================================================#
+# getopts only works for 1-character flags
+# may use getopt (no POSIX compatible) or hack into a 1-char flag (not
+# portable to Mac OS or FreeBSD)
+
+# translate long options to short flags
+for arg; do # iterate over all input parameters, no need to write "in $@" here
+	delim=""
+	case $arg in
+		# append -V after args string
+		--version ) args="${args}-V "
+			;;
+		--help ) args="${args}-h "
+			;;
+		--debug ) args="${args}-p "
+			;;
+		--pathogen ) args="${args}-t "
+			;;
+		--vundle ) args="${args}-v "
+			;;
+		--backup ) args="${args}-b "
+			;;
+		--uninstall ) args="${args}-u "
+			;;
+		# put everything else inside quotes, then append after args string
+		*) [[ "${arg:0:1}" == "-" ]] || delim="\""
+			args="${args}${delim}${arg}${delim} "
+	esac
+done
+
+# reset the positional parameters to the short options
+eval set -- $args
+
+# set up flags, need to parse all flags at least once
+version_f=0
+help_f=0
+print_only_f=0
+install_file_f=0
+uninstall_file_f=0
+pathogen_f=0
+vundle_f=0
+backup_f=0
+uninstall_f=0
+# preceding : in args string sets getopts in silent error mode
+# invalid option -> ? (\?) and $OPTARG -> invalid option char
+# required argument not found -> : and $OPTARG -> the option char in question
+while getopts ":hVptvbuf:d:" opt; do
+	case "${opt}" in
+		V )
+			version_f=1
+			;;
+		h )
+			# print usage then exit, so multiple -h flags won't matter
+			help_f=1
+			;;
+		p )
+			print_only_f=1
+			;;
+		f )
+			# install selected file(s)
+			install_file_f=1
+			echo "Installing file ${OPTARG}..."
+			;;
+		d )
+			# uninstall selected file(s)
+			uninstall_file_f=1
+			echo "Uninstalling file ${OPTARG}..."
+			;;
+		t )
+			pathogen_f=1
+			;;
+		v )
+			vundle_f=1;
+			;;
+		b )
+			backup_f=1
+			;;
+		u )
+			uninstall_f=1
+			;;
+		\?)
+			echo "Usage: invalid option -$OPTARG" >&2
+			echo "use -h or --help to show help"
+			exit 1
+			;;
+		:)
+			echo "Usage: option -$OPTARG requires an argument." >&2
+			echo "use -h or --help to show help"
+			exit 1
+	esac
+done
+unset opt
+
+# getopts has 2 problems:
+# 1. invalid options don't stop the processing:
+# If you want to stop the script, you have to do it yourself (exit in the right place)
+# 2. multiple identical options are possible:
+# If you want to disallow these, you have to check manually (e.g. by setting a variable or so)
+
+# main script flow
+(( $help_f )) && print_usage && exit 1
+(( $version_f )) && echo "Version: $VERSION" && exit 1
+(( $uninstall_f )) && print_header && uninstall_all && print_footer && exit 1
+if (( ! $uninstall_f )) && (( $pathogen_f )) && (( $vundle_f )); then
+	echo "Usage: select only one between Pathogen or Vundle"
+	echo "use -h or --help to show help"
+	exit 1
 fi
-if [[ $uninstall ]]; then
-echo "remove \$HOME/.dotfiles dir for complete removal"
+
+# main flow, run without any flags
+if (( ! $uninstall_f )); then
+	print_header
+	backup_oldfiles
+	(( $pathogen_f )) && install_pathogen
+	# vundle is installed by default
+	(( ! $pathogen_f )) && install_vundle
+	install_all
+	(( $backup_f )) && backup_to_github
+	print_footer
 fi
+
+unset VERSION
+unset DOTFILEDIR
+unset OLDDIR
+unset VIMDIR
+unset BUNDLEDIR
+
+unset version_f
+unset help_f
+unset print_only_f
+unset install_file_f
+unset uninstall_file_f
+unset pathogen_f
+unset vundle_f
+unset backup_f
+unset uninstall_f
+
+unset terminal_width
+unset default_width
+unset total_width
+unset left_delimiter
+unset right_delimiter
+unset fgred
+unset fggreen
+unset fgyellow
+unset fgblue
+unset fgpurple
+unset fgcyan
+unset fgwhite
+unset bgred
+unset bggreen
+unset bgyellow
+unset bgblue
+unset bgpurple
+unset bgcyan
+unset bgwhite
+unset bold
+unset underline
+unset reset
+
+unset f
+unset filename
+
+unset COL
+unset MSG
+unset COLOR
+
+unset right_start_pos
+unset middle_start_pos
+unset sum_len
