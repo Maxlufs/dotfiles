@@ -53,10 +53,16 @@ alias path='echo -e ${PATH//:/\\n}'
 ###########################################################################
 # 01. Navigation
 #=========================================================================#
+# number. = go up how many number of levels
 alias ..='cd ..'
 alias cd..='cd ..'
+alias 1.='cd ..'
 alias ...='cd ../..'
+alias 2.='cd ../..'
 alias ....='cd ../../..'
+alias 3.='cd ../../..'
+alias .....='cd ../../../..'
+alias 4.='cd ../../../..'
 # alias ../..='cd ../..'            invalid alias names
 # alias ../../..='cd ../../..'      invalid alias names
 alias -- -='cd -'
@@ -131,8 +137,8 @@ alias sls='screen -ls'
 alias sr='screen -r'
 
 # trash
-if [ $(which trash-put) ]
-then alias rm='trash-put'
+if [ -x $(command -v trash-put) ]; then
+alias rm='trash-put'
 fi
 
 # apt-get / apt-cache

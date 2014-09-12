@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #============================================================================#
-    # Filename: bootstrap.sh                                            #
+    # Filename: dot.sh                                                  #
     # Maintainer: Maximilian Q. Wang <maxlufs@gmail.com>                #
     # URL: https://github.com/Maxlufs/dotfiles                          #
 #============================================================================#
@@ -22,7 +22,7 @@
 #============================================================================#
 # TODO                                                                       #
 # [ ] M: add bash 3.00 support: user `echo $0` and `echo $BASH_VERSION`      #
-# [ ] M: use getopts to handle script flags                                  #
+# [x] M: use getopts to handle script flags                                  #
 # [x] M: hide useless info if the user is not a first-time user              #
 # [ ] S: add a list of system default env, eg. uname,bash,etc                #
 # [x] S: git push backup (only when there is change in git diff)             #
@@ -354,55 +354,7 @@ repeat "=" $total_width
 ##############################################################################
 
 ##############################################################################
-# 02. Backing up old dotfiles
-#============================================================================#
-# backup_file()
-# syntax: backup_file "file_basename"
-# description: move single old dotfile "file_basename" to $OLDDIR if exists
-backup_file () {
-	local filename=$1
-	# backup the original actual file, even it's a symlink
-	if [ -f $HOME/.$filename ]
-	then
-		MSG="  > Backing up original [$filename]..."
-		printf "$MSG"
-		[[ $print_only_f ]] || mv $HOME/.$filename $OLDDIR
-		log_msg "[OK]" "GREEN" "$MSG"
-		printf " <\n"
-	fi
-}
-
-# backup_oldfiles()
-# syntax: backup_oldfiles
-# description: move old dotfiles to $OLDDIR if any
-backup_oldfiles () {
-	# Only backup original dotfiles if .dotfiles_old dir doesn't exist
-	if [ ! -d $OLDDIR ]
-	then
-		# set global flag for first-time users
-		first_time=1
-		echo ">>> Backing up original dotfiles to dotfiles_old/..."
-		# There's the problem of .dotfiles_old become a symlink
-		# so if .dotfiles_old is a symlink, remove it
-		if [ -L $OLDDIR ]; then rm $OLDDIR -f; fi
-		# create backup directory if not existing
-		(( $print_only_f )) || mkdir -p $OLDDIR > /dev/null
-
-		for f in $DOTFILEDIR/*
-		do
-			filename=$(basename "$f")
-			backup_file $filename
-		done
-		log_msg "[OK]" "GREEN" ""
-		printf " <<<\n"
-
-		repeat "-" $total_width
-	fi
-}
-##############################################################################
-
-##############################################################################
-# 03. VIM plugins
+# 02. VIM plugins
 #============================================================================#
 
 # install_vundle()
@@ -429,9 +381,7 @@ install_vundle() {
 			2> /dev/null
 		log_msg "[Created]" "GREEN" "$MSG"
 		printf " <\n"
-		#echo "                      [Pathogen] installation completed. <<<"
 	else
-		#echo "                           [Pathogen] already installed. <<<"
 		log_msg "[NOT MODIFIED]" "YELLOW" "$MSG"
 		printf " <\n"
 	fi
@@ -464,8 +414,6 @@ install_pathogen() {
 	echo
 log_msg "[OK]" "GREEN" ""
 printf " <<<\n"
-
-repeat "-" $total_width
 }
 
 # Install vim plugins with git submodules
@@ -546,16 +494,81 @@ repeat "-" $total_width
 ##############################################################################
 
 ##############################################################################
+# 03. Backing up old dotfiles
+#============================================================================#
+# backup_file()
+# syntax: backup_file "file_basename"
+# description: move single old dotfile "file_basename" to $OLDDIR if exists
+backup_file () {
+	# remove leading . and trailing /
+	local filename=${1%/}
+	filename=${filename#.}
+
+	# There's the problem of .dotfiles_old become a symlink
+	# so if .dotfiles_old is a symlink, remove it
+	if [[ -L $OLDDIR ]]; then
+		(( $print_only_f )) || rm $OLDDIR -f 2>/dev/null
+	fi
+	# create backup directory if not existing and filename to be linked exists
+	# otherwise ./dot.sh new_file_name will create .dotfiles_old dir even the
+	# file cannot be found
+	if [[ ! -d $OLDDIR && -f $DOTFILEDIR/$filename ]]; then
+		(( $print_only_f )) || mkdir -p $OLDDIR > /dev/null
+		first_time=1
+	fi
+
+	# backup the original actual file, even it's a symlink
+	# backup only when there is no original copy inside $olddir
+	if [[ -e $HOME/.$filename && ! -e $OLDDIR/$filename ]]; then
+		MSG="  > Backing up original [$filename]..."
+		printf "$MSG"
+		(( $print_only_f )) || mv $HOME/.$filename $OLDDIR/$filename
+		log_msg "[OK]" "GREEN" "$MSG"
+		printf " <\n"
+	fi
+}
+
+# backup_all()
+# syntax: backup_all
+# description: move all the possibly conflicting old dotfiles to $OLDDIR if any
+backup_all () {
+	echo ">>> Backing up original dotfiles to dotfiles_old/..."
+	# There's the problem of .dotfiles_old become a symlink
+	# so if .dotfiles_old is a symlink, remove it
+	if [[ -L $OLDDIR ]]; then
+		(( $print_only_f )) || rm $OLDDIR -f 2>/dev/null
+	fi
+	# create backup directory if not existing
+	if [[ ! -d $OLDDIR ]]; then
+		first_time=1
+		(( $print_only_f )) || mkdir -p $OLDDIR > /dev/null
+	fi
+
+	for f in $DOTFILEDIR/*
+	do
+		filename=$(basename "$f")
+		if [[ ! $filename == *.* ]]; then
+			backup_file $filename
+		fi
+	done
+	log_msg "[OK]" "GREEN" ""
+	printf " <<<\n"
+}
+##############################################################################
+
+##############################################################################
 # 04. Creating symlinks
 #============================================================================#
-# create_symlink()
-# syntax: create_symlink "file_basename"
+# symlink_file()
+# syntax: symlink_file "file_basename"
 # description: build symlink of dotfile "file_basename" to $HOME dir if any
-create_symlink() {
-	local filename=$1
-	if [[ ! $filename == *.* && -e $DOTFILEDIR/$filename ]]
+symlink_file() {
+	# Remove trailing /, in order to handle directories in -f option
+	local filename=${1%/}
+	# not adding *.* restriction here, in case user want to link something with extension
+	if [[ -e $DOTFILEDIR/$filename ]]
 	then
-		MSG="  > Linking file [$filename]..."
+		MSG="  > Symlinking [$filename]..."
 		printf "$MSG"
 		# remove the old symlinks before linking, deal with the case dotfile_old
 		# exists, but symlink is broken
@@ -571,29 +584,87 @@ create_symlink() {
 	fi
 }
 
-# install_all()
-# syntax: install_all
-# description: build up all symlinks of dotfiles to $HOME dir
-install_all() {
-	echo ">>> Creating symbolic links..."
+# symlink_all()
+# syntax: symlink_all
+# description: build symlink of all dotfiles to $HOME dir
+symlink_all() {
+	echo ">>> Installing dotfiles to \$HOME..."
 
 	# Clean up vim backup files in dotifiles_dir
 	# user may change files and leave vim backup files
 	# otherwise bootstrap.sh will create symlinks to these hidden files
-	#============================================================================#
 	shopt -s dotglob # list hidden files
 	(( $print_only_f )) || find $DOTFILEDIR -name '*~' -delete 2> /dev/null
 	shopt -u dotglob # unlist hidden files
 
 	# looping over all files without extension
 	# find . -maxdepth 1 -type f ! -name "*.*"
-	for f in $DOTFILEDIR/*
-	do
+	for f in $DOTFILEDIR/*; do
 		filename=$(basename "$f")
-		if [[ ! $filename == *.* && -e $DOTFILEDIR/$filename ]]; then
-			create_symlink $filename
+		# only create symlink for files without extensions,
+		# otherwise [NOT FOUND] msg will show for files with extensions
+		if [[ ! $filename == *.* ]]; then
+			symlink_file $filename
 		fi
 	done
+
+	log_msg "[OK]" "GREEN" ""
+	printf " <<<\n"
+}
+
+# install_all()
+# syntax: install_all
+# description: build up all symlinks of dotfiles to $HOME dir
+install_all() {
+	backup_all
+
+	repeat "-" $total_width
+
+	symlink_all
+}
+##############################################################################
+
+##############################################################################
+# 05. Restoring old dotfiles
+#============================================================================#
+# restore_oldfile()
+# syntax: restore_oldfile "file_basename"
+# description: restore old dotfile "file_basename" from $OLDDIR dir if any
+restore_oldfile() {
+	local filename=$1
+	if [ -f $OLDDIR/$filename ]; then
+		MSG="  > Restoring original [$filename]..."
+		printf "$MSG"
+		(( $print_only_f )) || mv $OLDDIR/$filename $HOME/.$filename 2> /dev/null
+		log_msg "[OK]" "GREEN" "$MSG"
+		printf " <\n"
+	else
+		MSG="  > Cannot find original [$filename]..."
+		printf "$MSG"
+		log_msg "[NOT FOUND]" "RED" "$MSG"
+		printf " <\n"
+	fi
+}
+
+# restore_all()
+# syntax: restore_all "file_basename"
+# description: restore old dotfile "file_basename" from $OLDDIR dir if any
+restore_all() {
+	echo ">>> Restoring original dotfiles..."
+	# restore orginal dotfiles
+	shopt -s dotglob # list hidden files
+	shopt -s nullglob # suppress echo '*' when folder is empty
+	for f in $OLDDIR/*; do
+		local filename=$(basename "$f")
+		restore_oldfile $filename
+	done
+	shopt -u dotglob # list hidden files
+	shopt -u nullglob # suppress echo '*' when folder is empty
+
+	MSG="  > Removing .dotfiles_old..."
+	# remove dotfiles_old dir
+	(( $print_only_f )) || rm $OLDDIR -rf 2> /dev/null
+	log_msg "[OK]" "GREEN" "$MSG"
 
 	log_msg "[OK]" "GREEN" ""
 	printf " <<<\n"
@@ -603,15 +674,15 @@ install_all() {
 ##############################################################################
 # 05. Deleting symlinks
 #============================================================================#
-# delete_symlink()
-# syntax: delete_symlink "file_basename"
+# unsymlink_file()
+# syntax: unsymlink_file "file_basename"
 # description: remove symlink of dotfile "file_basename" from $HOME dir if any
-delete_symlink() {
+unsymlink_file() {
 	local filename=$1
 	# if filename does not have an extension and it actually exists in $HOME
 	# then remove the symlink
-	if [[ $filename != *.* && -e $HOME/.$filename ]]; then
-		MSG="  > Removing dotfile [.$filename]..."
+	if [[ $filename != *.* && -L $HOME/.$filename ]]; then
+		MSG="  > Unsymlinking [.$filename]..."
 		printf "$MSG"
 		# remove the old symlinks before linking, deal with the case dotfile_old
 		# exists, but symlink is broken
@@ -626,50 +697,32 @@ delete_symlink() {
 	fi
 }
 
-# restore_oldfile()
-# syntax: restore_oldfile "file_basename"
-# description: restore old dotfile "file_basename" from $OLDDIR dir if any
-restore_oldfile() {
-	local filename=$1
-	if [ -f $OLDDIR/.$filename ]; then
-		MSG="  > Restoring original file [$filename]..."
-		printf "$MSG"
-		(( $print_only_f )) || mv $OLDDIR/* $HOME 2> /dev/null
-		log_msg "[OK]" "GREEN" "$MSG"
-		printf " <\n"
-	else
-		MSG="  > Cannot find original [.$filename]..."
-		printf "$MSG"
-		log_msg "[NOT FOUND]" "RED" "$MSG"
-		printf " <\n"
-	fi
+# unsymlink_all()
+# syntax: unsymlink_all
+# description: remove symlink of all dotfiles from $HOME dir
+unsymlink_all() {
+	echo ">>> Uninstalling dotfiles..."
+	for f in $DOTFILEDIR/*; do
+		local filename=$(basename "$f")
+		if [[ $filename != *.* && -L $HOME/.$filename ]]; then
+			unsymlink_file $filename
+		fi
+	done
+	log_msg "[OK]" "GREEN" ""
+	printf " <<<\n"
 }
 
 # uninstall_all()
 # syntax: uninstall_all
 # description: remove all symlinks of dotfiles from $HOME dir
 uninstall_all() {
-	echo ">>> Uninstalling dotfiles..."
-	for f in $DOTFILEDIR/*; do
-		local filename=$(basename "$f")
-		if [[ $filename != *.* && -f $HOME/.$filename ]]; then
-			delete_symlink $filename
-		fi
-	done
-	# restore orginal dotfiles
-	shopt -s dotglob # list hidden files
-	shopt -s nullglob # suppress echo '*' when folder is empty
-	for f in $OLDDIR/*; do
-		local filename=$(basename "$f")
-		restore_oldfile $filename
-	done
-	shopt -u dotglob # list hidden files
-	shopt -u nullglob # suppress echo '*' when folder is empty
 
-	# remove dotfiles_old dir
-	(( $print_only_f )) || rm $OLDDIR -rf 2> /dev/null
-	log_msg "[OK]" "GREEN" ""
-	printf " <<<\n"
+	unsymlink_all
+
+	if [[ -d $OLDDIR ]]; then
+		repeat "-" $total_width
+		restore_all
+	fi
 }
 ##############################################################################
 
@@ -741,13 +794,13 @@ print_footer() {
 	repeat "=" $total_width
 
 	if (( $first_time )); then
-		echo "original dotfiles can be found in $OLDDIR"
+		center $left_delimiter "Original dotfiles can be found in $OLDDIR" $right_delimiter
 	fi
 	if (( $uninstall_f )); then
-		echo "remove \$HOME/.dotfiles dir for complete removal"
+		center $left_delimiter "Remove \$HOME/.dotfiles directory for complete removal." $right_delimiter
 	fi
 	if (( $print_only_f )); then
-		center "#####" "${fgyellow}THIS IS DEBUGGING MODE: PRINTING ONLY{}${reset}" "#####"
+		center "#####" "${fgyellow}THIS IS DEBUGGING MODE: PRINTING ONLY${reset}" "#####"
 	fi
 }
 ##############################################################################
@@ -755,14 +808,10 @@ print_footer() {
 ##############################################################################
 # 99. Main
 #============================================================================#
-# Declare flags using getopts
-#============================================================================#
-# getopts only works for 1-character flags
-# may use getopt (no POSIX compatible) or hack into a 1-char flag (not
-# portable to Mac OS or FreeBSD)
-
-# translate long options to short flags
-for arg; do # iterate over all input parameters, no need to write "in $@" here
+# Step1: translate long options to short flags, put arguments in quotes
+# iterate over all input parameters, no need to write "in $@" here
+# also for arg; only runs when $# > 0, so no need to check $# if empty
+for arg; do
 	delim=""
 	case $arg in
 		# append -V after args string
@@ -771,6 +820,10 @@ for arg; do # iterate over all input parameters, no need to write "in $@" here
 		--help ) args="${args}-h "
 			;;
 		--debug ) args="${args}-p "
+			;;
+		--dry-run ) args="${args}-p "
+			;;
+		--print-only ) args="${args}-p "
 			;;
 		--pathogen ) args="${args}-t "
 			;;
@@ -789,6 +842,20 @@ done
 # reset the positional parameters to the short options
 eval set -- $args
 
+# Step2: handle leading un-flaged filenames as -f filenames
+# also file_arr[] is used for filenames following -f and -d
+file_arr=()
+while [[ $# > 0 ]]; do
+	arg="$1"
+	[[ ${arg:0:1} == "-" ]] && break
+	file_arr+=("f" "${arg}")
+	shift
+done
+
+# Step3: parse the rest of the flags using getopts
+# getopts only works for 1-character flags
+# may use getopt (no POSIX compatible) or hack into a 1-char flag (not
+# portable to Mac OS or FreeBSD)
 # set up flags, need to parse all flags at least once
 version_f=0
 help_f=0
@@ -799,7 +866,6 @@ pathogen_f=0
 vundle_f=0
 backup_f=0
 uninstall_f=0
-file_arr=()
 # preceding : in args string sets getopts in silent error mode
 # invalid option -> ? (\?) and $OPTARG -> invalid option char
 # required argument not found -> : and $OPTARG -> the option char in question
@@ -817,12 +883,10 @@ while getopts ":hVptvbuf:d:" opt; do
 			;;
 		f )
 			# install selected file(s)
-			install_file_f=1
 			file_arr+=("f" "${OPTARG}")
 			;;
 		d )
 			# uninstall selected file(s)
-			uninstall_file_f=1
 			file_arr+=("d" "${OPTARG}")
 			;;
 		t )
@@ -851,33 +915,32 @@ while getopts ":hVptvbuf:d:" opt; do
 done
 unset opt
 
-# getopts has 2 problems:
+# Note: getopts has 2 problems:
 # 1. invalid options don't stop the processing:
 # If you want to stop the script, you have to do it yourself (exit in the right place)
 # 2. multiple identical options are possible:
 # If you want to disallow these, you have to check manually (e.g. by setting a variable or so)
 
-# set global flag for first-time users
-[ ! -d $OLDDIR ] && first_time=1
 
 # script flow
-# has -h flag
+#============================================================================#
+# if has -h flag
 (( $help_f )) && print_usage && exit 1
-# has -V flag
+# if has -V flag
 (( $version_f )) && echo "Version: $VERSION" && exit 1
-# has --uninstall flag
+# if has --uninstall flag
 (( $uninstall_f )) && print_header && uninstall_all && print_footer && exit 1
-# has both --pathogen and --vundle flag
+
+# if has both --pathogen and --vundle flag
 if (( $pathogen_f )) && (( $vundle_f )); then
 	echo "Usage: select only one between Pathogen or Vundle"
 	echo "use -h or --help to show help"
 	exit 1
 fi
 
-#if [${#file_arr[@]} -eq 0 ] check if array empty. syntax too confusing
-if (( $install_file_f )) || (( $uninstall_file_f )); then
+# if file_arr is non-empty, then do (un)install file operations
+if [[ ${#file_arr[@]} != 0 ]]; then
 	print_header
-	#backup_oldfiles
 	(( $pathogen_f )) && install_pathogen && repeat "-" $total_width
 	# vundle is installed by default
 	(( $vundle_f )) && install_vundle && repeat "-" $total_width
@@ -885,22 +948,22 @@ if (( $install_file_f )) || (( $uninstall_file_f )); then
 		flag=${file_arr[$i]}
 		filename=${file_arr[$i+1]}
 		if [[ "${flag}" == "f" ]]; then
-			create_symlink "$filename"
-		fi
-		if [[ "${flag}" == "d" ]]; then
-			delete_symlink "$filename"
+			backup_file "$filename"
+			symlink_file "$filename"
+		elif [[ "${flag}" == "d" ]]; then
+			unsymlink_file "$filename"
 			restore_oldfile "$filename"
 			continue
 		fi
 	done
+	(( $backup_f )) && repeat "-" $total_width && backup_to_github
 	print_footer
 	exit;
 fi
 
-# main flow, run without any flags
+# main flow, run without any -h -V --uninstall -f -d
 if (( ! $uninstall_f )); then
 	print_header
-	backup_oldfiles
 	(( $pathogen_f )) && install_pathogen && repeat "-" $total_width
 	# vundle is installed by default
 	(( ! $pathogen_f )) && install_vundle && repeat "-" $total_width
