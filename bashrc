@@ -302,15 +302,18 @@ fi
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
+if [ -f ~/.git-flow-completion.bash ]; then
+    . ~/.git-flow-completion.bash
+fi
 # Auto-completion
 # already sourced in /etc/bash.bashrc and /etc/profile
-# if ! shopt -oq posix; then
-#   if [ -f /usr/share/bash-completion/bash_completion ]; then
-#     . /usr/share/bash-completion/bash_completion
-#   elif [ -f /etc/bash_completion ]; then
-#     . /etc/bash_completion # well, by default ubuntu sources /usr/share
-#   fi
-# fi
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion # well, by default ubuntu sources /usr/share
+  fi
+fi
 
 # command-not-found
 # The command-not-found is a python3 script
@@ -343,5 +346,5 @@ if [ -d ~/bin ]; then
 	PATH=~/bin:"${PATH}"
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_OPTS="--sort 20000"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

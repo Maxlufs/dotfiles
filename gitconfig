@@ -10,19 +10,22 @@
 	man = help
 	sm = submodule
 	br = branch
+	brr = branch -r
 	bra = branch -a
 	type = cat-file -t
 	dump = cat-file -p
 	lg = log --color --graph --date=short --pretty=format:'[%C(bold cyan)%h%Creset] - %Cgreen%cd%Creset |%Cred%d%Creset %s %C(yellow)<%an>%Creset' --abbrev-commit
-	lga = log --color --graph --date=short --pretty=format:'[%C(bold cyan)%h%Creset] - %Cgreen%cd%Creset |%Cred%d%Creset %s %C(yellow)<%an>%Creset' --abbrev-commit --all
+	lga = log --color --graph --date=short --pretty=format:'[%C(bold cyan)%h%Creset] - %Cgreen%cd%Creset |%Cred%d%Creset %s %C(yellow)<%an>%Creset' --abbrev-commit --all -20
+	lgall = log --color --graph --date=short --pretty=format:'[%C(bold cyan)%h%Creset] - %Cgreen%cd%Creset |%Cred%d%Creset %s %C(yellow)<%an>%Creset' --abbrev-commit --all
 	ad = add
-	cim = commit -m
-	ciam = commit -am
+	cm = commit
+	cmm = commit -m
+	cmam = commit -am
 	co = checkout
-	verbs = git log --pretty=format:'%s' | cut -d \\  -f 1 | sort | uniq -c | sort -nr
+	verbs = "!git log --pretty=format:'%s' | cut -d \\  -f 1 | sort | uniq -c | sort -nr"
 [core]
 	excludesfile = ~/.gitignore_global
-	pager = less -R
+	pager = less -SERX
 	editor = vim
 [commit]
 	template = ~/.gitmessage

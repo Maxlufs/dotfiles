@@ -34,7 +34,7 @@ Plug 'moll/vim-bbye'
 
 " vim text plugins {{{1
 " ================
-Plug 'Lokaltog/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'vim-scripts/matchit.zip'
@@ -42,11 +42,14 @@ Plug 'vim-scripts/matchit.zip'
 " Plug 'Raimondi/delimitMate'
 Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdcommenter'
-Plug 'godlygeek/tabular'
+"Plug 'godlygeek/tabular' (trying easy-align)
+Plug 'junegunn/vim-easy-align'
 " Plug 'vim-scripts/Smart-Tabs'
 Plug 'bkad/CamelCaseMotion'
 " TODO rainbow parentheses
-Plug 'amdt/vim-niji'
+" Plug 'amdt/vim-niji' "(no longer maintaining)
+" Show "Match 123 of 456 /search term/" in Vim searches
+Plug 'henrik/vim-indexed-search'
 
 " Text Objects {{{2
 Plug 'kana/vim-textobj-user'
@@ -120,6 +123,8 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'ap/vim-css-color'
 " auto close html tag after typing </
 Plug 'maxlufs/closetag.vim', { 'for': ['html', 'xml', 'xsl'] }
+" EJS files syntax
+Plug 'briancollins/vim-jst'
 
 " LaTex {{{2
 " =====

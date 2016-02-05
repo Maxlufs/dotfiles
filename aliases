@@ -161,6 +161,8 @@ fi
 # alias ds='du -sh'            # total size of dir, human-readable
 # df
 alias dfh='df -h'
+# free
+alias freeh='free -h'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -221,6 +223,10 @@ alias afu='sudo apt-file update'
 
 alias acs='sudo apt-cache search'
 
+# display infomation of a package
+# also use apt-cache show package-name to show more info like hack values
+alias ver='dpkg -p'
+
 
 # calculator
 alias calc='bc -l'
@@ -273,4 +279,6 @@ function _git_ci() {
 # custom
 alias blog='vim ~/Documents/blog/vim'
 alias dotfiles='cd ~/.dotfiles'
+# typo
+alias ndoe='node'
 ###########################################################################

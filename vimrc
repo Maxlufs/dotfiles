@@ -123,9 +123,39 @@ autocmd FocusLost * :silent! wall
 autocmd VimResized * :wincmd =
 
 "" Save and restore folds
-"" use restore_view plugin to handle
+"" use vim-scripts/restore_view plugin to handle
 "autocmd BufWinLeave ?* mkview
 "autocmd BufWinEnter ?* silent loadview " ?* handles vanila vim
+
+"" Solves the problem of switching between buffers and screen moves, this
+"" snippets saves the cursor position after buffer switches
+"" http://vim.wikia.com/wiki/Avoid_scrolling_when_switch_buffers
+"" Save current view settings on a per-window, per-buffer basis.
+function! AutoSaveWinView()
+    if !exists("w:SavedBufView")
+        let w:SavedBufView = {}
+    endif
+    let w:SavedBufView[bufnr("%")] = winsaveview()
+endfunction
+
+" Restore current view settings.
+function! AutoRestoreWinView()
+    let buf = bufnr("%")
+    if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
+        let v = winsaveview()
+        let atStartOfFile = v.lnum == 1 && v.col == 0
+        if atStartOfFile && !&diff
+            call winrestview(w:SavedBufView[buf])
+        endif
+        unlet w:SavedBufView[buf]
+    endif
+endfunction
+
+" When switching buffers, preserve window view.
+if v:version >= 700
+    autocmd BufLeave * call AutoSaveWinView()
+    autocmd BufEnter * call AutoRestoreWinView()
+endif
 
 "" Make sure Vim returns to the same line when you reopen a file.
 "" When editing a file, always jump to the last known cursor position.
@@ -221,6 +251,10 @@ if g:colors_name == "jellybeans"
 	hi CursorLine            ctermbg=none
 endif
 
+"hi DiffAdd        ctermfg=NONE ctermbg=24 guifg=#f8f8f2 guibg=#13354a
+"hi DiffChange     term=bold ctermbg=238 guifg=#89807d guibg=#4c4745
+"hi DiffDelete     ctermfg=125 ctermbg=125 guifg=#960050 guibg=#1e0010
+"hi DiffText       term=reverse cterm=bold ctermfg=0 ctermbg=202 gui=bold guifg=#ad81ff guibg=#4a7800
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                               04. UI Layout                                "
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -261,6 +295,8 @@ set colorcolumn=+1 " = textwidth + 1
 " ===============
 set splitright " open new vsp on right
 " set splitbelow " open new sp below
+" set diffopt+=vertical "set vertical splits for gitdiff or fugitive
+" also use :Gvdiff to use vertical splits in fugitive
 
 " Search settings
 " ===============
@@ -342,7 +378,7 @@ set formatoptions=tcqn1 "aw, this messes with gq and gw..not good
 " -q: handle nested indentation and quotations
 " -e: remove superflous empty lines
 " -w: width, default to 72. if given w/o a number, w = 79
-set formatprg=par\ -rqw\ 78
+set formatprg=par\ -rqw\ &textwidth
 
 
 " allow backspacing over everything in insert mode
@@ -356,9 +392,10 @@ set shiftwidth=4 " indent/outdent for reindent operations (<< and >>)
 set shiftround " always indent/outdent to the nearest tabstop, (multiples of 4)
 set noexpandtab " do not use spaces instead of tabs
 set smarttab " use shftwidth at the start of a line
-" use editorconfig settings to handle tabs
+" TODO: use editorconfig settings to handle tabs
+" The settings here are for defaults
 autocmd FileType html setlocal tabstop=2 shiftwidth=2
-autocmd FileType javascript setlocal tabstop=4 shiftwidth=4 expandtab
+autocmd FileType javascript setlocal tabstop=2 shiftwidth=2 expandtab
 autocmd FileType make setlocal noexpandtab
 " In vimrc, expandtab to spaces
 "autocmd FileType vim setlocal expandtab
@@ -814,11 +851,14 @@ set shellslash
 set grepprg=grep\ -nH\ $*
 
 " Javascript syntax
+let b:javascript_fold = 1
+let javascript_ignore_javaScriptdoc = 1
 "au FileType javascript call JavaScriptFold()
 
 " JsBeautify
 " ==========
-autocmd FileType javascript nnoremap <buffer> <Leader>ff :%!js-beautify -j -q -f -<CR>
+" -C comma first, -t use tab
+autocmd FileType javascript nnoremap <buffer> <Leader>ff :%!js-beautify -j -s 2 -q -C -f -<CR>
 " remove all empty lines in html files using -m 0 flag
 autocmd FileType html nnoremap <buffer> <Leader>ff :%!js-beautify --type=html -m 0 -q -f -<CR>
 autocmd FileType scss,css nnoremap <buffer> <Leader>ff :%!js-beautify --type=css -q -f -<CR>
@@ -842,6 +882,24 @@ autocmd FileType javascript vnoremap <buffer> <Leader>ff :!js-beautify -j -q -f 
 " let g:easytags_dynamic_files = 2
 " " Disable auto highlight, the flash of color change can be confusing
 " let g:easytags_auto_highlight = 0
+
+" NERDTree
+" ========
+let NERDTreeShowLineNumbers = 1
+let g:NERDTreeWinPos = "right"
+" responsive width given current window width and number column width
+" and by default counting gitgutter width as well
+let restwidth = &columns - (&textwidth + &numberwidth + 1 + 1)
+if restwidth > 31 || restwidth < 0
+	let g:NERDTreeWinSize=31
+else
+	let g:NERDTreeWinSize = restwidth - 1
+endif
+" TODO:
+" resize NERDTreeWinSize on split resize, current setup needs to restart vim
+" TODO:
+" resize NERDTreeWinSize on git gutter column shows/hides, current setup needs
+" to restart vim
 
 " TagBar
 " ======
@@ -909,6 +967,13 @@ let g:EasyMotion_keys='asdfjklqwertzxcvbyuiopnm;hg'
 let g:EasyMotion_space_jump_first = 1
 " customize prompt
 "let g:EasyMotion_prompt = '{n}>>> '
+
+" vim-indexed-search
+" ==================
+let g:indexed_search_colors  = 0 " msg no color. default: 1
+let g:indexed_search_shortmess = 1 " shorter msg. default : 0
+let g:indexed_search_numbered_only = 1 " do not show 'first'|'last'. default: 0
+let g:indexed_search_dont_move = 1 " stay on the word under curosr. *N or #N. default: 0
 
 " vim-airline
 " ===========
@@ -1121,12 +1186,14 @@ let g:syntastic_auto_loc_list = 1 " deafault 2
 " let g:syntastic_c_checkers = ['gcc'] " default 'ycm' is fine
 " let g:syntastic_haskell_checkers = ['ghc-mod','hlint'] " default have both
 " use cabal install ghc-mod
-let g:syntastic_javascript_checkers = ['jshint'] " default none
+"let g:syntastic_javascript_checkers = ['eslint']
+ let g:syntastic_javascript_checkers = ['jshint'] " default none
 " syntastics by default adds loads of flags for jslint, which turns off most
 " of the syntactical errors, such as missing spaces between letter and (
 let g:syntastic_javascript_jslint_args = ""
 
 " Misc settings
+" =============
 " restore original view and colorscheme settings etc. from DFM
 autocmd! User GoyoLeave
 autocmd  User GoyoLeave nested source $MYVIMRC | silent loadview
@@ -1134,7 +1201,10 @@ let g:calendar_google_calendar = 1
 let g:hardtime_default_on = 1
 "let g:hardtime_showmsg = 1
 let g:hardtime_allow_different_key = 1
-let g:hardtime_maxcount=2
+let g:hardtime_maxcount = 2
+let g:hardtime_ignore_buffer_patterns = [ "NERD.*" ]
+" The quickfix window cannot be added to the ignore buffers array to have hardtime ignore it set
+let g:hardtime_ignore_quickfix = 1
 
 
  "let g:niji_matching_filetypes = ['lisp', 'ruby', 'python', 'javascript']

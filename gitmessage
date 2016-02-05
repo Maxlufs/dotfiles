@@ -13,6 +13,18 @@ subject line
 #     A systematic way of mangaing git commit messages.
 #     Use git verbs, which is an alias, to see a list of commit verbs
 #
+# SEMANTIC OPTION
+#
+#     [ticket#]feat(feature/module): Add/Rem/Mod
+#     [ticket?]docs(module): Add/Rem/Mod comments, jsdocs
+#     [ticket?]test(module): Add/Rem/Mod test cases
+#     [ticket#]chore(build/webpack/grunt/3rdparty): Add/Rem/Mod test cases
+#     [ticket#]refactor(feature/module): Add/Rem/Mod test cases
+#
+#     [bug#]fix: Add/Rem/Mod test cases
+#     [bug#]part: Add/Rem/Mod test cases
+#
+#
 # FILE MANIPULATION OPTION
 #     INC = include
 #         INC @newfiles
