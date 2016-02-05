@@ -7,7 +7,7 @@
 
 term screen-256color
 # term xterm-256color # need to set $TERM to xterm-256color in bashrc
-# term rxvt-256color 
+# term rxvt-256color
 # emulate .logout message
 pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
 
@@ -16,7 +16,7 @@ screen -t vim 0
 screen -t sh 1
 
 # status line settings
-hardstatus alwayslastline 
+hardstatus alwayslastline
 hardstatus string '%{= mW} %H%? %1`%? %{= kg} %= %{= kw}%-w%{+b Yk} %n*%t%?(%u)%? %{-}%+w %= %{g} [%{B}%D %M.%d %{W}%C%A%{g}]'
 # original
 # hardstatus string '%{= kg}[%{G}%H%? %1`%?%{g}][%= %{= kw}%-w%{+b Yk} %n*%t%?(%u)%? %{-}%+w %=%{g}][%{B}%D %M.%d %{W}%C%A%{g}]'
@@ -56,6 +56,7 @@ termcapinfo xterm* ti@:te@
 # Allow bold colors
 attrcolor b ".I"
 # set colors AB = background, AF = foreground
-termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E38;5;%dm'
+# this garbels colors when $TERM is xterm
+# termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E38;5;%dm'
 # Erase background with current bg color
 defbce "on"

@@ -6,19 +6,19 @@
 [alias]
 	unstage = reset HEAD --
 	st = status
+	d = diff
 	man = help
 	sm = submodule
-	co = checkout
 	br = branch
 	bra = branch -a
-	ci = commit
 	type = cat-file -t
 	dump = cat-file -p
-	ls = ls-files
 	lg = log --color --graph --date=short --pretty=format:'[%C(bold cyan)%h%Creset] - %Cgreen%cd%Creset |%Cred%d%Creset %s %C(yellow)<%an>%Creset' --abbrev-commit
 	lga = log --color --graph --date=short --pretty=format:'[%C(bold cyan)%h%Creset] - %Cgreen%cd%Creset |%Cred%d%Creset %s %C(yellow)<%an>%Creset' --abbrev-commit --all
 	ad = add
 	cim = commit -m
+	ciam = commit -am
+	co = checkout
 	verbs = git log --pretty=format:'%s' | cut -d \\  -f 1 | sort | uniq -c | sort -nr
 [core]
 	excludesfile = ~/.gitignore_global
@@ -28,5 +28,10 @@
 	template = ~/.gitmessage
 [color]
 	ui = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+	pager = true
+	status = auto
 [push]
 	default = matching

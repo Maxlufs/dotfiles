@@ -1,0 +1,24 @@
+###########################################################################
+#                    Most of these came from TextMate                     #
+###########################################################################
+
+priority -50
+
+snippet fixed "Fixed Position Bottom 100% wide IE6"
+${2:bottom: auto;}top: expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-${1:THE HEIGHT OF THIS THING IN PIXELS}));
+${3:left: expression(eval(document.documentElement.scrollLeft));
+}${4:width: expression(eval(document.documentElement.clientWidth));}$0
+endsnippet
+
+snippet scrollbar "scrollbar"
+scrollbar-base-color:       ${1:#CCCCCC};${2:
+scrollbar-arrow-color:      ${3:#000000};
+scrollbar-track-color:      ${4:#999999};
+scrollbar-3dlight-color:    ${5:#EEEEEE};
+scrollbar-highlight-color:  ${6:#FFFFFF};
+scrollbar-face-color:       ${7:#CCCCCC};
+scrollbar-shadow-color:     ${9:#999999};
+scrollbar-darkshadow-color: ${8:#666666};}
+endsnippet
+
+# vim:ft=snippets:

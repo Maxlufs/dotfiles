@@ -1,0 +1,144 @@
+" Vundle
+" ======
+"Plug 'gmarik/Vundle.vim'
+
+" vim colorschemes {{{1
+" ================
+Plug 'nanotech/jellybeans.vim'
+" Plug 'tomasr/molokai'
+" None of the monokai colorschemes match exactly as sublime text, will need to
+" create both new syntax and color files
+Plug 'sickill/vim-monokai'
+" Plug 'jaromero/vim-monokai-refined'
+Plug 'vim-scripts/Wombat'
+Plug 'vim-scripts/wombat256.vim'
+Plug 'altercation/vim-colors-solarized'
+
+" vim ui plugins {{{1
+" ==============
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" nerdtree tabs is really buggy tho
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'majutsushi/tagbar'
+Plug 'sjl/gundo.vim', { 'on': 'GundoToggle' }
+Plug 'bling/vim-airline'
+" vim powerline (DEPRECATED, use airline instead)
+" Plug 'Lokaltog/powerline'
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-scripts/restore_view.vim'
+" Plug 'nathanaelkane/vim-indent-guides'
+" use listchars instead
+" Plug 'edkolev/promptline.vim' " nice bash script
+" save window layout on quiting buffers
+Plug 'moll/vim-bbye'
+
+" vim text plugins {{{1
+" ================
+Plug 'Lokaltog/vim-easymotion'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'vim-scripts/matchit.zip'
+" delimitMate doesn't support block
+" Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
+Plug 'scrooloose/nerdcommenter'
+Plug 'godlygeek/tabular'
+" Plug 'vim-scripts/Smart-Tabs'
+Plug 'bkad/CamelCaseMotion'
+" TODO rainbow parentheses
+Plug 'amdt/vim-niji'
+
+" Text Objects {{{2
+Plug 'kana/vim-textobj-user'
+" ae/ie for entire region of buffer
+Plug 'kana/vim-textobj-entire'
+" ih for hunk (buggy)
+" Plug 'gilligan/textobj-gitgutter'
+" al/il for line
+Plug 'kana/vim-textobj-line'
+" av/iv snake and camel case
+Plug 'Julian/vim-textobj-variable-segment'
+" ac/ic comment
+Plug 'glts/vim-textobj-comment'
+" all punctuation text objects
+Plug 'kurkale6ka/vim-pairs'
+
+" vim IDE plugins {{{1
+" ===============
+Plug 'editorconfig/editorconfig-vim'
+Plug 'scrooloose/syntastic'
+" git integration
+Plug 'tpope/vim-fugitive'
+Plug 'kien/ctrlp.vim'
+" auto generate tags for ctags (DEPRECATED, use TagBar instead)
+" Plug 'xolox/vim-easytags'
+" Plug 'xolox/vim-misc'
+"
+" TODO scope highlighting
+" Plug 'mhinz/vim-blockify' (DISCONTINUED)
+Plug 'justinmk/vim-matchparenalways'
+
+" vim autocompletion plugin
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+" vim ultisnips
+Plug 'SirVer/ultisnips'
+
+" vim snipmate dependecies (DEPRECATED)
+" Plug 'garbas/vim-snipmate'
+" Plug 'tomtom/tlib_vim'
+" Plug 'MarcWeber/vim-addon-mw-utils'
+" Plug 'honza/vim-snippets.git"
+
+" Language Specific Plugins {{{1
+" =========================
+" c language IDE (DEPRECATED, cvim is too giant)
+" Plug 'Maxlufs/c.vim'
+" Haskell
+" Plug 'bitc/vim-hdevtools'
+
+" JavaScript + NodeJS {{{2
+" ===================
+Plug 'moll/vim-node', { 'for': 'javascript' }
+" JSLint -> Syntastics + npm install jslint -g
+" JavaScript syntax
+Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+" JavaScript indent + syntax
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+" JavaScript indent
+" use npm version instead, this version cannot add custom flags
+" Plug 'maksimr/vim-jsbeautify'
+" JavaScript sementics checking
+Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+
+
+" HTML/CSS {{{2
+" ========
+" zen coding
+Plug 'mattn/emmet-vim'
+" Add CSS3 syntax support
+Plug 'hail2u/vim-css3-syntax'
+Plug 'ap/vim-css-color'
+" auto close html tag after typing </
+Plug 'maxlufs/closetag.vim', { 'for': ['html', 'xml', 'xsl'] }
+
+" LaTex {{{2
+" =====
+Plug 'Maxlufs/vim-latex', { 'for': 'tex' }
+
+" Misc {{{1
+" ====
+Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
+Plug 'takac/vim-hardtime'
+" will need to download vidir from git and recompile
+"Plug 'trapd00r/vim-syntax-vidir-ls'
+" list vertical buffers, use ctrlp <c-p><c-f> instead
+"Plug 'jeetsukumaran/vim-buffergator'
+" distract free mode, good for markdown
+Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
+" markdown colorscheme for goyo, only works in gvim
+Plug 'amix/vim-zenroom2', { 'on': 'Goyo' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
+Plug 'guns/xterm-color-table.vim', {'on': 'XtermColorTable'}
+" slow, kinda buggy
+"Plug 'yonchu/accelerated-smooth-scroll'
+Plug 'maxlufs/LargeFile.vim'

@@ -21,6 +21,7 @@
 
 #============================================================================#
 # TODO                                                                       #
+# [ ] M: Use makefile to install to bashrc, then use dot in console directly #
 # [ ] M: add bash 3.00 support: user `echo $0` and `echo $BASH_VERSION`      #
 # [x] M: use getopts to handle script flags                                  #
 # [x] M: hide useless info if the user is not a first-time user              #
@@ -281,7 +282,6 @@ if (( $pathogen_f )); then
 
 	# vim pathogen plugin
 	PATHOGENREPO="https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim"
-	# repo["vundle"]="https://github.com/gmarik/vundle.git"
 
 	# vim colorschemes
 	# ================
@@ -356,6 +356,28 @@ repeat "=" $total_width
 ##############################################################################
 # 02. VIM plugins
 #============================================================================#
+# install_plug()
+# syntax: install_vundle
+# description: download vundle only, use vim PluginInstall to get plugins
+install_plug() {
+	MSG=">>> Installing [Plug] for Vim..."
+	printf "$MSG"
+
+	(( $print_only_f )) || mkdir -p $VIMDIR/autoload #$VIMDIR/bundle
+
+	if [ ! -f "$VIMDIR/autoload/plug.vim" ]; then
+		(( $print_only_f )) || [ -x $(command -v curl) ] || sudo apt-get install -y curl
+		(( $print_only_f )) || curl -fLo $VIMDIR/autoload/plug.vim \
+			https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+		log_msg "[Created]" "GREEN" "$MSG"
+		printf " <\n"
+	else
+		log_msg "[NOT MODIFIED]" "YELLOW" "$MSG"
+		printf " <\n"
+	fi
+	log_msg "[OK]" "GREEN" ""
+printf " <<<\n"
+}
 
 # install_vundle()
 # syntax: install_vundle
@@ -965,8 +987,9 @@ fi
 if (( ! $uninstall_f )); then
 	print_header
 	(( $pathogen_f )) && install_pathogen && repeat "-" $total_width
-	# vundle is installed by default
-	(( ! $pathogen_f )) && install_vundle && repeat "-" $total_width
+	(( $vundle_f )) && install_vundle && repeat "-" $total_width
+	# plug is installed by default
+	(( ! ($pathogen_f + $vundle_f) )) && install_plug && repeat "-" $total_width
 	install_all
 	(( $backup_f )) && repeat "-" $total_width && backup_to_github
 	print_footer
