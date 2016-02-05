@@ -21,6 +21,8 @@
 	cm = commit
 	cmm = commit -m
 	cmam = commit -am
+	ciam = commit -am
+	amend = commit --amend
 	co = checkout
 	verbs = "!git log --pretty=format:'%s' | cut -d \\  -f 1 | sort | uniq -c | sort -nr"
 [core]

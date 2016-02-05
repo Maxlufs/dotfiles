@@ -279,6 +279,7 @@ function _git_ci() {
 # custom
 alias blog='vim ~/Documents/blog/vim'
 alias dotfiles='cd ~/.dotfiles'
+alias zinggrid='cd ~/Documents/testing/register/ZingGrid-Dev'
 # typo
 alias ndoe='node'
 ###########################################################################

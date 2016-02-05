@@ -858,7 +858,7 @@ let javascript_ignore_javaScriptdoc = 1
 " JsBeautify
 " ==========
 " -C comma first, -t use tab
-autocmd FileType javascript nnoremap <buffer> <Leader>ff :%!js-beautify -j -s 2 -q -C -f -<CR>
+autocmd FileType javascript nnoremap <buffer> <Leader>ff :%!js-beautify -j -s 4 -q -f -<CR>
 " remove all empty lines in html files using -m 0 flag
 autocmd FileType html nnoremap <buffer> <Leader>ff :%!js-beautify --type=html -m 0 -q -f -<CR>
 autocmd FileType scss,css nnoremap <buffer> <Leader>ff :%!js-beautify --type=css -q -f -<CR>
@@ -1157,7 +1157,7 @@ let g:ycm_semantic_triggers =  {
 " Syntastic
 " =========
 " Check syntax on both loading and saving buffers
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 " " Run all checkers combined one by one, and label checker id to errors.
 let g:syntastic_aggregate_errors = 1 " default 0
 " shows which checkers generates errors in the aggregated list
@@ -1186,8 +1186,8 @@ let g:syntastic_auto_loc_list = 1 " deafault 2
 " let g:syntastic_c_checkers = ['gcc'] " default 'ycm' is fine
 " let g:syntastic_haskell_checkers = ['ghc-mod','hlint'] " default have both
 " use cabal install ghc-mod
-"let g:syntastic_javascript_checkers = ['eslint']
- let g:syntastic_javascript_checkers = ['jshint'] " default none
+let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_javascript_checkers = ['jshint'] " default none
 " syntastics by default adds loads of flags for jslint, which turns off most
 " of the syntactical errors, such as missing spaces between letter and (
 let g:syntastic_javascript_jslint_args = ""

@@ -112,6 +112,8 @@ Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 " Plug 'maksimr/vim-jsbeautify'
 " JavaScript sementics checking
 Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
+" generate JSdoc3
+Plug 'heavenshell/vim-jsdoc'
 
 
 " HTML/CSS {{{2
@@ -120,6 +122,8 @@ Plug 'marijnh/tern_for_vim', { 'for': 'javascript', 'do': 'npm install' }
 Plug 'mattn/emmet-vim'
 " Add CSS3 syntax support
 Plug 'hail2u/vim-css3-syntax'
+" Add less syntax support
+Plug 'groenewege/vim-less'
 Plug 'ap/vim-css-color'
 " auto close html tag after typing </
 Plug 'maxlufs/closetag.vim', { 'for': ['html', 'xml', 'xsl'] }
