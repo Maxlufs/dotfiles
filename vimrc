@@ -737,6 +737,10 @@ autocmd VimEnter * inoremap <F3> <Esc>:TagbarToggle<CR>
 autocmd VimEnter * nnoremap <F6> :GundoToggle<CR>
 autocmd VimEnter * inoremap <F6> <Esc>:GundoToggle<CR>
 
+" Toggle TComment
+nnoremap <C-_> :TComment<CR>
+vnoremap <C-_> :TComment<CR>
+
 " <Space> and <Tab> mapping
 " =========================
 " Space mapping func, if there's drop-down list, use <Space> to expand
@@ -858,13 +862,21 @@ let javascript_ignore_javaScriptdoc = 1
 " JsBeautify
 " ==========
 " -C comma first, -t use tab
-autocmd FileType javascript nnoremap <buffer> <Leader>ff :%!js-beautify -j -s 4 -q -f -<CR>
+autocmd FileType javascript nnoremap <buffer> <Leader>ff :%!js-beautify -j -s 2 -q -C -f -<CR>
+" autocmd FileType javascript nnoremap <buffer> <Leader>ff :%!js-beautify -j -s 2 -q -C -f -<CR>
 " remove all empty lines in html files using -m 0 flag
 autocmd FileType html nnoremap <buffer> <Leader>ff :%!js-beautify --type=html -m 0 -q -f -<CR>
 autocmd FileType scss,css nnoremap <buffer> <Leader>ff :%!js-beautify --type=css -q -f -<CR>
 
 " this one not working correctly
 autocmd FileType javascript vnoremap <buffer> <Leader>ff :!js-beautify -j -q -f -<CR>
+" autocmd FileType javascript vnoremap <buffer> <Leader>ff :!js-beautify -j -q -f -<CR>
+
+" vim-prettier
+" ==========
+"g:prettier#config#print_width=60
+autocmd FileType javascript nnoremap <buffer> <Leader>ff :Prettier<CR>
+autocmd FileType javascript vnoremap <buffer> <Leader>ff :Prettier<CR>
 
 " easytags (DEPRECATED, use tagbar instead)
 " ========
