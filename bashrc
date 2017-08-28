@@ -49,7 +49,7 @@ __has_command() {
 # ========================================================================== #
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoredups,erasedups
 # ignore `clear` and `history` in history, this also disables them when typing
 # ctrl+P
 HISTIGNORE="clear:history"
