@@ -21,7 +21,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'majutsushi/tagbar'
 Plug 'sjl/gundo.vim', { 'on': 'GundoToggle' }
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
 " vim powerline (DEPRECATED, use airline instead)
 " Plug 'Lokaltog/powerline'
 Plug 'airblade/vim-gitgutter'

@@ -180,6 +180,7 @@ alias plug="vim $HOME/.vimrc_plug"
 alias bashrc="vim $HOME/.bashrc"
 alias screenrc="vim $HOME/.screenrc"
 alias aliases="vim $HOME/.aliases"
+alias i3config="vim $HOME/.config/i3/config"
 ###########################################################################
 
 ###########################################################################
@@ -198,22 +199,22 @@ if $(__has_command trash-put); then
 alias rm='trash-put'
 fi
 
-# apt-get / apt-cache
-alias apt-get='sudo apt-get'
-alias update='sudo apt-get update && sudo apt-get dist-upgrade'
-alias udpate='sudo apt-get update && sudo apt-get dist-upgrade'
-# alias update='sudo apt-get update'
-# alias upgrade='sudo apt-get dist-upgrade'
-# alias install='sudo apt-get install' system already has install
-alias autoremove='sudo apt-get autoremove'
-alias purge='sudo apt-get purge'
+# apt / apt-cache
+alias apt='sudo apt'
+alias update='sudo apt update && sudo apt dist-upgrade'
+alias udpate='sudo apt update && sudo apt dist-upgrade'
+# alias update='sudo apt update'
+# alias upgrade='sudo apt dist-upgrade'
+# alias install='sudo apt install' system already has install
+alias autoremove='sudo apt autoremove'
+alias purge='sudo apt purge'
 
-alias agu='sudo apt-get update'
-alias agi='sudo apt-get install'
-alias agd='sudo apt-get dist-upgrade'
-alias agr='sudo apt-get remove'
-alias aga='sudo apt-get autoremove'
-alias agc='sudo apt-get clean'
+alias agu='sudo apt update'
+alias agi='sudo apt install'
+alias agd='sudo apt dist-upgrade'
+alias agr='sudo apt remove'
+alias aga='sudo apt autoremove'
+alias agc='sudo apt clean'
 
 alias ags='sudo aptitude search'
 alias agsh='sudo apt-cache show'
