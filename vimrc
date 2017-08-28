@@ -748,7 +748,7 @@ function! g:Space_Mapping()
 	if pumvisible()
 
 		" find last echoed message on space, not on tab, performace reason
-		call b:Get_Last_Msg()
+		call s:Get_Last_Msg()
 
 		" expand snippets only when entry is highlighted in the menu
 		if match(b:lastmsg,"match") != -1
@@ -809,7 +809,7 @@ function! g:Tab_Mapping()
 endfunction
 autocmd BufEnter * inoremap <silent> <Tab> <C-R>=g:Tab_Mapping()<CR>
 
-function! b:Get_Last_Msg()
+function! s:Get_Last_Msg()
 	redir => b:messages
 	silent messages
 	redir END
