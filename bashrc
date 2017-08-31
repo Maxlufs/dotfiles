@@ -49,13 +49,14 @@ __has_command() {
 # ========================================================================== #
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoredups,erasedups
+HISTCONTROL=ignoredups:erasedups
 # ignore `clear` and `history` in history, this also disables them when typing
 # ctrl+P
 HISTIGNORE="clear:history"
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
@@ -227,7 +228,8 @@ __update_prompt() {
 }
 
 PROMPT_COMMAND=__update_prompt
-
+# https://unix.stackexchange.com/questions/18212/bash-history-ignoredups-and-erasedups-setting-conflict-with-common-history
+PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
 #__jobscount() {
 ## jobs -s : stopped -r : running -p : only print processID
