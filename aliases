@@ -180,6 +180,7 @@ alias plug="vim $HOME/.vimrc_plug"
 alias bashrc="vim $HOME/.bashrc"
 alias screenrc="vim $HOME/.screenrc"
 alias aliases="vim $HOME/.aliases"
+alias xsessionrc="vim $HOME/.xsessionrc"
 alias i3rc="vim $HOME/.config/i3/config"
 alias awesomerc="vim $HOME/.config/awesome/rc.lua"
 ###########################################################################

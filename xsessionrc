@@ -1,0 +1,15 @@
+#!/bin/env sh
+
+# keyboard
+xset r rate 200 40
+setxkbmap us -option ctrl:nocaps
+xcape -e 'Control_L=Escape'
+numlockx on
+# touchpad
+synclient HorizTwoFingerScroll=1 HorizEdgeScroll=1 VertScrollDelta=-113 HorizScrollDelta=-113
+
+# compositor
+compton -b
+
+# applets
+nm-applet &
