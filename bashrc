@@ -239,7 +239,7 @@ PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 #}
 
 if [ "$color_prompt" = yes ]; then
-	PS1='${debian_chroot:+($debian_chroot)}$VIOLET╭─$RESET[\[\033[01;38;5;70m\]\u@\h\[\033[00m\]]${color_prompt_job}${VIOLET}${fill}───$RESET[\[\033[01;38;5;39m\]\w\[\033[00m\]]$VIOLET──╢$RESET\n\[\033[01;38;5;61m\]╰─\[\033[m\]\$ '
+	PS1='${debian_chroot:+($debian_chroot)}$VIOLET╭─$RESET[\[\033[01;38;5;70m\]\u@\H\[\033[00m\]]${color_prompt_job}${VIOLET}${fill}───$RESET[\[\033[01;38;5;39m\]\w\[\033[00m\]]$VIOLET──╢$RESET\n\[\033[01;38;5;61m\]╰─\[\033[m\]\$ '
 	# cannot use varibale $VIOLET on the second line, prompt gets buggy
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
