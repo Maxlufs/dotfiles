@@ -203,16 +203,19 @@ fi
 # __update_prompt: calculate the fill_width of the horizontal line
 __update_prompt() {
 	local pwd=${PWD/#$HOME/\~}
+	local short_hostname=$(hostname -s)
 
 	local prompt_job=''
-	local jobcount=$(jobs | wc -l)
+	# OSX's wc has leading spaces that need to be removed
+	local jobcount=$(jobs | wc -l | awk '{$1=$1};1')
 	if (( jobcount )); then
 		prompt_job="-[$jobcount]"
 	fi
 
+	# OSX's wc has leading spaces that need to be removed
 	let prompt_width=$( echo \
-		"${debian_chroot:+($debian_chroot)}+-[$USER@$HOSTNAME]${prompt_job}---[${pwd}]---" \
-		| wc -c )
+		"${debian_chroot:+($debian_chroot)}+-[$USER@${short_hostname}]${prompt_job}---[${pwd}]---" \
+		| wc -c | awk '{$1=$1};1')
 	local terminal_width=`tput cols`
 	local fill_width=$(( $terminal_width - $prompt_width ))
 	fill=''
@@ -239,7 +242,7 @@ PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 #}
 
 if [ "$color_prompt" = yes ]; then
-	PS1='${debian_chroot:+($debian_chroot)}$VIOLET╭─$RESET[\[\033[01;38;5;70m\]\u@\H\[\033[00m\]]${color_prompt_job}${VIOLET}${fill}───$RESET[\[\033[01;38;5;39m\]\w\[\033[00m\]]$VIOLET──╢$RESET\n\[\033[01;38;5;61m\]╰─\[\033[m\]\$ '
+	PS1='${debian_chroot:+($debian_chroot)}${VIOLET}╭─${RESET}[\[\033[01;38;5;70m\]\u@\h\[\033[00m\]]${color_prompt_job}${VIOLET}${fill}───${RESET}[\[\033[01;38;5;39m\]\w\[\033[00m\]]${VIOLET}──╢${RESET}\n\[\033[01;38;5;61m\]╰─\[\033[m\]\$ '
 	# cannot use varibale $VIOLET on the second line, prompt gets buggy
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
