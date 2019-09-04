@@ -166,6 +166,11 @@ else
 	RESET="\033[m"
 fi
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	export CLICOLOR=1
+	export LSCOLORS=ExFxCxDxBxegedabagacad
+fi
+
 #parse_git_dirty () {
   #[[ $(git status 2> /dev/null | tail -n1) != "nothing to commit
 #(working directory clean)" ]] && echo "*"
