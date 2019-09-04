@@ -35,9 +35,12 @@
 # 00. System checking
 #=========================================================================#
 # PKG should not reuturn an '-a' list. Time effiency
-DISTRO=$(lsb_release -i | cut -f2)
-if [ $DISTRO == 'CentOS' ]; then PKG='rpm -q';fi
-if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
+if $(__has_command lsb_release); then
+	DISTRO=$(lsb_release -i | cut -f2)
+	if [ $DISTRO == 'CentOS' ]; then PKG='rpm -q';fi
+	if [ $DISTRO == 'ubuntu' ]; then PKG='dpkg -qa';fi
+	unset DISTRO
+fi
 
 # if user is not root, pass all command s via sudo #
 # if [ $UID -ne 0 ]; then
@@ -77,7 +80,9 @@ alias mkdir='mkdir -pv'
 # gnome-open
 # kde-open
 # open -> openvt by default
-alias open="xdg-open"
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+	alias open="xdg-open"
+fi
 # mimeopen
 ###########################################################################
 
@@ -89,37 +94,49 @@ alias open="xdg-open"
 # ==
 # NOTE: copied from /etc/skel/.bashrc
 # enable color support of ls and also add handy aliases
+lscolor_f=''
+
 if $(__has_command dircolors); then
 	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-	colorflag='--color=auto'
-else
-	colorflag=''
+	lscolor_f='--color=auto'
+fi
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	lscolor_f='-G'
 fi
 
-#alias dir='dir $colorflag'
-#alias vdir='vdir $colorflag'
+#alias dir="dir ${lscolor_f}"
+#alias vdir="vdir ${lscolor_f}"
 
 # normal files
-alias l='ls --group-directories-first $colorflag'
+alias l="ls ${lscolor_f}"
 # normal files
-alias ls='ls --group-directories-first $colorflag'
+alias ls="ls ${lscolor_f}"
 # normal files, long format
-alias ll='ls -l -h -p --group-directories-first $colorflag'
+alias ll="ls ${lscolor_f} -l -h -p"
 #
 # All files
-alias la='ls -A -h $colorflag'
+alias la="ls ${lscolor_f} -A -h"
 # All files, long format
-alias lla='ls -l -A -h -p --group-directories-first $colorflag'
+alias lla="ls ${lscolor_f} -l -A -h -p"
 #
 # hidden files, exclude . and ..
-alias l.='ls -d .[^.]* $colorflag'
+alias l.="ls ${lscolor_f} -d .[^.]*"
 # hidden files, long format
-alias ll.='ls -l -h -d -p .[^.]* --group-directories-first $colorflag'
+alias ll.="ls ${lscolor_f} -l -h -d -p .[^.]*"
 
 # directories only
-alias ld='ls -d */ $colorflag'
+alias ld="ls ${lscolor_f} -d */"
 # directories only, long format
-alias lld='ls -d */ -l -h $colorflag'
+alias lld="ls ${lscolor_f} -d */ -l -h"
+
+# hidden directories, exclude . and ..
+alias ld.="ls ${lscolor_f} -d .[^.]*/"
+alias l.d="ls ${lscolor_f} -d .[^.]*/"
+# hidden directories, exclude . and .., long format
+alias lld.="ls ${lscolor_f} -l -h -d .[^.]*/"
+alias ll.d="ls ${lscolor_f} -l -h -d .[^.]*/"
+
+unset lscolor_f
 
 # regular files only, need to set color to always to pass through the pipe
 # TODO: currently use -file-type to append /=>@| and grep -v to remove it
@@ -127,13 +144,6 @@ alias lld='ls -d */ -l -h $colorflag'
 alias lf="ls --file-type --color=always | grep -v @ | grep -v /"
 # regular files only, long format
 alias llf='ls --file-type -l -h -p --color=always | grep -v @ | grep -v /'
-
-# hidden directories, exclude . and ..
-alias ld.='ls -d .[^.]*/ $colorflag'
-alias l.d='ls -d .[^.]*/ $colorflag'
-# hidden directories, exclude . and .., long format
-alias lld.='ls -l -h -d .[^.]*/ $colorflag'
-alias ll.d='ls -l -h -d .[^.]*/ $colorflag'
 
 # hidden regular files
 alias lf.='ls --file-type -d .* --color=always | grep -v @ | grep -v /'
@@ -198,7 +208,7 @@ alias j='jobs'
 
 # trash
 if $(__has_command trash-put); then
-alias rm='trash-put'
+	alias rm='trash-put'
 fi
 
 # apt / apt-cache
@@ -244,30 +254,36 @@ alias calc='bc -l'
 # Node: -L 1 will disable --du
 # --dirsfirst: list dirs first
 
-alias tree='tree -Ch --du --dirsfirst'
-alias t1='tree -Ch --du -L 1 --dirsfirst'
-alias tree1='tree -Ch --du -L 1 --dirsfirst'
-alias t2='tree -Ch --du -L 2 --dirsfirst'
-alias tree2='tree -Ch --du -L 2 --dirsfirst'
-alias t3='tree -Ch --du -L 3 --dirsfirst'
-alias tree3='tree -Ch --du -L 3 --dirsfirst'
-alias t4='tree -Ch --du -L 4 --dirsfirst'
-alias tree4='tree -Ch --du -L 4 --dirsfirst'
-alias t5='tree -Ch --du -L 5 --dirsfirst'
-alias tree5='tree -Ch --du -L 5 --dirsfirst'
+if $(__has_command tree); then
+	common_flags='-Ch --du --dirsfirst -N'
 
-alias t='tree -Ch --du -L 1 --dirsfirst'
-alias tt='tree -Ch --du -L 2 --dirsfirst'
-alias ttt='tree -Ch --du -L 3 --dirsfirst'
-alias tttt='tree -Ch --du -L 4 --dirsfirst'
-alias ttttt='tree -Ch --du -L 5 --dirsfirst'
+	alias tree="tree ${common_flags}"
+	alias t1="tree ${common_flags} -L 1"
+	alias tree1="tree ${common_flags} -L 1"
+	alias t2="tree ${common_flags} -L 2"
+	alias tree2="tree ${common_flags} -L 2"
+	alias t3="tree ${common_flags} -L 3"
+	alias tree3="tree ${common_flags} -L 3"
+	alias t4="tree ${common_flags} -L 4"
+	alias tree4="tree ${common_flags} -L 4"
+	alias t5="tree ${common_flags} -L 5"
+	alias tree5="tree ${common_flags} -L 5"
 
-# -d: list dirs only
-alias td='tree -C -h --du -L 1 -d'
-alias ttd='tree -C -h --du -L 2 -d'
-alias tttd='tree -C -h --du -L 3 -d'
-alias ttttd='tree -C -h --du -L 4 -d'
-alias tttttd='tree -C -h --du -L 5 -d'
+	alias t="tree ${common_flags} -L 1"
+	alias tt="tree ${common_flags} -L 2"
+	alias ttt="tree ${common_flags} -L 3"
+	alias tttt="tree ${common_flags} -L 4"
+	alias ttttt="tree ${common_flags} -L 5"
+
+	# -d: list dirs only
+	alias td="tree -C -h --du -L 1 -d"
+	alias ttd="tree -C -h --du -L 2 -d"
+	alias tttd="tree -C -h --du -L 3 -d"
+	alias ttttd="tree -C -h --du -L 4 -d"
+	alias tttttd="tree -C -h --du -L 5 -d"
+
+	unset common_flags
+fi
 
 # ranger
 alias r='ranger'
@@ -282,7 +298,6 @@ function _git_ci() {
 # custom
 alias blog='vim ~/Documents/blog/vim'
 alias dotfiles='cd ~/.dotfiles'
-alias zinggrid='cd ~/Documents/testing/register/ZingGrid-Dev'
 # typo
 alias ndoe='node'
 ###########################################################################

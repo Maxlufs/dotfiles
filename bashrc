@@ -299,6 +299,31 @@ esac
 	}
 
 ##############################################################################
+# Path Settings                                                              #
+# ========================================================================== #
+# Add RVM to PATH for scripting, the following line auto add ~/.rvm/bin though
+# PATH=$PATH:$HOME/.rvm/bin
+# For Ruby RVM
+[[ -s '/home/ubuntu/maxlufs/.rvm/scripts/rvm' ]] && source '/home/ubuntu/maxlufs/.rvm/scripts/rvm'
+
+PATH="$HOME/.cabal/bin:$PATH"
+
+# include user's private bin dir if exists
+if [ -d ~/bin ]; then
+	PATH=~/bin:"${PATH}"
+fi
+# include macports path in bashrc
+if [ -d /opt/local/sbin ]; then
+	PATH=/opt/local/sbin:"${PATH}"
+fi
+if [ -d /opt/local/bin ]; then
+	PATH=/opt/local/bin:"${PATH}"
+fi
+
+export FZF_DEFAULT_OPTS="--sort 20000"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+##############################################################################
 # Source Files                                                               #
 # ========================================================================== #
 # Alias definitions
@@ -339,22 +364,3 @@ fi
 # 	fi
 # }
 # fi
-
-
-##############################################################################
-# Path Settings                                                              #
-# ========================================================================== #
-# Add RVM to PATH for scripting, the following line auto add ~/.rvm/bin though
-# PATH=$PATH:$HOME/.rvm/bin
-# For Ruby RVM
-[[ -s '/home/ubuntu/maxlufs/.rvm/scripts/rvm' ]] && source '/home/ubuntu/maxlufs/.rvm/scripts/rvm'
-
-PATH="$HOME/.cabal/bin:$PATH"
-
-# include user's private bin dir if exists
-if [ -d ~/bin ]; then
-	PATH=~/bin:"${PATH}"
-fi
-
-export FZF_DEFAULT_OPTS="--sort 20000"
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
