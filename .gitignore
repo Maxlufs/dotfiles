@@ -1,3 +1,4 @@
-*/view/
-*/plugged/
+vim/view/
+vim/plugged/
+vim/autoload/plug.vim
 plug.vim.old
